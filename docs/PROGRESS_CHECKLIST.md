@@ -24,7 +24,7 @@ are available.
 - [x] Establish current pink, blush, lilac, and plum visual direction
 - [x] Add initial homepage sections: hero, next market, about, vendor CTA, merch CTA, footer
 - [x] Define separate routes for public content, event details, applications, merch, and admin workflows
-- [x] Add shared navigation and reusable footer primitives
+- [x] Add shared navigation, socials navigation, and reusable footer primitives
 - [ ] Add real events, applications, and merch data models
 - [x] Add Supabase client scaffolding and `.env.example` without exposing service credentials
 - [x] Prepare initial database migration and Row Level Security policies
@@ -66,6 +66,7 @@ for every workflow.
 - [ ] Add SEO metadata and social sharing metadata
 - [x] Add initial accessibility pass: skip link, navigation landmarks, labels, and focus styles
 - [x] Add site-wide footer with legal links and CODEWERX credit
+- [x] Add Socials page and navigation entry
 - [ ] Add mobile and desktop visual QA
 
 ## Database and Backend
@@ -209,6 +210,6 @@ for every workflow.
 
 ## Recommended Next Three Builds
 
-1. **Public content pages:** `/merch`, `/about`, `/faq`, and `/contact` using temporary local data.
-2. **Shared site system:** reusable navigation, footer, buttons, and responsive accessibility polish.
-3. **Connected workflow when accounts arrive:** apply the migration, wire form submissions, then add admin authentication and dashboard screens.
+1. **Visual QA pass:** review every public/admin route on mobile and desktop, then refine spacing, text wrapping, focus states, and image treatment.
+2. **Pre-connection polish:** replace temporary social destinations with the real handles, finalize merch checkout URLs, and add focused validation tests.
+3. **Connected workflow when accounts arrive:** apply the migration, wire form submissions, then add admin authentication, live dashboard data, storage uploads, and email.
