@@ -13,8 +13,8 @@ Source of truth for V1 delivery. Status: `[x]` complete, `[ ]` not started.
 - [x] Define separate routes for public content, event details, applications, merch, and admin workflows
 - [ ] Add shared navigation and reusable button/section primitives
 - [ ] Add real events, applications, and merch data models
-- [ ] Add Supabase environment/configuration without exposing service credentials
-- [ ] Add database migrations and Row Level Security policies
+- [x] Add Supabase environment/configuration without exposing service credentials
+- [x] Add initial database migration and Row Level Security policies
 
 ## Public Website
 
@@ -23,8 +23,8 @@ Source of truth for V1 delivery. Status: `[x]` complete, `[ ]` not started.
 - [x] `/`
 - [x] `/events` — upcoming and past markets
 - [x] `/events/[slug]` — one event's details and vendor CTA
-- [ ] `/apply` — application entry point and event selection
-- [ ] `/apply/[eventSlug]` — application for one event
+- [x] `/apply` — application entry point and event selection
+- [x] `/apply/[eventSlug]` — application for one event
 - [ ] `/merch` — public merchandise catalog
 - [ ] `/about` — 702Market story
 - [ ] `/faq` — common vendor and visitor questions
@@ -39,10 +39,10 @@ for every workflow.
 - [x] Display upcoming events
 - [x] Display past events automatically
 - [x] Add event detail page with date, time, location, deadline, fee, and CTA
-- [ ] Add responsive vendor application form
+- [x] Add responsive vendor application form
 - [ ] Validate application fields server-side
 - [ ] Support 1-5 product image uploads with file type/size restrictions
-- [ ] Add application success/confirmation state
+- [x] Add application success/confirmation state
 - [ ] Add merch catalog with active/featured ordering
 - [ ] Link merch products to validated external checkout URLs
 - [ ] Add About, FAQ, and Contact pages
@@ -54,10 +54,10 @@ for every workflow.
 
 ### Tables
 
-- [ ] `events`
-- [ ] `applications`
-- [ ] `application_images`
-- [ ] `merch_products`
+- [x] `events`
+- [x] `applications`
+- [x] `application_images`
+- [x] `merch_products`
 
 ### Event Management Data
 

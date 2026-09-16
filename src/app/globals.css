@@ -124,6 +124,36 @@ em { color: var(--pink); font-style: italic; }
 .event-detail-actions { align-items: end; background: var(--lilac); color: var(--plum); display: flex; justify-content: space-between; padding: clamp(70px, 9vw, 130px) clamp(22px, 9vw, 150px); }
 .event-detail-actions h2 { font-family: var(--font-display), sans-serif; font-size: clamp(3rem, 6vw, 6.5rem); font-weight: 400; letter-spacing: -0.08em; line-height: 0.84; margin: 0; }
 .event-detail-page .site-footer { background: var(--plum); color: var(--blush); }
+.apply-intro, .application-header { background: var(--lilac); padding: clamp(70px, 11vw, 150px) clamp(22px, 9vw, 150px) 80px; }
+.apply-intro h1, .application-header h1, .application-closed h1 { font-family: var(--font-display), sans-serif; font-size: clamp(4.2rem, 10vw, 9rem); font-weight: 400; letter-spacing: -0.08em; line-height: 0.82; margin: 0; }
+.apply-intro h1 em, .application-header h1 em, .application-closed h1 em { color: var(--berry); }
+.application-event-list { padding: clamp(70px, 9vw, 130px) clamp(22px, 9vw, 150px); }
+.application-event-card { align-items: center; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; gap: 24px; padding: 30px 0; transition: padding 180ms ease, color 180ms ease; }
+.application-event-card:hover { color: var(--berry); padding-left: 12px; }
+.application-event-card h2 { font-family: var(--font-display), sans-serif; font-size: clamp(1.8rem, 3vw, 3.3rem); font-weight: 400; letter-spacing: -0.07em; line-height: 0.9; margin: 0 0 10px; }
+.application-event-card p:last-child, .application-header > p:last-child { font-size: 0.88rem; margin: 0; }
+.application-event-card > span { color: var(--berry); font-family: var(--font-accent), sans-serif; font-size: 0.78rem; white-space: nowrap; }
+.application-header { background: var(--pink); }
+.application-header h1 { max-width: 1000px; }
+.application-header > p:last-child { font-size: 1rem; line-height: 1.4; margin-top: 35px; }
+.application-form { margin: 0 auto; max-width: 900px; padding: clamp(60px, 8vw, 110px) 22px; }
+.application-form fieldset { border: 0; border-top: 1px solid var(--line); margin: 0; padding: 35px 0 55px; }
+.application-form legend { font-family: var(--font-display), sans-serif; font-size: 2.6rem; letter-spacing: -0.07em; padding: 0; }
+.form-grid { display: grid; gap: 22px; margin-top: 26px; }
+.form-grid.two-column { grid-template-columns: repeat(2, 1fr); }
+.application-form label { display: grid; font-family: var(--font-accent), sans-serif; font-size: 0.78rem; gap: 8px; }
+.application-form input:not([type="checkbox"]), .application-form select, .application-form textarea { background: transparent; border: 1px solid var(--line); border-radius: 0; color: var(--plum); font: 1rem var(--font-body), sans-serif; outline: 0; padding: 13px 14px; width: 100%; }
+.application-form input:not([type="checkbox"]):focus, .application-form select:focus, .application-form textarea:focus { border-color: var(--berry); box-shadow: 0 0 0 2px var(--pink); }
+.application-form textarea { resize: vertical; }
+.checkbox-label { align-items: center; display: flex !important; grid-template-columns: 18px 1fr; gap: 10px !important; }
+.checkbox-label input { accent-color: var(--berry); height: 18px; width: 18px; }
+.submit-button { border: 0; cursor: pointer; }
+.application-success { background: var(--lilac); margin: clamp(60px, 8vw, 110px) auto; max-width: 700px; padding: clamp(50px, 8vw, 100px) 30px; text-align: center; }
+.success-mark { color: var(--berry); display: block; font-size: 3rem; margin-bottom: 25px; }
+.application-success h2 { font-family: var(--font-display), sans-serif; font-size: clamp(3.6rem, 8vw, 7rem); font-weight: 400; letter-spacing: -0.08em; line-height: 0.82; margin: 0; }
+.application-success p:not(.eyebrow) { line-height: 1.5; margin: 30px auto; max-width: 390px; }
+.application-closed { min-height: 70vh; padding: clamp(70px, 11vw, 150px) clamp(22px, 9vw, 150px); }
+.application-closed .button { margin-top: 40px; }
 
 @media (max-width: 680px) {
   .nav-links { display: none; }
@@ -146,4 +176,6 @@ em { color: var(--pink); font-style: italic; }
   .event-card-date span { font-size: 0.55rem; }
   .event-info-grid { display: flex; flex-direction: column; }
   .event-detail-actions { align-items: start; flex-direction: column; gap: 38px; }
+  .form-grid.two-column { grid-template-columns: 1fr; }
+  .application-event-card { align-items: start; flex-direction: column; }
 }

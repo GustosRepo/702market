@@ -82,9 +82,9 @@ export default function Home() {
         </div>
         <div className="vendor-action">
           <p>Applications for the October night market are open now.</p>
-          <a className="button button-accent" href="/apply/october-night-market">
+          <Link className="button button-accent" href="/apply/october-night-market">
             Apply to sell <span aria-hidden="true">↗</span>
-          </a>
+          </Link>
         </div>
       </section>
 
