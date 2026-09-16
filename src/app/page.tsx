@@ -1,4 +1,5 @@
 import Link from "next/link";
+import SiteFooter from "@/components/site-footer";
 
 export default function Home() {
   return (
@@ -12,6 +13,7 @@ export default function Home() {
             <Link href="/events">Next market</Link>
             <a href="#about">About</a>
             <a href="#merch">Merch</a>
+            <Link href="/socials">Socials</Link>
           </div>
           <Link className="nav-apply" href="/apply">
             Apply to sell <span aria-hidden="true">↗</span>
@@ -99,11 +101,7 @@ export default function Home() {
         </a>
       </section>
 
-      <footer className="site-footer">
-        <Link className="wordmark" href="/">702<span>Market</span></Link>
-        <p>Las Vegas, NV · Come find us.</p>
-        <a href="mailto:hello@702market.com">hello@702market.com</a>
-      </footer>
+      <SiteFooter actionHref="mailto:hello@702market.com" actionLabel="hello@702market.com" />
     </main>
   );
 }

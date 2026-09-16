@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { events } from "@/data/events";
+import SiteHeader from "@/components/site-header";
+import SiteFooter from "@/components/site-footer";
 
 export const metadata = {
   title: "Apply to Sell | 702Market",
@@ -13,14 +15,7 @@ export default function ApplyPage() {
 
   return (
     <main className="page-shell">
-      <header className="page-header">
-        <Link className="wordmark" href="/" aria-label="702Market home">
-          702<span>Market</span>
-        </Link>
-        <Link className="text-link" href="/events">
-          View events <span aria-hidden="true">↗</span>
-        </Link>
-      </header>
+      <SiteHeader backHref="/events" backLabel="View events" />
 
       <section className="apply-intro">
         <p className="eyebrow">Your table starts here</p>
@@ -52,10 +47,7 @@ export default function ApplyPage() {
         )}
       </section>
 
-      <footer className="site-footer">
-        <Link className="wordmark" href="/">702<span>Market</span></Link>
-        <Link href="/faq">Vendor FAQ ↗</Link>
-      </footer>
+      <SiteFooter actionHref="/faq" actionLabel="Vendor FAQ" />
     </main>
   );
 }

@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { events, getEventBySlug } from "@/data/events";
+import SiteHeader from "@/components/site-header";
+import SiteFooter from "@/components/site-footer";
 
 type EventPageProps = {
   params: Promise<{ slug: string }>;
@@ -30,14 +32,7 @@ export default async function EventDetailPage({ params }: EventPageProps) {
 
   return (
     <main className="page-shell event-detail-page">
-      <header className="page-header">
-        <Link className="wordmark" href="/" aria-label="702Market home">
-          702<span>Market</span>
-        </Link>
-        <Link className="text-link" href="/events">
-          All events <span aria-hidden="true">↗</span>
-        </Link>
-      </header>
+      <SiteHeader backHref="/events" backLabel="All events" />
 
       <section className="event-detail-hero">
         <p className="eyebrow">702Market event</p>
@@ -77,10 +72,7 @@ export default async function EventDetailPage({ params }: EventPageProps) {
         )}
       </section>
 
-      <footer className="site-footer">
-        <Link className="wordmark" href="/">702<span>Market</span></Link>
-        <Link href="/events">See all markets ↗</Link>
-      </footer>
+      <SiteFooter actionHref="/events" actionLabel="See all markets" />
     </main>
   );
 }

@@ -2,6 +2,19 @@
 
 Source of truth for V1 delivery. Status: `[x]` complete, `[ ]` not started.
 
+## External Setup Dependencies
+
+These items require client-owned accounts or credentials. The codebase can
+continue without them, but the connected workflow cannot be tested until they
+are available.
+
+- [ ] Client creates a Supabase project and shares the project URL/key through a secure channel
+- [ ] Client creates the admin email/Gmail identity for Supabase Auth
+- [ ] Client creates a Resend account and confirms the sending domain/email
+- [ ] Apply the SQL migration to the client Supabase project
+- [ ] Add local environment values from `.env.example` without committing secrets
+- [ ] Verify public submissions, admin login, storage uploads, and transactional email
+
 ## Current Milestone: Product Foundation
 
 - [x] Initialize Next.js App Router project with TypeScript, Tailwind, ESLint, and `src/`
@@ -11,10 +24,11 @@ Source of truth for V1 delivery. Status: `[x]` complete, `[ ]` not started.
 - [x] Establish current pink, blush, lilac, and plum visual direction
 - [x] Add initial homepage sections: hero, next market, about, vendor CTA, merch CTA, footer
 - [x] Define separate routes for public content, event details, applications, merch, and admin workflows
-- [ ] Add shared navigation and reusable button/section primitives
+- [x] Add shared navigation and reusable footer primitives
 - [ ] Add real events, applications, and merch data models
-- [x] Add Supabase environment/configuration without exposing service credentials
-- [x] Add initial database migration and Row Level Security policies
+- [x] Add Supabase client scaffolding and `.env.example` without exposing service credentials
+- [x] Prepare initial database migration and Row Level Security policies
+- [ ] Connect to the client Supabase project and verify the migration
 
 ## Public Website
 
@@ -25,10 +39,13 @@ Source of truth for V1 delivery. Status: `[x]` complete, `[ ]` not started.
 - [x] `/events/[slug]` — one event's details and vendor CTA
 - [x] `/apply` — application entry point and event selection
 - [x] `/apply/[eventSlug]` — application for one event
-- [ ] `/merch` — public merchandise catalog
-- [ ] `/about` — 702Market story
-- [ ] `/faq` — common vendor and visitor questions
-- [ ] `/contact` — contact details and inquiry form
+- [x] `/merch` — public merchandise catalog
+- [x] `/about` — 702Market story
+- [x] `/faq` — common vendor and visitor questions
+- [x] `/contact` — contact details and inquiry form
+- [x] `/privacy` — privacy policy starter page
+- [x] `/terms` — terms starter page
+- [x] `/socials` — social links and community page
 
 The homepage promotes these destinations; it should not become the container
 for every workflow.
@@ -43,21 +60,22 @@ for every workflow.
 - [ ] Validate application fields server-side
 - [ ] Support 1-5 product image uploads with file type/size restrictions
 - [x] Add application success/confirmation state
-- [ ] Add merch catalog with active/featured ordering
+- [x] Add merch catalog with temporary local product data
 - [ ] Link merch products to validated external checkout URLs
 - [ ] Add About, FAQ, and Contact pages
 - [ ] Add SEO metadata and social sharing metadata
-- [ ] Add accessibility pass: keyboard navigation, labels, contrast, alt text
+- [x] Add initial accessibility pass: skip link, navigation landmarks, labels, and focus styles
+- [x] Add site-wide footer with legal links and CODEWERX credit
 - [ ] Add mobile and desktop visual QA
 
 ## Database and Backend
 
 ### Tables
 
-- [x] `events`
-- [x] `applications`
-- [x] `application_images`
-- [x] `merch_products`
+- [x] Define `events` migration
+- [x] Define `applications` migration
+- [x] Define `application_images` migration
+- [x] Define `merch_products` migration
 
 ### Event Management Data
 
@@ -81,7 +99,8 @@ for every workflow.
 
 ### Security
 
-- [ ] Enable Supabase Row Level Security
+- [x] Include Supabase Row Level Security policies in the migration
+- [ ] Verify Row Level Security policies in the client project
 - [ ] Protect admin-only mutations
 - [ ] Keep service-role credentials server-only
 - [ ] Allow public application submission only through controlled server routes/actions
@@ -96,20 +115,23 @@ for every workflow.
 - [ ] `/admin/login`
 - [ ] Protect all `/admin` routes with Supabase Auth
 - [ ] Add authorized admin access rules
-- [ ] Add admin navigation: Dashboard, Events, Applications, Merch, Reports, Settings
+- [x] Add admin navigation: Dashboard, Events, Applications, Merch
+- [x] Add credential-free admin preview shell
 
 ### Dashboard
 
-- [ ] Show next event summary
-- [ ] Show total, pending, approved, waitlisted, and declined applications
-- [ ] Show paid and unpaid application counts
-- [ ] Show revenue for current event, month, and all time
+- [x] Show next event summary in preview UI
+- [x] Show application and revenue metric placeholders
+- [ ] Show live total, pending, approved, waitlisted, and declined applications
+- [ ] Show live paid and unpaid application counts
+- [ ] Show live revenue for current event, month, and all time
 - [ ] Calculate average fee from paid applications
 - [ ] Exclude unpaid, failed, waived, and refunded amounts from collected revenue
 - [ ] Add loading, empty, and error states
 
 ### Events
 
+- [x] Add credential-free event management preview
 - [ ] Create event
 - [ ] Edit event
 - [ ] Publish/unpublish event
@@ -187,6 +209,6 @@ for every workflow.
 
 ## Recommended Next Three Builds
 
-1. **Supabase foundation:** schema, migrations, RLS, server client, and typed models.
-2. **Events vertical slice:** admin event creation plus public `/events` and `/events/[slug]` pages.
-3. **Applications vertical slice:** public `/apply` and `/apply/[eventSlug]` pages with image uploads, validation, and persisted submissions.
+1. **Public content pages:** `/merch`, `/about`, `/faq`, and `/contact` using temporary local data.
+2. **Shared site system:** reusable navigation, footer, buttons, and responsive accessibility polish.
+3. **Connected workflow when accounts arrive:** apply the migration, wire form submissions, then add admin authentication and dashboard screens.

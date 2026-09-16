@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { events } from "@/data/events";
+import SiteHeader from "@/components/site-header";
+import SiteFooter from "@/components/site-footer";
 
 export const metadata = {
   title: "Events | 702Market",
@@ -12,14 +14,7 @@ export default function EventsPage() {
 
   return (
     <main className="page-shell">
-      <header className="page-header">
-        <Link className="wordmark" href="/" aria-label="702Market home">
-          702<span>Market</span>
-        </Link>
-        <Link className="text-link" href="/">
-          Back home <span aria-hidden="true">↗</span>
-        </Link>
-      </header>
+      <SiteHeader />
 
       <section className="listing-intro">
         <p className="eyebrow">Save the dates</p>
@@ -63,10 +58,7 @@ export default function EventsPage() {
         )}
       </section>
 
-      <footer className="site-footer">
-        <Link className="wordmark" href="/">702<span>Market</span></Link>
-        <Link href="/apply/october-night-market">Apply to sell ↗</Link>
-      </footer>
+      <SiteFooter actionHref="/apply/october-night-market" />
     </main>
   );
 }

@@ -31,7 +31,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${cherryBomb.variable} ${dynaPuff.variable} ${dmSans.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <a className="skip-link" href="#main-content">Skip to content</a>
+        <div id="main-content">{children}</div>
+      </body>
     </html>
   );
 }
