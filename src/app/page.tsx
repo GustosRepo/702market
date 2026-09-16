@@ -9,13 +9,13 @@ export default function Home() {
             702<span>Market</span>
           </Link>
           <div className="nav-links">
-            <a href="#next-market">Next market</a>
+            <Link href="/events">Next market</Link>
             <a href="#about">About</a>
             <a href="#merch">Merch</a>
           </div>
-          <a className="nav-apply" href="#vendor">
+          <Link className="nav-apply" href="/apply">
             Apply to sell <span aria-hidden="true">↗</span>
-          </a>
+          </Link>
         </nav>
 
         <div className="hero-content">
@@ -29,9 +29,9 @@ export default function Home() {
             A night market for the collectors, makers, dreamers, and good
             shoppers of Las Vegas.
           </p>
-          <a className="button button-light" href="#next-market">
+          <Link className="button button-light" href="/events">
             See what&apos;s next <span aria-hidden="true">↓</span>
-          </a>
+          </Link>
         </div>
 
         <div className="hero-note" aria-hidden="true">
@@ -56,9 +56,9 @@ export default function Home() {
             <h3>Downtown after dark.</h3>
             <p>Saturday · 4:00 PM–10:00 PM · Downtown Las Vegas</p>
           </div>
-          <a className="button button-dark" href="#vendor">
+          <Link className="button button-dark" href="/events/october-night-market">
             Event details <span aria-hidden="true">↗</span>
-          </a>
+          </Link>
         </div>
       </section>
 

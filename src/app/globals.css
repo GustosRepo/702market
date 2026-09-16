@@ -89,6 +89,42 @@ em { color: var(--pink); font-style: italic; }
 .site-footer { align-items: center; background: var(--blush); display: flex; font-size: 0.72rem; justify-content: space-between; letter-spacing: 0.04em; padding: 28px clamp(22px, 5vw, 76px); }
 .site-footer p { margin: 0; }
 
+.page-shell { background: var(--blush); min-height: 100vh; }
+.page-header { align-items: center; display: flex; justify-content: space-between; padding: 28px clamp(22px, 5vw, 76px); }
+.text-link { font-family: var(--font-accent), sans-serif; font-size: 0.78rem; }
+.text-link span { color: var(--berry); margin-left: 6px; }
+.listing-intro, .event-detail-hero { padding: clamp(70px, 11vw, 150px) clamp(22px, 9vw, 150px) 80px; }
+.listing-intro { background: var(--pink); }
+.listing-intro h1, .event-detail-hero h1 { font-family: var(--font-display), sans-serif; font-size: clamp(4.4rem, 11vw, 10rem); font-weight: 400; letter-spacing: -0.08em; line-height: 0.82; margin: 0; max-width: 900px; }
+.listing-intro h1 em, .event-detail-hero h1 em { color: var(--blush); }
+.listing-copy { font-size: 1.1rem; line-height: 1.45; margin: 38px 0 0; max-width: 390px; }
+.event-list, .past-events { padding: clamp(70px, 9vw, 130px) clamp(22px, 9vw, 150px); }
+.list-heading { align-items: baseline; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; }
+.list-heading span { font-family: var(--font-accent), sans-serif; font-size: 0.8rem; }
+.event-card { align-items: center; border-bottom: 1px solid var(--line); display: grid; gap: 30px; grid-template-columns: 130px 1fr 30px; padding: 30px 0; transition: padding 180ms ease, color 180ms ease; }
+.event-card:hover { color: var(--berry); padding-left: 12px; }
+.event-card-date { align-items: center; display: flex; gap: 12px; }
+.event-card-date strong { font-family: var(--font-display), sans-serif; font-size: 4.7rem; font-weight: 400; letter-spacing: -0.1em; line-height: 0.8; }
+.event-card-date span { font-family: var(--font-accent), sans-serif; font-size: 0.65rem; line-height: 1.2; text-transform: uppercase; }
+.event-card-details h2 { font-family: var(--font-display), sans-serif; font-size: clamp(1.8rem, 3vw, 3.3rem); font-weight: 400; letter-spacing: -0.07em; line-height: 0.9; margin: 0 0 10px; }
+.event-card-details p:last-child, .event-detail-hero p:last-child, .event-info-grid p:last-child { font-size: 0.88rem; margin: 0; }
+.event-kicker { font-family: var(--font-accent), sans-serif; font-size: 0.7rem; letter-spacing: 0.04em; margin: 0 0 12px; text-transform: uppercase; }
+.event-card-arrow { color: var(--berry); font-size: 1.5rem; }
+.past-events { background: var(--lilac); }
+.past-events > p { font-family: var(--font-display), sans-serif; font-size: 2rem; margin-bottom: 0; }
+.empty-state { font-size: 1rem; line-height: 1.5; }
+.event-detail-page { background: var(--plum); color: var(--blush); }
+.event-detail-page .page-header { color: var(--blush); }
+.event-detail-hero { background: var(--pink); color: var(--plum); }
+.event-detail-hero h1 { max-width: 1100px; }
+.event-detail-description { font-size: clamp(1rem, 1.5vw, 1.25rem); line-height: 1.45; margin: 38px 0 0; max-width: 560px; }
+.event-info-grid { display: grid; gap: 30px; grid-template-columns: repeat(3, 1fr); padding: clamp(60px, 8vw, 110px) clamp(22px, 9vw, 150px); }
+.event-info-grid > div { border-top: 1px solid rgba(255, 244, 248, 0.3); padding-top: 20px; }
+.event-info-grid h2 { font-family: var(--font-display), sans-serif; font-size: clamp(1.8rem, 3vw, 3.2rem); font-weight: 400; letter-spacing: -0.07em; line-height: 0.9; margin: 0 0 14px; }
+.event-detail-actions { align-items: end; background: var(--lilac); color: var(--plum); display: flex; justify-content: space-between; padding: clamp(70px, 9vw, 130px) clamp(22px, 9vw, 150px); }
+.event-detail-actions h2 { font-family: var(--font-display), sans-serif; font-size: clamp(3rem, 6vw, 6.5rem); font-weight: 400; letter-spacing: -0.08em; line-height: 0.84; margin: 0; }
+.event-detail-page .site-footer { background: var(--plum); color: var(--blush); }
+
 @media (max-width: 680px) {
   .nav-links { display: none; }
   .nav-apply { font-size: 0.68rem; }
@@ -105,4 +141,9 @@ em { color: var(--pink); font-style: italic; }
   .vendor-section { gap: 44px; }
   .merch-tile { align-self: center; margin-top: 34px; }
   .site-footer { gap: 16px; }
+  .event-card { align-items: start; grid-template-columns: 82px 1fr 18px; gap: 12px; }
+  .event-card-date strong { font-size: 3.2rem; }
+  .event-card-date span { font-size: 0.55rem; }
+  .event-info-grid { display: flex; flex-direction: column; }
+  .event-detail-actions { align-items: start; flex-direction: column; gap: 38px; }
 }

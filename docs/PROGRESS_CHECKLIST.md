@@ -21,8 +21,8 @@ Source of truth for V1 delivery. Status: `[x]` complete, `[ ]` not started.
 ### Core Routes
 
 - [x] `/`
-- [ ] `/events` — upcoming and past markets
-- [ ] `/events/[slug]` — one event's details and vendor CTA
+- [x] `/events` — upcoming and past markets
+- [x] `/events/[slug]` — one event's details and vendor CTA
 - [ ] `/apply` — application entry point and event selection
 - [ ] `/apply/[eventSlug]` — application for one event
 - [ ] `/merch` — public merchandise catalog
@@ -36,9 +36,9 @@ for every workflow.
 ### Public Experience
 
 - [ ] Replace homepage placeholder event content with database-driven content
-- [ ] Display upcoming events
-- [ ] Display past events automatically
-- [ ] Add event detail page with date, time, location, deadline, fee, and CTA
+- [x] Display upcoming events
+- [x] Display past events automatically
+- [x] Add event detail page with date, time, location, deadline, fee, and CTA
 - [ ] Add responsive vendor application form
 - [ ] Validate application fields server-side
 - [ ] Support 1-5 product image uploads with file type/size restrictions
