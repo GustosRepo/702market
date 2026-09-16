@@ -6,7 +6,8 @@ Source of truth for V1 delivery. Status: `[x]` complete, `[ ]` not started.
 
 - [x] Initialize Next.js App Router project with TypeScript, Tailwind, ESLint, and `src/`
 - [x] Create responsive 702Market homepage shell
-- [x] Establish editorial display typography and readable body typography
+- [x] Establish kawaii Y2K display, accent, and body typography
+- [x] Use Cherry Bomb One for headings, DynaPuff for accents, and DM Sans for body text
 - [x] Establish current pink, blush, lilac, and plum visual direction
 - [x] Add initial homepage sections: hero, next market, about, vendor CTA, merch CTA, footer
 - [x] Define separate routes for public content, event details, applications, merch, and admin workflows
