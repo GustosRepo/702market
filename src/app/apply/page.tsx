@@ -1,14 +1,15 @@
 import Link from "next/link";
-import { events } from "@/data/events";
 import SiteHeader from "@/components/site-header";
 import SiteFooter from "@/components/site-footer";
+import { getEvents } from "@/lib/events";
 
 export const metadata = {
   title: "Apply to Sell | 702Market",
   description: "Choose a 702Market event and apply to be a vendor.",
 };
 
-export default function ApplyPage() {
+export default async function ApplyPage() {
+  const events = await getEvents();
   const openEvents = events.filter(
     (event) => event.status === "upcoming" && event.applicationsEnabled,
   );

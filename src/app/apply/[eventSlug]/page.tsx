@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { events, getEventBySlug } from "@/data/events";
+import { events } from "@/data/events";
+import { getEventBySlug } from "@/lib/events";
 import ApplicationForm from "./ApplicationForm";
+import { submitApplication } from "./actions";
 
 type ApplicationPageProps = {
   params: Promise<{ eventSlug: string }>;
@@ -13,7 +15,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: ApplicationPageProps) {
   const { eventSlug } = await params;
-  const event = getEventBySlug(eventSlug);
+  const event = await getEventBySlug(eventSlug);
 
   return {
     title: event ? `Apply for ${event.title} | 702Market` : "Apply | 702Market",
@@ -23,7 +25,7 @@ export async function generateMetadata({ params }: ApplicationPageProps) {
 
 export default async function ApplicationPage({ params }: ApplicationPageProps) {
   const { eventSlug } = await params;
-  const event = getEventBySlug(eventSlug);
+  const event = await getEventBySlug(eventSlug);
 
   if (!event) {
     notFound();
@@ -64,7 +66,11 @@ export default async function ApplicationPage({ params }: ApplicationPageProps) 
         <p>{event.dateLabel} · {event.location} · {event.applicationFee} application fee</p>
       </section>
 
-      <ApplicationForm eventTitle={event.title} />
+      <ApplicationForm
+        eventSlug={event.slug}
+        eventTitle={event.title}
+        submitAction={submitApplication.bind(null, event.slug)}
+      />
     </main>
   );
 }

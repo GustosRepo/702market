@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { Cherry_Bomb_One, DM_Sans, DynaPuff } from "next/font/google";
+import { Cherry_Bomb_One, DM_Sans, DynaPuff, Lobster } from "next/font/google";
 import "./globals.css";
 
 const cherryBomb = Cherry_Bomb_One({
-  variable: "--font-display",
+  variable: "--font-bubble",
   subsets: ["latin"],
   weight: "400",
 });
@@ -12,6 +12,12 @@ const dynaPuff = DynaPuff({
   variable: "--font-accent",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
+});
+
+const lobster = Lobster({
+  variable: "--font-display",
+  subsets: ["latin"],
+  weight: "400",
 });
 
 const dmSans = DM_Sans({
@@ -29,7 +35,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${cherryBomb.variable} ${dynaPuff.variable} ${dmSans.variable} h-full antialiased`}
+      className={`${cherryBomb.variable} ${dynaPuff.variable} ${lobster.variable} ${dmSans.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <a className="skip-link" href="#main-content">Skip to content</a>

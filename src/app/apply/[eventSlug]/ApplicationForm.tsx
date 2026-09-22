@@ -1,6 +1,7 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { useActionState } from "react";
+import type { ApplicationFormState } from "./actions";
 
 const categories = [
   "Vintage",
@@ -15,30 +16,46 @@ const categories = [
   "Other",
 ];
 
-export default function ApplicationForm({ eventTitle }: { eventTitle: string }) {
-  const [submitted, setSubmitted] = useState(false);
+type ApplicationFormProps = {
+  eventSlug: string;
+  eventTitle: string;
+  submitAction: (
+    state: ApplicationFormState,
+    formData: FormData,
+  ) => Promise<ApplicationFormState>;
+};
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setSubmitted(true);
-  }
+const initialState: ApplicationFormState = {
+  status: "idle",
+  message: "",
+};
 
-  if (submitted) {
+export default function ApplicationForm({
+  eventSlug,
+  eventTitle,
+  submitAction,
+}: ApplicationFormProps) {
+  const [state, formAction, pending] = useActionState(
+    submitAction,
+    initialState,
+  );
+
+  if (state.status === "success") {
     return (
       <div className="application-success" role="status">
         <span className="success-mark" aria-hidden="true">✦</span>
         <p className="eyebrow">You&apos;re on the list</p>
         <h2>Application<br /><em>received.</em></h2>
-        <p>Thanks for applying to {eventTitle}. We&apos;ll review your details and email you with the next step.</p>
-        <button className="button button-dark" type="button" onClick={() => setSubmitted(false)}>
+        <p>{state.message || `Thanks for applying to ${eventTitle}. We'll review your details and email you with the next step.`}</p>
+        <a className="button button-dark" href={`/apply/${eventSlug}`}>
           Submit another <span aria-hidden="true">↗</span>
-        </button>
+        </a>
       </div>
     );
   }
 
   return (
-    <form className="application-form" onSubmit={handleSubmit}>
+    <form className="application-form" action={formAction}>
       <fieldset>
         <legend>About you</legend>
         <div className="form-grid two-column">
@@ -83,8 +100,12 @@ export default function ApplicationForm({ eventTitle }: { eventTitle: string }) 
         </div>
       </fieldset>
 
-      <button className="button button-accent submit-button" type="submit">
-        Send application <span aria-hidden="true">↗</span>
+      {state.status === "error" ? (
+        <p className="form-error" role="alert">{state.message}</p>
+      ) : null}
+
+      <button className="button button-accent submit-button" type="submit" disabled={pending}>
+        {pending ? "Sending..." : "Send application"} <span aria-hidden="true">↗</span>
       </button>
     </form>
   );

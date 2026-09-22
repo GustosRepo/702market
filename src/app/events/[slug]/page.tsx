@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { events, getEventBySlug } from "@/data/events";
+import { events } from "@/data/events";
+import { getEventBySlug } from "@/lib/events";
+import { eventHeroAsset } from "@/lib/site-assets";
 import SiteHeader from "@/components/site-header";
 import SiteFooter from "@/components/site-footer";
 
@@ -14,7 +16,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: EventPageProps) {
   const { slug } = await params;
-  const event = getEventBySlug(slug);
+  const event = await getEventBySlug(slug);
 
   return {
     title: event ? `${event.title} | 702Market` : "Event not found | 702Market",
@@ -24,7 +26,7 @@ export async function generateMetadata({ params }: EventPageProps) {
 
 export default async function EventDetailPage({ params }: EventPageProps) {
   const { slug } = await params;
-  const event = getEventBySlug(slug);
+  const event = await getEventBySlug(slug);
 
   if (!event) {
     notFound();
@@ -34,7 +36,10 @@ export default async function EventDetailPage({ params }: EventPageProps) {
     <main className="page-shell event-detail-page">
       <SiteHeader backHref="/events" backLabel="All events" />
 
-      <section className="event-detail-hero">
+      <section
+        className="event-detail-hero"
+        style={{ "--asset-image": `url(${eventHeroAsset(event.slug)})` } as React.CSSProperties}
+      >
         <p className="eyebrow">702Market event</p>
         <h1>{event.title}</h1>
         <p className="event-detail-description">{event.description}</p>

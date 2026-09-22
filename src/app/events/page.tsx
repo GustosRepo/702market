@@ -1,14 +1,16 @@
 import Link from "next/link";
-import { events } from "@/data/events";
 import SiteHeader from "@/components/site-header";
 import SiteFooter from "@/components/site-footer";
+import { getEvents } from "@/lib/events";
+import { eventHeroAsset } from "@/lib/site-assets";
 
 export const metadata = {
   title: "Events | 702Market",
   description: "Find the next 702Market night market in Las Vegas.",
 };
 
-export default function EventsPage() {
+export default async function EventsPage() {
+  const events = await getEvents();
   const upcomingEvents = events.filter((event) => event.status === "upcoming");
   const pastEvents = events.filter((event) => event.status === "completed");
 
@@ -32,6 +34,11 @@ export default function EventsPage() {
         </div>
         {upcomingEvents.map((event) => (
           <Link className="event-card" href={`/events/${event.slug}`} key={event.slug}>
+            <span
+              className="event-card-media"
+              style={{ "--asset-image": `url(${eventHeroAsset(event.slug)})` } as React.CSSProperties}
+              aria-hidden="true"
+            />
             <div className="event-card-date">
               <strong>{event.dateLabel.split(" ")[1].replace(",", "")}</strong>
               <span>{event.dateLabel.split(" ")[0]}<br />{event.dateLabel.split(" ")[2]}</span>

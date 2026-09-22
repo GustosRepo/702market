@@ -1,6 +1,7 @@
 import Link from "next/link";
 import SiteHeader from "@/components/site-header";
 import SiteFooter from "@/components/site-footer";
+import { getSiteMedia } from "@/lib/site-media";
 
 export const metadata = {
   title: "Socials | 702Market",
@@ -13,7 +14,9 @@ const channels = [
   { name: "Email", handle: "hello@702market.com", detail: "For questions, collabs, and good ideas.", href: "mailto:hello@702market.com" },
 ];
 
-export default function SocialsPage() {
+export default async function SocialsPage() {
+  const siteMedia = await getSiteMedia();
+
   return (
     <main className="page-shell socials-page">
       <SiteHeader />
@@ -33,6 +36,7 @@ export default function SocialsPage() {
       </section>
       <section className="social-cta">
         <div><p className="eyebrow">The next good thing</p><h2>Meet us<br /><em>in person.</em></h2></div>
+        <div className="sprinkle-photo social" style={{ "--asset-image": `url(${siteMedia.socialCta})` } as React.CSSProperties} aria-hidden="true" />
         <Link className="button button-dark" href="/events">See upcoming markets ↗</Link>
       </section>
       <SiteFooter actionHref="/contact" actionLabel="Say hello" />

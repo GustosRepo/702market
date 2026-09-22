@@ -21,7 +21,7 @@ are available.
 - [x] Create responsive 702Market homepage shell
 - [x] Establish kawaii Y2K display, accent, and body typography
 - [x] Use Cherry Bomb One for headings, DynaPuff for accents, and DM Sans for body text
-- [x] Establish current pink, blush, lilac, and plum visual direction
+- [x] Establish current blush, coral pink, peach, orange glow, and berry visual direction
 - [x] Add initial homepage sections: hero, next market, about, vendor CTA, merch CTA, footer
 - [x] Define separate routes for public content, event details, applications, merch, and admin workflows
 - [x] Add shared navigation, socials navigation, and reusable footer primitives
@@ -52,12 +52,12 @@ for every workflow.
 
 ### Public Experience
 
-- [ ] Replace homepage placeholder event content with database-driven content
+- [x] Replace homepage placeholder event content with database-driven content
 - [x] Display upcoming events
 - [x] Display past events automatically
 - [x] Add event detail page with date, time, location, deadline, fee, and CTA
 - [x] Add responsive vendor application form
-- [ ] Validate application fields server-side
+- [x] Validate application fields server-side
 - [ ] Support 1-5 product image uploads with file type/size restrictions
 - [x] Add application success/confirmation state
 - [x] Add merch catalog with temporary local product data
@@ -68,6 +68,64 @@ for every workflow.
 - [x] Add site-wide footer with legal links and CODEWERX credit
 - [x] Add Socials page and navigation entry
 - [ ] Add mobile and desktop visual QA
+
+## Client Image Assets
+
+Media placement and admin-wiring audit: [`docs/MEDIA_WIRING_PLAN.md`](./MEDIA_WIRING_PLAN.md).
+
+Recommended Supabase Storage buckets:
+
+- [ ] Create `site-assets`
+- [ ] Create `event-images`
+- [ ] Create `merch-images`
+- [ ] Create `application-images`
+- [x] Add migration to create recommended Supabase Storage buckets
+
+Current local drop zone while gathering client images: `public/assets/`.
+
+### Site Assets
+
+- [x] Homepage hero/background image — `public/assets/site/home-hero.jpg`
+- [x] About/story image — `public/assets/site/about-story.jpg`
+- [x] Homepage gallery images — currently local `public/IMG_*.JPG`
+- [x] About gallery images — currently local `public/IMG_*.JPG`
+- [ ] Social sharing/Open Graph image — `site-assets/seo/og-image.jpg`
+- [x] Contact/community sprinkle image — `public/assets/site/contact-community.jpg`
+- [x] Social CTA sprinkle image — `public/assets/site/social-cta.jpg`
+- [x] Add `site_media` table or equivalent site media config
+- [x] Add admin controls for homepage hero, homepage gallery, about gallery, contact image, and socials image
+- [ ] Add SEO image slot/admin control
+- [x] Replace public homepage/about/contact/social image reads with database/storage-driven media and local fallbacks
+- [x] Add upload buttons so admins can choose site media files instead of typing storage/public paths
+
+### Event Images
+
+- [x] October Night Market hero — `public/assets/events/october-night-market-hero.jpg`
+- [x] Pink Pony Pop-Up hero — `public/assets/events/pink-pony-pop-up-hero.jpg`
+- [x] Holiday Mini Market hero — `public/assets/events/holiday-mini-market-hero.jpg`
+- [x] Sweetheart Swap hero — `public/assets/events/sweetheart-swap-hero.jpg`
+- [x] Summer Sidewalk Market archive hero — `public/assets/events/summer-sidewalk-market-hero.jpg`
+- [ ] Read `events.hero_image` in public/admin event queries
+- [ ] Use `events.hero_image` before local slug fallback
+- [ ] Show event thumbnails in admin event list
+- [ ] Add event hero upload/change control to event create/edit
+
+### Merch Images
+
+- [ ] 702 Logo Tee product image — `public/assets/merch/702-logo-tee.jpg`
+- [ ] Market Day Cap product image — `public/assets/merch/market-day-cap.jpg`
+- [ ] Additional product images use `public/assets/merch/{product-slug}.jpg`
+- [ ] Read `merch_products.image_path` on the public merch page
+- [ ] Show merch thumbnails in admin merch list
+- [ ] Replace manual merch image path field with upload/change control
+
+### Vendor/Application Images
+
+- [ ] Confirm max upload count and allowed file types
+- [ ] Vendor sample image placeholder — `application-images/examples/vendor-sample-1.jpg`
+- [ ] Wire public upload flow before collecting real vendor submission photos
+- [ ] Display submitted product photos on admin application detail
+- [ ] Add application image count/link to admin application list and CSV export
 
 ## Database and Backend
 
@@ -113,55 +171,71 @@ for every workflow.
 
 ### Authentication and Shell
 
-- [ ] `/admin/login`
-- [ ] Protect all `/admin` routes with Supabase Auth
-- [ ] Add authorized admin access rules
-- [x] Add admin navigation: Dashboard, Events, Applications, Merch
+- [x] `/admin/login`
+- [x] Protect all `/admin` routes with Supabase Auth
+- [x] Add authorized admin access rules
+- [x] Add admin navigation: Dashboard, Events, Applications, Merch, Media
 - [x] Add credential-free admin preview shell
 
 ### Dashboard
 
 - [x] Show next event summary in preview UI
-- [x] Show application and revenue metric placeholders
-- [ ] Show live total, pending, approved, waitlisted, and declined applications
-- [ ] Show live paid and unpaid application counts
+- [x] Show live total, pending, approved, waitlisted, and declined applications
+- [x] Show live paid and unpaid application counts
 - [ ] Show live revenue for current event, month, and all time
 - [ ] Calculate average fee from paid applications
-- [ ] Exclude unpaid, failed, waived, and refunded amounts from collected revenue
+- [x] Exclude unpaid, waived, and refunded amounts from collected revenue
 - [ ] Add loading, empty, and error states
 
 ### Events
 
 - [x] Add credential-free event management preview
-- [ ] Create event
-- [ ] Edit event
-- [ ] Publish/unpublish event
+- [x] Create event
+- [x] Edit event
+- [x] Publish/unpublish event
 - [ ] Upload/change event hero image
-- [ ] Enable/disable applications
-- [ ] Configure deadline, fee, capacity, and status
-- [ ] View event-specific applications
+- [x] Enable/disable applications
+- [x] Configure deadline, fee, capacity, and status
+- [x] View event-specific applications
+- [x] Archive and restore events
 
 ### Applications
 
-- [ ] List applications by event
+- [x] List applications grouped by date, event, or status
 - [ ] Search by vendor/business/contact
-- [ ] Filter by status, category, and payment status
-- [ ] Sort by submission date
-- [ ] View full application details and product photos
-- [ ] Update status to approved, waitlisted, or declined
-- [ ] Edit/save internal admin notes
-- [ ] Track payment status and reference
-- [ ] Export event applications as CSV
+- [x] Filter by status and archive state
+- [x] Sort by submission date
+- [x] Archive and restore applications
+- [ ] Filter by category and payment status
+- [x] View full application details
+- [ ] View product photos
+- [x] Update status to approved, waitlisted, or declined
+- [x] Edit/save internal admin notes
+- [x] Track payment status and reference
+- [x] Export event applications as CSV
 
 ### Merch
 
-- [ ] Add product
-- [ ] Edit product
-- [ ] Archive/delete product
+- [x] Add product
+- [x] Edit product
+- [x] Archive/delete product
 - [ ] Upload product image
-- [ ] Set name, description, price, external URL
-- [ ] Set active/featured state
-- [ ] Set display order
+- [x] Set name, description, price, external URL
+- [x] Set active/featured state
+- [x] Set display order
+
+### Media
+
+- [x] Add `/admin/media`
+- [x] Manage homepage hero path
+- [x] Manage homepage gallery paths, alt text, and captions
+- [x] Manage about/story and about gallery paths, alt text, and captions
+- [x] Manage contact/community image path
+- [x] Manage socials CTA image path
+- [x] Add upload controls backed by Supabase Storage for site media
+- [ ] Add SEO/Open Graph image control
+- [ ] Add event image controls to Event create/edit
+- [ ] Add merch image controls to Merch create/edit
 
 ## Email Automation
 
@@ -194,7 +268,7 @@ for every workflow.
 - [ ] Add focused tests for application validation
 - [ ] Add tests for status transition/email behavior
 - [ ] Verify public routes on mobile and desktop
-- [ ] Verify admin routes reject unauthenticated access
+- [x] Verify admin routes reject unauthenticated access
 - [ ] Verify no secret values are exposed to the browser
 - [ ] Update README with setup, environment variables, migrations, and run commands
 
