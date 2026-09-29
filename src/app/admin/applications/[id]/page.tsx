@@ -8,7 +8,7 @@ type ApplicationDetailPageProps = {
   params: Promise<{ id: string }>;
 };
 
-export const metadata = { title: "Application Detail | 702Market" };
+export const metadata = { title: "Application Detail | Marketella" };
 
 function formatMoney(amount: number) {
   return new Intl.NumberFormat("en-US", {

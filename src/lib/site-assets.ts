@@ -6,39 +6,39 @@ export const siteAssets = {
   homeGallery: [
     {
       src: "/IMG_3076.JPG",
-      alt: "Crowd browsing vendor tents at 702Market.",
+      alt: "Crowd browsing vendor tents at Marketella.",
       caption: "Market days",
     },
     {
       src: "/IMG_3223.JPG",
-      alt: "Vendor booth with clothing and accessories at 702Market.",
+      alt: "Vendor booth with clothing and accessories at Marketella.",
       caption: "Vendor corners",
     },
     {
       src: "/IMG_3220.JPG",
-      alt: "Music and vendor setup at an outdoor 702Market event.",
+      alt: "Music and vendor setup at an outdoor Marketella event.",
       caption: "Good energy",
     },
   ],
   aboutGallery: [
     {
       src: "/IMG_3224.JPG",
-      alt: "702 Market photo wall with flowers and a pink cart.",
+      alt: "Marketella photo wall with flowers and a pink cart.",
       caption: "The photo wall",
     },
     {
       src: "/IMG_3214.JPG",
-      alt: "Friends holding shopping bags at 702Market.",
+      alt: "Friends holding shopping bags at Marketella.",
       caption: "Shopping together",
     },
     {
       src: "/IMG_3221.JPG",
-      alt: "A 702Market vendor moment.",
+      alt: "A Marketella vendor moment.",
       caption: "Local vendors",
     },
     {
       src: "/IMG_3225.JPG",
-      alt: "Details from a 702Market setup.",
+      alt: "Details from a Marketella setup.",
       caption: "Tiny details",
     },
   ],

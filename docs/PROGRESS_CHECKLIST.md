@@ -98,6 +98,35 @@ Current local drop zone while gathering client images: `public/assets/`.
 - [x] Replace public homepage/about/contact/social image reads with database/storage-driven media and local fallbacks
 - [x] Add upload buttons so admins can choose site media files instead of typing storage/public paths
 
+## Client Rebrand / 1042 Flea Alignment
+
+Reference audit: [`docs/CLIENT_ALIGNMENT_AUDIT.md`](./CLIENT_ALIGNMENT_AUDIT.md).
+
+- [x] Audit current frontend against 1042 Flea reference and client PDF
+- [x] Capture final PDF page color direction: bright orange, hot pink, coral red, white/off-white, black, and pink/orange ombre backgrounds
+- [ ] Confirm whether the homepage should be 1042-inspired or a close structural adaptation
+- [ ] Confirm final public brand name usage: `702Market`, `Marketella`, or transitional `702 Marketella`
+- [x] Update homepage nav to include the client-requested destinations: Apply 2 Sell, What's Marketella, Online Store, Calendar, FAQ, Link Tree, Podcast
+- [x] Update homepage color tokens toward the final PDF palette
+- [x] Add moving or still butterflies throughout the homepage
+- [x] Add rotating/marquee text treatments
+- [x] Rebuild hero with full-bleed market photo and huge all-caps Marketella welcome text
+- [x] Add locations section with image cards, captions, map links, and calendar link
+- [x] Add homepage story/about section using the longer Marketella origin copy
+- [x] Add homepage Q&A/FAQ section matching the client-provided vendor/customer tone
+- [x] Add podcast section for `702 chisme`
+- [x] Add Instagram, Facebook, and TikTok links where requested
+- [x] Add two-photo next-market collage from the feedback deck
+- [x] Add press/link strip for Channel 8, Influence.Vegas, and Fox 5
+- [x] Add `join the Marketella family` photo-background section
+- [x] Add map and calendar CTA section
+- [x] Add `what the f**** is Marketella????` splash section
+- [x] Add meet-the-owners placeholder section
+- [x] Add split-image treatment to the podcast section
+- [x] Align public route metadata, copy, and styling with the Marketella homepage direction
+- [x] Rebrand shared public header/footer/admin labels from 702Market to Marketella where appropriate
+- [ ] Run mobile and desktop visual QA for all new homepage sections
+
 ### Event Images
 
 - [x] October Night Market hero — `public/assets/events/october-night-market-hero.jpg`

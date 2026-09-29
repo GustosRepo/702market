@@ -2,7 +2,7 @@ import AdminShell from "@/components/admin-shell";
 import { getAdminSiteMedia } from "@/lib/admin-site-media";
 import { updateSiteMedia } from "./actions";
 
-export const metadata = { title: "Media | 702Market Admin" };
+export const metadata = { title: "Media | Marketella Admin" };
 
 export default async function AdminMediaPage() {
   const mediaSlots = await getAdminSiteMedia();

@@ -8,7 +8,7 @@ import {
 } from "@/lib/applications";
 import { archiveApplication, restoreApplication } from "./actions";
 
-export const metadata = { title: "Applications | 702Market" };
+export const metadata = { title: "Applications | Marketella" };
 
 type AdminApplicationsPageProps = {
   searchParams: Promise<{

@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: EventPageProps) {
   const event = await getEventBySlug(slug);
 
   return {
-    title: event ? `${event.title} | 702Market` : "Event not found | 702Market",
+    title: event ? `${event.title} | Marketella` : "Event not found | Marketella",
     description: event?.description,
   };
 }
@@ -40,7 +40,7 @@ export default async function EventDetailPage({ params }: EventPageProps) {
         className="event-detail-hero"
         style={{ "--asset-image": `url(${eventHeroAsset(event.slug)})` } as React.CSSProperties}
       >
-        <p className="eyebrow">702Market event</p>
+        <p className="eyebrow">Marketella event</p>
         <h1>{event.title}</h1>
         <p className="event-detail-description">{event.description}</p>
       </section>
@@ -65,8 +65,8 @@ export default async function EventDetailPage({ params }: EventPageProps) {
 
       <section className="event-detail-actions">
         <div>
-          <p className="eyebrow">Bring your best stuff</p>
-          <h2>Have a table<br /><em>in the mix.</em></h2>
+          <p className="eyebrow">Apply 2 sell</p>
+          <h2>bring the setup.<br /><em>bring the product.</em></h2>
         </div>
         {event.applicationsEnabled ? (
           <Link className="button button-accent" href={`/apply/${event.slug}`}>

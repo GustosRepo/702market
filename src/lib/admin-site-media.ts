@@ -39,7 +39,7 @@ export const mediaSlotDefinitions: MediaSlotDefinition[] = [
     label: "Homepage hero",
     group: "Homepage",
     fallbackPath: fallbackSiteMedia.homeHero,
-    fallbackAlt: "702 Market photo wall with flowers and a pink cart.",
+    fallbackAlt: "Marketella photo wall with flowers and a pink cart.",
     sortOrder: 0,
   },
   {
@@ -47,7 +47,7 @@ export const mediaSlotDefinitions: MediaSlotDefinition[] = [
     label: "About/story card",
     group: "Site pages",
     fallbackPath: fallbackSiteMedia.aboutStory,
-    fallbackAlt: "702 Market photo wall with flowers and a pink cart.",
+    fallbackAlt: "Marketella photo wall with flowers and a pink cart.",
     sortOrder: 0,
   },
   {
@@ -55,7 +55,7 @@ export const mediaSlotDefinitions: MediaSlotDefinition[] = [
     label: "Contact community image",
     group: "Site pages",
     fallbackPath: fallbackSiteMedia.contactCommunity,
-    fallbackAlt: "Friends holding shopping bags at 702Market.",
+    fallbackAlt: "Friends holding shopping bags at Marketella.",
     sortOrder: 0,
   },
   {
@@ -63,7 +63,7 @@ export const mediaSlotDefinitions: MediaSlotDefinition[] = [
     label: "Socials CTA image",
     group: "Site pages",
     fallbackPath: fallbackSiteMedia.socialCta,
-    fallbackAlt: "Vendor booth with clothing and accessories at 702Market.",
+    fallbackAlt: "Vendor booth with clothing and accessories at Marketella.",
     sortOrder: 0,
   },
   ...fallbackSiteMedia.homeGallery.map((photo, index) => ({

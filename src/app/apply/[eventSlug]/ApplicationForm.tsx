@@ -96,7 +96,7 @@ export default function ApplicationForm({
           </label>
           <label className="checkbox-label"><input name="electricity" type="checkbox" /> I need access to electricity</label>
           <label>Special requests<textarea name="specialRequests" rows={4} /></label>
-          <label className="checkbox-label"><input name="agreement" type="checkbox" required /> I agree to the 702Market vendor rules</label>
+          <label className="checkbox-label"><input name="agreement" type="checkbox" required /> I agree to the Marketella vendor rules</label>
         </div>
       </fieldset>
 

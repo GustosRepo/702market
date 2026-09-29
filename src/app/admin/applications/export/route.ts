@@ -56,7 +56,7 @@ export async function GET(request: Request) {
   return new Response(csv, {
     headers: {
       "content-type": "text/csv; charset=utf-8",
-      "content-disposition": `attachment; filename="702market-applications.csv"`,
+      "content-disposition": `attachment; filename="marketella-applications.csv"`,
     },
   });
 }

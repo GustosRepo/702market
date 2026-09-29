@@ -12,7 +12,7 @@ import {
   toggleEventPublished,
 } from "./actions";
 
-export const metadata = { title: "Manage Events | 702Market" };
+export const metadata = { title: "Manage Events | Marketella" };
 
 type AdminEventsPageProps = {
   searchParams: Promise<{

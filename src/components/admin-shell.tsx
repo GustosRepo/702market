@@ -8,7 +8,7 @@ export default async function AdminShell({ children, title }: { children: React.
   return (
     <main className="admin-shell">
       <aside className="admin-sidebar">
-        <Link className="admin-brand" href="/admin">702<span>Market</span><small>Admin</small></Link>
+        <Link className="admin-brand" href="/admin">Market<span>ella</span><small>Admin</small></Link>
         <nav aria-label="Admin navigation">
           <Link href="/admin">Dashboard</Link>
           <Link href="/admin/events">Events</Link>
@@ -21,7 +21,7 @@ export default async function AdminShell({ children, title }: { children: React.
       </aside>
       <section className="admin-content">
         <header className="admin-topbar">
-          <p className="eyebrow">702Market admin</p>
+          <p className="eyebrow">Marketella admin</p>
           <div className="admin-user-menu">
             <span className="admin-user">{admin.email}</span>
             <form action={signOutAdmin}>

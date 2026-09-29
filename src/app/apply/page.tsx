@@ -4,8 +4,8 @@ import SiteFooter from "@/components/site-footer";
 import { getEvents } from "@/lib/events";
 
 export const metadata = {
-  title: "Apply to Sell | 702Market",
-  description: "Choose a 702Market event and apply to be a vendor.",
+  title: "Apply 2 Sell | Marketella",
+  description: "Choose a Marketella event and apply to be a vendor.",
 };
 
 export default async function ApplyPage() {
@@ -19,11 +19,11 @@ export default async function ApplyPage() {
       <SiteHeader backHref="/events" backLabel="View events" />
 
       <section className="apply-intro">
-        <p className="eyebrow">Your table starts here</p>
-        <h1>Bring your<br /><em>good stuff.</em></h1>
+        <p className="eyebrow">apply 2 sell</p>
+        <h1>bring your<br /><em>good stuff.</em></h1>
         <p className="listing-copy">
-          Vintage, handmade, art, food, and the wonderfully unexpected. Pick a
-          market below to start your application.
+          We want your products, your setup, your social page, and your whole
+          vibe. Pick a market below to start your application.
         </p>
       </section>
 
@@ -40,7 +40,7 @@ export default async function ApplyPage() {
                 <h2>{event.title}</h2>
                 <p>{event.location} · Application fee {event.applicationFee}</p>
               </div>
-              <span aria-hidden="true">Start application ↗</span>
+              <span aria-hidden="true">Apply 2 sell ↗</span>
             </Link>
           ))
         ) : (

@@ -2,7 +2,7 @@ import Link from "next/link";
 import AdminShell from "@/components/admin-shell";
 import { createProduct } from "./actions";
 
-export const metadata = { title: "Add Product | 702Market" };
+export const metadata = { title: "Add Product | Marketella" };
 
 export default function NewMerchProductPage() {
   return (

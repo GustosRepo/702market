@@ -15,10 +15,10 @@ export type MarketEvent = {
 
 export const events: MarketEvent[] = [
   {
-    title: "702Market Night Market",
+    title: "Marketella Night Market",
     slug: "october-night-market",
     description:
-      "An after-dark gathering of vintage hunters, local makers, collectors, and hungry shoppers in the heart of Las Vegas.",
+      "An after-dark Marketella gathering of vintage hunters, local makers, collectors, and hungry shoppers in the heart of Las Vegas.",
     date: "2026-10-24",
     dateLabel: "October 24, 2026",
     time: "4:00 PM - 10:00 PM",

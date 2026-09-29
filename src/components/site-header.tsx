@@ -8,8 +8,8 @@ type SiteHeaderProps = {
 export default function SiteHeader({ backHref = "/", backLabel = "Back home" }: SiteHeaderProps) {
   return (
     <header className="page-header">
-      <Link className="wordmark" href="/" aria-label="702Market home">
-        702<span>Market</span>
+      <Link className="wordmark" href="/" aria-label="Marketella home">
+        Market<span>ella</span>
       </Link>
       <nav className="compact-nav" aria-label="Site navigation">
         <Link href="/events">Events</Link>

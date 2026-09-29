@@ -2,7 +2,7 @@ import Link from "next/link";
 import AdminShell from "@/components/admin-shell";
 import { createEvent } from "./actions";
 
-export const metadata = { title: "New Event | 702Market" };
+export const metadata = { title: "New Event | Marketella" };
 
 export default function NewEventPage() {
   return (

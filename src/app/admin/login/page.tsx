@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { getAdminSession, getAdminEmails, hasSupabaseEnv } from "@/lib/admin-auth";
 import LoginForm from "./LoginForm";
 
-export const metadata = { title: "Admin Login | 702Market" };
+export const metadata = { title: "Admin Login | Marketella" };
 
 export default async function AdminLoginPage() {
   const session = await getAdminSession();
@@ -17,8 +17,8 @@ export default async function AdminLoginPage() {
   return (
     <main className="admin-login-page">
       <section className="admin-login-panel">
-        <Link className="admin-brand" href="/" aria-label="702Market home">
-          702<span>Market</span><small>Admin</small>
+        <Link className="admin-brand" href="/" aria-label="Marketella home">
+          Market<span>ella</span><small>Admin</small>
         </Link>
         <div>
           <p className="eyebrow">Staff login</p>

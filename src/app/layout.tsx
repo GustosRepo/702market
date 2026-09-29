@@ -26,9 +26,9 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "702Market | Las Vegas Night Markets",
+  title: "Marketella | Las Vegas Markets",
   description:
-    "A lively Las Vegas market for vintage finds, handmade goods, food, and local makers.",
+    "A lively Las Vegas market for vintage finds, handmade goods, food, local makers, and community events.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

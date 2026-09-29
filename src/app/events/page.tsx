@@ -5,8 +5,8 @@ import { getEvents } from "@/lib/events";
 import { eventHeroAsset } from "@/lib/site-assets";
 
 export const metadata = {
-  title: "Events | 702Market",
-  description: "Find the next 702Market night market in Las Vegas.",
+  title: "Events | Marketella",
+  description: "Find the next Marketella market in Las Vegas.",
 };
 
 export default async function EventsPage() {
@@ -19,11 +19,11 @@ export default async function EventsPage() {
       <SiteHeader />
 
       <section className="listing-intro">
-        <p className="eyebrow">Save the dates</p>
-        <h1>Come find<br /><em>something.</em></h1>
+        <p className="eyebrow">calendar</p>
+        <h1>pull up to<br /><em>marketella.</em></h1>
         <p className="listing-copy">
-          Night markets, good people, and the kind of finds you tell your
-          friends about.
+          Markets with a different personality every time. Shop small, eat
+          something good, take pictures, and make a day out of it.
         </p>
       </section>
 
@@ -44,7 +44,7 @@ export default async function EventsPage() {
               <span>{event.dateLabel.split(" ")[0]}<br />{event.dateLabel.split(" ")[2]}</span>
             </div>
             <div className="event-card-details">
-              <p className="event-kicker">702Market event</p>
+              <p className="event-kicker">Marketella event</p>
               <h2>{event.title}</h2>
               <p>{event.time} · {event.location}</p>
             </div>
@@ -61,7 +61,7 @@ export default async function EventsPage() {
         {pastEvents.length > 0 ? (
           pastEvents.map((event) => <p key={event.slug}>{event.title}</p>)
         ) : (
-          <p className="empty-state">Our first market is still ahead. See you there.</p>
+          <p className="empty-state">More Marketella memories are coming soon.</p>
         )}
       </section>
 

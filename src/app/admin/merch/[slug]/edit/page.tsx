@@ -8,7 +8,7 @@ type EditProductPageProps = {
   params: Promise<{ slug: string }>;
 };
 
-export const metadata = { title: "Edit Product | 702Market" };
+export const metadata = { title: "Edit Product | Marketella" };
 
 export default async function EditProductPage({ params }: EditProductPageProps) {
   const { slug } = await params;

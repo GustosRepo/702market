@@ -3,7 +3,7 @@ import AdminShell from "@/components/admin-shell";
 import { getEvents } from "@/lib/events";
 import { getApplicationStats } from "@/lib/applications";
 
-export const metadata = { title: "Admin Dashboard | 702Market" };
+export const metadata = { title: "Admin Dashboard | Marketella" };
 
 function formatMoney(amount: number) {
   return new Intl.NumberFormat("en-US", {

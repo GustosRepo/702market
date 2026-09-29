@@ -2,6 +2,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { events } from "@/data/events";
 import { getEventBySlug } from "@/lib/events";
+import SiteHeader from "@/components/site-header";
+import SiteFooter from "@/components/site-footer";
 import ApplicationForm from "./ApplicationForm";
 import { submitApplication } from "./actions";
 
@@ -18,7 +20,7 @@ export async function generateMetadata({ params }: ApplicationPageProps) {
   const event = await getEventBySlug(eventSlug);
 
   return {
-    title: event ? `Apply for ${event.title} | 702Market` : "Apply | 702Market",
+    title: event ? `Apply for ${event.title} | Marketella` : "Apply | Marketella",
     description: event?.description,
   };
 }
@@ -34,12 +36,7 @@ export default async function ApplicationPage({ params }: ApplicationPageProps) 
   if (!event.applicationsEnabled) {
     return (
       <main className="page-shell">
-        <header className="page-header">
-          <Link className="wordmark" href="/" aria-label="702Market home">
-            702<span>Market</span>
-          </Link>
-          <Link className="text-link" href="/events">All events ↗</Link>
-        </header>
+        <SiteHeader backHref="/events" backLabel="All events" />
         <section className="application-closed">
           <p className="eyebrow">Applications closed</p>
           <h1>This one is<br /><em>full up.</em></h1>
@@ -51,17 +48,10 @@ export default async function ApplicationPage({ params }: ApplicationPageProps) 
 
   return (
     <main className="page-shell application-page">
-      <header className="page-header">
-        <Link className="wordmark" href="/" aria-label="702Market home">
-          702<span>Market</span>
-        </Link>
-        <Link className="text-link" href={`/events/${event.slug}`}>
-          Event details <span aria-hidden="true">↗</span>
-        </Link>
-      </header>
+      <SiteHeader backHref={`/events/${event.slug}`} backLabel="Event details" />
 
       <section className="application-header">
-        <p className="eyebrow">Vendor application</p>
+        <p className="eyebrow">Apply 2 sell</p>
         <h1>{event.title}<br /><em>starts here.</em></h1>
         <p>{event.dateLabel} · {event.location} · {event.applicationFee} application fee</p>
       </section>
@@ -71,6 +61,7 @@ export default async function ApplicationPage({ params }: ApplicationPageProps) 
         eventTitle={event.title}
         submitAction={submitApplication.bind(null, event.slug)}
       />
+      <SiteFooter actionHref="/faq" actionLabel="Vendor FAQ" />
     </main>
   );
 }

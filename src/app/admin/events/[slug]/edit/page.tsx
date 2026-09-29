@@ -8,7 +8,7 @@ type EditEventPageProps = {
   params: Promise<{ slug: string }>;
 };
 
-export const metadata = { title: "Edit Event | 702Market" };
+export const metadata = { title: "Edit Event | Marketella" };
 
 export default async function EditEventPage({ params }: EditEventPageProps) {
   const { slug } = await params;
