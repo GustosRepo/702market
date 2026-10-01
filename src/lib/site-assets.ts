@@ -3,6 +3,7 @@ export const siteAssets = {
   aboutStory: "/assets/site/about-story.jpg",
   contactCommunity: "/assets/site/contact-community.jpg",
   socialCta: "/assets/site/social-cta.jpg",
+  newLocationStrip: "/IMG_3226.JPG",
   homeGallery: [
     {
       src: "/IMG_3076.JPG",

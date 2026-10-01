@@ -92,40 +92,42 @@ em { color: var(--pink); font-style: italic; }
   background-size: cover;
   color: var(--cream);
   min-height: min(810px, 100vh);
-  padding: 28px clamp(18px, 4vw, 58px) 38px;
+  padding: 30px clamp(18px, 4vw, 58px) 38px;
   position: relative;
 }
 
 .marketella-nav {
-  background: rgba(251, 250, 248, 0.76);
+  background: transparent;
   backdrop-filter: none;
-  border: 2px solid rgba(5, 3, 4, 0.2);
-  border-radius: 999px;
-  box-shadow: 0 10px 30px rgba(5, 3, 4, 0.14);
-  color: var(--plum);
-  gap: 16px;
+  border: 0;
+  box-shadow: none;
+  color: var(--ink);
+  gap: 14px;
   margin: 0;
-  padding: 8px 10px;
+  padding: 0;
   text-shadow: none;
 }
 
 .marketella-nav .nav-links {
-  background: rgba(251, 250, 248, 0.72);
+  background: rgba(251, 250, 248, 0.9);
+  border: 2px solid var(--ink);
   border-radius: 999px;
+  box-shadow: 6px 6px 0 var(--pink);
   flex-wrap: wrap;
-  gap: 16px;
+  gap: 6px;
   justify-content: flex-end;
   max-width: 800px;
-  padding: 9px 12px;
+  padding: 8px;
 }
 
-.marketella-nav .nav-apply {
-  background: var(--cream);
-  border: 2px solid rgba(5, 3, 4, 0.18);
+.marketella-nav .nav-links a {
   border-radius: 999px;
-  box-shadow: 4px 4px 0 var(--pink);
-  color: var(--plum);
-  padding: 10px 14px;
+  padding: 8px 10px;
+}
+
+.marketella-nav .nav-links a:hover {
+  background: var(--blush);
+  opacity: 1;
 }
 
 .marketella-wordmark {
@@ -155,18 +157,55 @@ em { color: var(--pink); font-style: italic; }
   position: absolute;
 }
 
-.butterfly-field span {
+.butterfly-svg {
+  --butterfly-tilt: -8deg;
   animation: float-accent 6s ease-in-out infinite;
-  color: var(--cream);
-  font-size: clamp(1.4rem, 3vw, 2.4rem);
+  filter: drop-shadow(0 4px 0 var(--pink)) drop-shadow(0 9px 12px rgba(5, 3, 4, 0.34));
+  height: clamp(34px, 5vw, 58px);
   position: absolute;
-  text-shadow: 0 3px 0 var(--pink), 0 7px 18px rgba(5, 3, 4, 0.45);
+  width: auto;
 }
 
-.butterfly-field span:nth-child(1) { left: 11%; top: 24%; }
-.butterfly-field span:nth-child(2) { animation-delay: -1.4s; right: 17%; top: 19%; }
-.butterfly-field span:nth-child(3) { animation-delay: -3s; bottom: 24%; left: 18%; }
-.butterfly-field span:nth-child(4) { animation-delay: -4.4s; bottom: 33%; right: 11%; }
+.butterfly-svg .wing {
+  fill: #ff6fa9;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.butterfly-svg .lower-wing {
+  fill: #ff2f73;
+}
+
+.butterfly-svg .butterfly-body {
+  fill: var(--cream);
+  stroke: var(--ink);
+  stroke-width: 2;
+}
+
+.butterfly-svg .antenna {
+  fill: none;
+  stroke: var(--ink);
+  stroke-linecap: round;
+  stroke-width: 4;
+}
+
+.butterfly-svg .wing-left {
+  animation: wing-left-flutter 1200ms ease-in-out infinite;
+}
+
+.butterfly-svg .wing-right {
+  animation: wing-right-flutter 1200ms ease-in-out infinite;
+}
+
+.butterfly-svg:nth-child(1) { left: 11%; top: 24%; }
+.butterfly-svg:nth-child(2) { --butterfly-tilt: 10deg; animation-delay: -1.4s; right: 17%; top: 19%; }
+.butterfly-svg:nth-child(3) { --butterfly-tilt: -12deg; animation-delay: -3s; bottom: 24%; left: 18%; }
+.butterfly-svg:nth-child(4) { --butterfly-tilt: 16deg; animation-delay: -4.4s; bottom: 33%; right: 11%; }
+.butterfly-svg:nth-child(5) { --butterfly-tilt: -18deg; animation-delay: -2.2s; height: clamp(24px, 3.8vw, 42px); left: 27%; top: 16%; }
+.butterfly-svg:nth-child(6) { --butterfly-tilt: 22deg; animation-delay: -5s; height: clamp(26px, 4vw, 46px); right: 31%; top: 38%; }
+.butterfly-svg:nth-child(7) { --butterfly-tilt: -6deg; animation-delay: -3.6s; height: clamp(22px, 3.5vw, 38px); left: 6%; bottom: 40%; }
+.butterfly-svg:nth-child(8) { --butterfly-tilt: 14deg; animation-delay: -6.2s; height: clamp(24px, 3.8vw, 44px); right: 7%; bottom: 18%; }
+.butterfly-svg:nth-child(9) { --butterfly-tilt: -24deg; animation-delay: -4.8s; height: clamp(20px, 3.2vw, 34px); left: 44%; top: 28%; }
 
 .marketella-hero-content {
   margin: clamp(210px, 31vh, 330px) auto 0;
@@ -242,6 +281,131 @@ em { color: var(--pink); font-style: italic; }
   color: var(--sun);
   content: " /";
   margin-left: 22px;
+}
+
+.new-location-section {
+  background:
+    radial-gradient(circle at 25% 46%, rgba(255, 47, 115, 0.28), transparent 16rem),
+    radial-gradient(circle at 77% 43%, rgba(255, 122, 47, 0.24), transparent 18rem),
+    linear-gradient(145deg, var(--cream) 0%, var(--blush) 46%, rgba(255, 122, 47, 0.18) 100%);
+  color: var(--ink);
+  min-height: 720px;
+  overflow: hidden;
+  position: relative;
+}
+
+.new-location-section .marquee-band {
+  position: relative;
+  z-index: 2;
+}
+
+.new-location-section .marquee-soft {
+  background: rgba(251, 250, 248, 0.72);
+  color: var(--pink);
+  padding: 9px 0;
+}
+
+.new-location-section .marquee-soft span {
+  color: var(--pink);
+  font-family: var(--font-accent), sans-serif;
+  font-size: clamp(0.95rem, 1.8vw, 1.7rem);
+  font-style: italic;
+}
+
+.new-location-section .marquee-apply {
+  background-image:
+    linear-gradient(90deg, rgba(255, 47, 115, 0.7), rgba(255, 122, 47, 0.58)),
+    var(--new-location-strip-image);
+  background-position: center;
+  background-size: cover;
+  bottom: 0;
+  color: var(--cream);
+  left: 0;
+  padding: 13px 0;
+  position: absolute;
+  right: 0;
+}
+
+.new-location-section .marquee-apply span {
+  color: var(--cream);
+  font-family: var(--font-accent), sans-serif;
+  font-size: clamp(1rem, 2vw, 1.8rem);
+  font-style: italic;
+  text-shadow: 0 2px 8px rgba(5, 3, 4, 0.5);
+}
+
+.spray-butterfly {
+  filter: blur(10px) drop-shadow(0 0 36px rgba(255, 47, 115, 0.42));
+  opacity: 0.74;
+  pointer-events: none;
+  position: absolute;
+  z-index: 0;
+}
+
+.spray-butterfly svg {
+  fill: rgba(251, 250, 248, 0.88);
+  height: auto;
+  width: clamp(250px, 31vw, 520px);
+}
+
+.spray-butterfly-left {
+  left: 10%;
+  top: 32%;
+  transform: rotate(-8deg);
+}
+
+.spray-butterfly-right {
+  right: 8%;
+  top: 31%;
+  transform: rotate(8deg);
+}
+
+.new-location-content {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  min-height: 620px;
+  justify-content: center;
+  padding: clamp(80px, 10vw, 150px) 22px clamp(110px, 11vw, 170px);
+  position: relative;
+  text-align: center;
+  z-index: 1;
+}
+
+.new-location-content h2 {
+  color: var(--ink);
+  font-family: var(--font-bubble), var(--font-display), cursive;
+  font-size: clamp(4rem, 10vw, 10rem);
+  line-height: 0.86;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.new-location-content p {
+  color: var(--ink);
+  font-size: clamp(1rem, 1.9vw, 1.5rem);
+  line-height: 1.35;
+  margin: clamp(38px, 5vw, 58px) auto clamp(42px, 6vw, 72px);
+  max-width: 620px;
+}
+
+.new-location-button {
+  background: var(--cream);
+  border: 3px solid var(--ink);
+  border-radius: 999px;
+  box-shadow: 8px 8px 0 var(--pink);
+  color: var(--ink);
+  font-family: var(--font-accent), sans-serif;
+  font-size: clamp(0.9rem, 1.7vw, 1.35rem);
+  min-width: min(100%, 370px);
+  padding: 18px 38px;
+  text-transform: uppercase;
+  transition: background 180ms ease, transform 180ms ease;
+}
+
+.new-location-button:hover {
+  background: var(--peach);
+  transform: translateY(-3px);
 }
 
 .market-section.marketella-next {
@@ -764,13 +928,24 @@ em { color: var(--pink); font-style: italic; }
 }
 
 @keyframes float-accent {
-  0%, 100% { transform: translateY(0) rotate(-8deg); }
-  50% { transform: translateY(-18px) rotate(8deg); }
+  0%, 100% { transform: translateY(0) rotate(var(--butterfly-tilt)); }
+  50% { transform: translateY(-18px) rotate(calc(var(--butterfly-tilt) + 16deg)); }
+}
+
+@keyframes wing-left-flutter {
+  0%, 100% { transform: rotateY(0deg) rotate(-2deg); }
+  50% { transform: rotateY(34deg) rotate(4deg); }
+}
+
+@keyframes wing-right-flutter {
+  0%, 100% { transform: rotateY(0deg) rotate(2deg); }
+  50% { transform: rotateY(-34deg) rotate(-4deg); }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .marquee-track,
-  .butterfly-field span {
+  .butterfly-svg,
+  .butterfly-svg .wing {
     animation: none;
   }
 }
@@ -1175,7 +1350,6 @@ em { color: var(--pink); font-style: italic; }
 @media (max-width: 1100px) {
   .marketella-nav {
     align-items: flex-start;
-    border-radius: 24px;
     flex-wrap: wrap;
   }
 
@@ -1239,17 +1413,31 @@ em { color: var(--pink); font-style: italic; }
   .marketella-nav {
     align-items: flex-start;
     flex-wrap: wrap;
+    gap: 12px;
   }
 
   .marketella-nav .nav-links {
     display: flex;
-    font-size: 0.62rem;
-    gap: 8px;
+    font-size: 0.66rem;
+    gap: 4px;
     justify-content: flex-start;
     line-height: 1.2;
     max-width: none;
     order: 3;
+    overflow-x: auto;
+    padding: 7px;
+    scrollbar-width: none;
     width: 100%;
+  }
+
+  .marketella-nav .nav-links::-webkit-scrollbar {
+    display: none;
+  }
+
+  .marketella-nav .nav-links a {
+    flex: 0 0 auto;
+    padding: 8px 9px;
+    white-space: nowrap;
   }
 
   .marketella-nav .nav-apply {
@@ -1258,7 +1446,44 @@ em { color: var(--pink); font-style: italic; }
   }
 
   .marketella-wordmark {
-    font-size: 2.1rem;
+    font-size: 2.35rem;
+  }
+
+  .butterfly-svg:nth-child(n + 6) {
+    display: none;
+  }
+
+  .new-location-section {
+    min-height: 620px;
+  }
+
+  .new-location-content {
+    min-height: 540px;
+    padding: 80px 20px 110px;
+  }
+
+  .new-location-content h2 {
+    font-size: 4rem;
+    overflow-wrap: anywhere;
+  }
+
+  .new-location-content p {
+    font-size: 1.05rem;
+    margin: 34px auto 42px;
+  }
+
+  .spray-butterfly svg {
+    width: 270px;
+  }
+
+  .spray-butterfly-left {
+    left: -18%;
+    top: 35%;
+  }
+
+  .spray-butterfly-right {
+    right: -18%;
+    top: 34%;
   }
 
   .marketella-hero-content {

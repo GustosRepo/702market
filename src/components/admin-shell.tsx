@@ -11,6 +11,7 @@ export default async function AdminShell({ children, title }: { children: React.
         <Link className="admin-brand" href="/admin">Market<span>ella</span><small>Admin</small></Link>
         <nav aria-label="Admin navigation">
           <Link href="/admin">Dashboard</Link>
+          <Link href="/admin/homepage">Homepage</Link>
           <Link href="/admin/events">Events</Link>
           <Link href="/admin/applications">Applications</Link>
           <Link href="/admin/merch">Merch</Link>

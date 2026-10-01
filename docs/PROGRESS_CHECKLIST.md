@@ -92,8 +92,9 @@ Current local drop zone while gathering client images: `public/assets/`.
 - [ ] Social sharing/Open Graph image — `site-assets/seo/og-image.jpg`
 - [x] Contact/community sprinkle image — `public/assets/site/contact-community.jpg`
 - [x] Social CTA sprinkle image — `public/assets/site/social-cta.jpg`
+- [x] New location strip image — currently local `public/IMG_3226.JPG`
 - [x] Add `site_media` table or equivalent site media config
-- [x] Add admin controls for homepage hero, homepage gallery, about gallery, contact image, and socials image
+- [x] Add admin controls for homepage hero, new location strip, homepage gallery, about gallery, contact image, and socials image
 - [ ] Add SEO image slot/admin control
 - [x] Replace public homepage/about/contact/social image reads with database/storage-driven media and local fallbacks
 - [x] Add upload buttons so admins can choose site media files instead of typing storage/public paths
@@ -123,6 +124,8 @@ Reference audit: [`docs/CLIENT_ALIGNMENT_AUDIT.md`](./CLIENT_ALIGNMENT_AUDIT.md)
 - [x] Add `what the f**** is Marketella????` splash section
 - [x] Add meet-the-owners placeholder section
 - [x] Add split-image treatment to the podcast section
+- [x] Add client-reference new location section after the hero
+- [x] Make the new location section editable from the admin homepage screen
 - [x] Align public route metadata, copy, and styling with the Marketella homepage direction
 - [x] Rebrand shared public header/footer/admin labels from 702Market to Marketella where appropriate
 - [ ] Run mobile and desktop visual QA for all new homepage sections
@@ -203,7 +206,7 @@ Reference audit: [`docs/CLIENT_ALIGNMENT_AUDIT.md`](./CLIENT_ALIGNMENT_AUDIT.md)
 - [x] `/admin/login`
 - [x] Protect all `/admin` routes with Supabase Auth
 - [x] Add authorized admin access rules
-- [x] Add admin navigation: Dashboard, Events, Applications, Merch, Media
+- [x] Add admin navigation: Dashboard, Homepage, Events, Applications, Merch, Media
 - [x] Add credential-free admin preview shell
 
 ### Dashboard

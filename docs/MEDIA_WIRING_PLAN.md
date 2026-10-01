@@ -23,7 +23,7 @@ uploads and image controls into Supabase/Admin.
 
 | Route | Current Media | Add / Wire Next | Admin Owner |
 | --- | --- | --- | --- |
-| `/` | Hero background, about card, 3-photo gallery | Editable homepage hero, homepage gallery collection, next-event thumbnail, vendor CTA background, merch CTA media | Site media settings + Events |
+| `/` | Hero background, new-location strip, about card, 3-photo gallery | Editable homepage hero, new-location strip, homepage gallery collection, next-event thumbnail, vendor CTA background, merch CTA media | Site media settings + Events |
 | `/events` | Event thumbnails by local slug path | Read thumbnail/hero from `events.hero_image`; fallback image; optional past event archive thumbnails | Events admin |
 | `/events/[slug]` | Event hero by local slug path | Read `events.hero_image`; add optional event gallery or venue/detail photos | Events admin |
 | `/apply` | No real photos | Add soft vendor/sample-products media strip tied to open events | Site media settings |
@@ -101,7 +101,17 @@ Missing schema. Recommended table:
 
 - `site_media`
 - Columns: `slot`, `storage_path`, `alt_text`, `caption`, `sort_order`, `active`, `created_at`, `updated_at`.
-- Example slots: `home.hero`, `home.gallery`, `about.gallery`, `contact.community`, `socials.cta`, `seo.og`.
+- Example slots: `home.hero`, `home.new_location.strip`, `home.gallery`, `about.gallery`, `contact.community`, `socials.cta`, `seo.og`.
+
+### Homepage Copy
+
+Added schema:
+
+- `site_content`
+- Columns: `key`, `content`, `active`, `created_at`, `updated_at`.
+- Current key: `home.new_location`.
+- Editable fields: top rotating phrases, heading label, location name,
+  description, CTA label/link, bottom rotating phrases, and active status.
 
 ## Suggested Build Order
 

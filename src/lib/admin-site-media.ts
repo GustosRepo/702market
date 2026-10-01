@@ -66,6 +66,14 @@ export const mediaSlotDefinitions: MediaSlotDefinition[] = [
     fallbackAlt: "Vendor booth with clothing and accessories at Marketella.",
     sortOrder: 0,
   },
+  {
+    slot: "home.new_location.strip",
+    label: "New location strip",
+    group: "Homepage",
+    fallbackPath: fallbackSiteMedia.newLocationStrip,
+    fallbackAlt: "Marketella shoppers and event moments.",
+    sortOrder: 1,
+  },
   ...fallbackSiteMedia.homeGallery.map((photo, index) => ({
     slot: `home.gallery.${index + 1}`,
     label: `Homepage gallery ${index + 1}`,

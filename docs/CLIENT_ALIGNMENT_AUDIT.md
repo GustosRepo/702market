@@ -32,6 +32,12 @@ copy, public shared header/footer labels, event/application/FAQ/social/merch
 language, and a CSS alignment layer for inner-page typography, cards, colors,
 and section treatments.
 
+Admin/content note: the new location section is now a client-editable homepage
+section. Admins can toggle it, update the rotating phrases, heading, location
+name, description, CTA label/link, and bottom rotating text from
+`/admin/homepage`. The section's bottom image strip is managed separately in
+`/admin/media` as `home.new_location.strip`.
+
 ## Client Direction Observed
 
 - Rebrand homepage language from 702Market toward Marketella.
@@ -45,6 +51,8 @@ and section treatments.
 - Add social links for Instagram, Facebook, and TikTok.
 - Add a podcast area for "702 chisme."
 - Add locations with image cards, short captions, map links, and calendar links.
+- Add a new-location announcement section directly after the hero when the
+  client needs to promote Santa Anita or a future market expansion.
 - Add a larger FAQ/Q&A section with plus-sign accordions.
 - Keep the logo direction similar to the current/old 702 logo and base the site
   around that treatment.

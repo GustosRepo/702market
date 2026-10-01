@@ -12,6 +12,7 @@ export type SiteMedia = {
   aboutStory: string;
   contactCommunity: string;
   socialCta: string;
+  newLocationStrip: string;
   homeGallery: SitePhoto[];
   aboutGallery: SitePhoto[];
 };
@@ -30,6 +31,7 @@ export const fallbackSiteMedia: SiteMedia = {
   aboutStory: siteAssets.aboutStory,
   contactCommunity: siteAssets.contactCommunity,
   socialCta: siteAssets.socialCta,
+  newLocationStrip: siteAssets.newLocationStrip,
   homeGallery: siteAssets.homeGallery,
   aboutGallery: siteAssets.aboutGallery,
 };
@@ -83,6 +85,9 @@ export async function getSiteMedia(): Promise<SiteMedia> {
       fallbackSiteMedia.contactCommunity,
     socialCta:
       bySlot.get("socials.cta")?.storage_path || fallbackSiteMedia.socialCta,
+    newLocationStrip:
+      bySlot.get("home.new_location.strip")?.storage_path ||
+      fallbackSiteMedia.newLocationStrip,
     homeGallery: homeGallery.length > 0 ? homeGallery : fallbackSiteMedia.homeGallery,
     aboutGallery:
       aboutGallery.length > 0 ? aboutGallery : fallbackSiteMedia.aboutGallery,

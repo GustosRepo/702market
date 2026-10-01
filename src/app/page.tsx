@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import SiteFooter from "@/components/site-footer";
 import { getEvents } from "@/lib/events";
+import { getHomepageContent } from "@/lib/homepage-content";
 import { getSiteMedia } from "@/lib/site-media";
 
 const marqueePhrases = [
@@ -91,11 +92,19 @@ function getDateParts(dateLabel: string) {
   };
 }
 
-function MarqueeBand({ label = "not your average market" }: { label?: string }) {
-  const repeated = [...marqueePhrases, label, ...marqueePhrases];
+function MarqueeBand({
+  label = "not your average market",
+  phrases = marqueePhrases,
+  className = "",
+}: {
+  label?: string;
+  phrases?: string[];
+  className?: string;
+}) {
+  const repeated = [...phrases, label, ...phrases];
 
   return (
-    <div className="marquee-band" aria-hidden="true">
+    <div className={`marquee-band ${className}`.trim()} aria-hidden="true">
       <div className="marquee-track">
         {repeated.map((phrase, index) => (
           <span key={`${phrase}-${index}`}>{phrase}</span>
@@ -106,9 +115,14 @@ function MarqueeBand({ label = "not your average market" }: { label?: string }) 
 }
 
 export default async function Home() {
-  const [events, siteMedia] = await Promise.all([getEvents(), getSiteMedia()]);
+  const [events, siteMedia, homepageContent] = await Promise.all([
+    getEvents(),
+    getSiteMedia(),
+    getHomepageContent(),
+  ]);
   const nextEvent = events.find((event) => event.status === "upcoming");
   const nextEventDate = nextEvent ? getDateParts(nextEvent.dateLabel) : null;
+  const newLocation = homepageContent.newLocation;
 
   return (
     <main className="marketella-home">
@@ -124,25 +138,28 @@ export default async function Home() {
           <div className="nav-links">
             <Link href="/apply">Apply 2 Sell</Link>
             <Link href="#what-is-marketella">What&apos;s Marketella?</Link>
-            <Link href="/merch">Online Store</Link>
+            <Link href="/merch">Shop</Link>
             <Link href="#calendar">Calendar</Link>
             <Link href="#faq">FAQ</Link>
             <Link href="/socials">Link Tree</Link>
+            <Link href="#podcast">Podcast</Link>
           </div>
-          <Link className="nav-apply" href="#podcast">
-            Podcast <span aria-hidden="true">↗</span>
-          </Link>
         </nav>
 
         <div className="butterfly-field" aria-hidden="true">
-          <span>🦋</span>
-          <span>🦋</span>
-          <span>🦋</span>
-          <span>🦋</span>
+          {Array.from({ length: 9 }).map((_, index) => (
+            <svg className="butterfly-svg" viewBox="0 0 96 72" focusable="false" key={index}>
+              <path className="wing wing-left" d="M45 36C34 8 7 3 4 23c-3 18 18 31 38 21 2-1 4-4 3-8Z" />
+              <path className="wing wing-right" d="M51 36C62 8 89 3 92 23c3 18-18 31-38 21-2-1-4-4-3-8Z" />
+              <path className="lower-wing lower-left" d="M43 40C25 40 14 52 20 63c6 10 24 3 29-16 1-4-1-7-6-7Z" />
+              <path className="lower-wing lower-right" d="M53 40c18 0 29 12 23 23-6 10-24 3-29-16-1-4 1-7 6-7Z" />
+              <path className="butterfly-body" d="M48 25c4 0 7 7 7 17s-3 22-7 22-7-12-7-22 3-17 7-17Z" />
+              <path className="antenna" d="M45 28C38 17 31 14 24 15M51 28c7-11 14-14 21-13" />
+            </svg>
+          ))}
         </div>
 
         <div className="hero-content marketella-hero-content">
-          <p className="eyebrow sticker-label">welcome 2 marketella</p>
           <h1>WELCOME 2 MARKETELLA</h1>
           <p className="hero-copy">
             Not your average Las Vegas market. Shopping, food, music, photo ops,
@@ -159,7 +176,55 @@ export default async function Home() {
         </div>
       </section>
 
-      <MarqueeBand />
+      {newLocation.active ? (
+        <section
+          className="new-location-section"
+          aria-labelledby="new-location-heading"
+          style={
+            {
+              "--new-location-strip-image": `url(${siteMedia.newLocationStrip})`,
+            } as React.CSSProperties
+          }
+        >
+          <MarqueeBand
+            className="marquee-soft"
+            label={newLocation.topMarqueePhrases[0]}
+            phrases={newLocation.topMarqueePhrases}
+          />
+          <div className="spray-butterfly spray-butterfly-left" aria-hidden="true">
+            <svg viewBox="0 0 180 130" focusable="false">
+              <path d="M82 64C55 4 7 16 14 56c6 35 45 42 68 19 4-4 4-8 0-11Z" />
+              <path d="M98 64c27-60 75-48 68-8-6 35-45 42-68 19-4-4-4-8 0-11Z" />
+              <path d="M78 73c-38 1-54 31-31 47 20 14 46-7 43-35-1-8-5-12-12-12Z" />
+              <path d="M102 73c38 1 54 31 31 47-20 14-46-7-43-35 1-8 5-12 12-12Z" />
+            </svg>
+          </div>
+          <div className="spray-butterfly spray-butterfly-right" aria-hidden="true">
+            <svg viewBox="0 0 180 130" focusable="false">
+              <path d="M82 64C55 4 7 16 14 56c6 35 45 42 68 19 4-4 4-8 0-11Z" />
+              <path d="M98 64c27-60 75-48 68-8-6 35-45 42-68 19-4-4-4-8 0-11Z" />
+              <path d="M78 73c-38 1-54 31-31 47 20 14 46-7 43-35-1-8-5-12-12-12Z" />
+              <path d="M102 73c38 1 54 31 31 47-20 14-46-7-43-35 1-8 5-12 12-12Z" />
+            </svg>
+          </div>
+          <div className="new-location-content">
+            <h2 id="new-location-heading">
+              {newLocation.headingLabel}
+              <br />
+              {newLocation.locationName}
+            </h2>
+            <p>{newLocation.description}</p>
+            <Link className="new-location-button" href={newLocation.buttonHref}>
+              {newLocation.buttonLabel}
+            </Link>
+          </div>
+          <MarqueeBand
+            className="marquee-apply"
+            label={newLocation.bottomMarqueePhrases[0]}
+            phrases={newLocation.bottomMarqueePhrases}
+          />
+        </section>
+      ) : null}
 
       <section className="market-section marketella-next" id="calendar">
         <div className="section-heading">
