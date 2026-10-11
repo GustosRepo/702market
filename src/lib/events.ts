@@ -1,5 +1,10 @@
 import { cache } from "react";
-import { events as fallbackEvents, type MarketEvent } from "@/data/events";
+import {
+  events as fallbackEvents,
+  type ApplicationType,
+  type EventVendorOption,
+  type MarketEvent,
+} from "@/data/events";
 import { createClient } from "@/lib/supabase/server";
 
 type EventRow = {
@@ -11,10 +16,30 @@ type EventRow = {
   end_time: string;
   location_name: string;
   address: string;
+  hero_image: string | null;
+  application_open_date: string | null;
   application_deadline: string | null;
   application_fee: number | string;
   applications_enabled: boolean;
+  general_applications_enabled: boolean;
+  food_applications_enabled: boolean;
+  application_notes: string;
+  food_application_notes: string;
+  application_rules: string;
+  food_application_rules: string;
   status: MarketEvent["status"];
+  event_vendor_options: VendorOptionRow[] | null;
+};
+
+type VendorOptionRow = {
+  id: string;
+  application_type: ApplicationType;
+  name: string;
+  description: string;
+  price: number | string;
+  capacity: number | null;
+  active: boolean;
+  sort_order: number;
 };
 
 function hasSupabaseEnv() {
@@ -54,6 +79,19 @@ function formatFee(fee: number | string) {
   }).format(amount);
 }
 
+function mapVendorOption(row: VendorOptionRow): EventVendorOption {
+  return {
+    id: row.id,
+    applicationType: row.application_type,
+    name: row.name,
+    description: row.description,
+    price: Number(row.price),
+    capacity: row.capacity,
+    active: row.active,
+    sortOrder: row.sort_order,
+  };
+}
+
 function mapEvent(row: EventRow): MarketEvent {
   return {
     title: row.title,
@@ -62,16 +100,64 @@ function mapEvent(row: EventRow): MarketEvent {
     date: row.event_date,
     dateLabel: formatDateLabel(row.event_date),
     time: `${formatTimeLabel(row.start_time)} - ${formatTimeLabel(row.end_time)}`,
+    startTime: row.start_time,
+    endTime: row.end_time,
     location: row.location_name,
     address: row.address,
+    heroImage: row.hero_image || `/assets/events/${row.slug}-hero.jpg`,
+    applicationOpenDate: row.application_open_date,
+    applicationDeadlineDate: row.application_deadline,
     applicationDeadline: row.application_deadline
       ? formatDateLabel(row.application_deadline)
       : "TBA",
     applicationFee: formatFee(row.application_fee),
-    applicationsEnabled: row.applications_enabled,
+    applicationsEnabled:
+      row.general_applications_enabled || row.food_applications_enabled,
+    generalApplicationsEnabled: row.general_applications_enabled,
+    foodApplicationsEnabled: row.food_applications_enabled,
+    applicationNotes: row.application_notes,
+    foodApplicationNotes: row.food_application_notes,
+    applicationRules: row.application_rules,
+    foodApplicationRules: row.food_application_rules,
+    vendorOptions: (row.event_vendor_options || [])
+      .map(mapVendorOption)
+      .sort((a, b) => a.sortOrder - b.sortOrder),
     status: row.status,
   };
 }
+
+const publicEventSelect = `
+  title,
+  slug,
+  description,
+  event_date,
+  start_time,
+  end_time,
+  location_name,
+  address,
+  hero_image,
+  application_open_date,
+  application_deadline,
+  application_fee,
+  applications_enabled,
+  general_applications_enabled,
+  food_applications_enabled,
+  application_notes,
+  food_application_notes,
+  application_rules,
+  food_application_rules,
+  status,
+  event_vendor_options (
+    id,
+    application_type,
+    name,
+    description,
+    price,
+    capacity,
+    active,
+    sort_order
+  )
+`;
 
 export const getEvents = cache(async () => {
   if (!hasSupabaseEnv()) {
@@ -81,9 +167,7 @@ export const getEvents = cache(async () => {
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("events")
-    .select(
-      "title, slug, description, event_date, start_time, end_time, location_name, address, application_deadline, application_fee, applications_enabled, status",
-    )
+    .select(publicEventSelect)
     .eq("published", true)
     .is("archived_at", null)
     .order("event_date", { ascending: true });
@@ -104,9 +188,7 @@ export const getEventBySlug = cache(async (slug: string) => {
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("events")
-    .select(
-      "title, slug, description, event_date, start_time, end_time, location_name, address, application_deadline, application_fee, applications_enabled, status",
-    )
+    .select(publicEventSelect)
     .eq("slug", slug)
     .eq("published", true)
     .is("archived_at", null)
@@ -119,3 +201,35 @@ export const getEventBySlug = cache(async (slug: string) => {
 
   return data ? mapEvent(data as EventRow) : undefined;
 });
+
+function losAngelesDate() {
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone: "America/Los_Angeles",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(new Date());
+}
+
+export function isUpcomingEvent(event: MarketEvent) {
+  return event.status === "upcoming" && event.date >= losAngelesDate();
+}
+
+export function isApplicationTypeOpen(
+  event: MarketEvent,
+  applicationType: ApplicationType,
+) {
+  const enabled =
+    applicationType === "food"
+      ? event.foodApplicationsEnabled
+      : event.generalApplicationsEnabled;
+  const today = losAngelesDate();
+
+  if (!enabled || !isUpcomingEvent(event)) return false;
+  if (event.applicationOpenDate && today < event.applicationOpenDate) return false;
+  if (event.applicationDeadlineDate && today > event.applicationDeadlineDate) return false;
+
+  return event.vendorOptions.some(
+    (option) => option.active && option.applicationType === applicationType,
+  );
+}

@@ -1,11 +1,9 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { events } from "@/data/events";
-import { getEventBySlug } from "@/lib/events";
+import { getEventBySlug, isApplicationTypeOpen } from "@/lib/events";
 import SiteHeader from "@/components/site-header";
 import SiteFooter from "@/components/site-footer";
-import ApplicationForm from "./ApplicationForm";
-import { submitApplication } from "./actions";
 
 type ApplicationPageProps = {
   params: Promise<{ eventSlug: string }>;
@@ -20,7 +18,7 @@ export async function generateMetadata({ params }: ApplicationPageProps) {
   const event = await getEventBySlug(eventSlug);
 
   return {
-    title: event ? `Apply for ${event.title} | Marketella` : "Apply | Marketella",
+    title: event ? `Apply for ${event.title} | MarketElla` : "Apply | MarketElla",
     description: event?.description,
   };
 }
@@ -33,15 +31,19 @@ export default async function ApplicationPage({ params }: ApplicationPageProps) 
     notFound();
   }
 
-  if (!event.applicationsEnabled) {
+  const generalOpen = isApplicationTypeOpen(event, "vendor");
+  const foodOpen = isApplicationTypeOpen(event, "food");
+
+  if (!generalOpen && !foodOpen) {
     return (
-      <main className="page-shell">
+      <main className="page-shell application-page">
         <SiteHeader backHref="/events" backLabel="All events" />
         <section className="application-closed">
           <p className="eyebrow">Applications closed</p>
           <h1>This one is<br /><em>full up.</em></h1>
           <Link className="button button-dark" href="/events">See other events ↗</Link>
         </section>
+        <SiteFooter actionHref="/faq" actionLabel="Vendor FAQ" />
       </main>
     );
   }
@@ -51,16 +53,28 @@ export default async function ApplicationPage({ params }: ApplicationPageProps) 
       <SiteHeader backHref={`/events/${event.slug}`} backLabel="Event details" />
 
       <section className="application-header">
-        <p className="eyebrow">Apply 2 sell</p>
+        <p className="eyebrow">Choose your application</p>
         <h1>{event.title}<br /><em>starts here.</em></h1>
-        <p>{event.dateLabel} · {event.location} · {event.applicationFee} application fee</p>
+        <p className="application-header-meta">
+          {event.dateLabel} · {event.location}
+        </p>
       </section>
-
-      <ApplicationForm
-        eventSlug={event.slug}
-        eventTitle={event.title}
-        submitAction={submitApplication.bind(null, event.slug)}
-      />
+      <section className="application-type-chooser">
+        {generalOpen ? (
+          <Link className="application-type-choice" href={`/events/${event.slug}/apply/vendor`}>
+            <p className="eyebrow">General vendor</p>
+            <h2>Products, vintage,<br />art, and more.</h2>
+            <span>Start vendor application ↗</span>
+          </Link>
+        ) : null}
+        {foodOpen ? (
+          <Link className="application-type-choice" href={`/events/${event.slug}/apply/food`}>
+            <p className="eyebrow">Food vendor</p>
+            <h2>Trucks, tents,<br />stands, and drinks.</h2>
+            <span>Start food application ↗</span>
+          </Link>
+        ) : null}
+      </section>
       <SiteFooter actionHref="/faq" actionLabel="Vendor FAQ" />
     </main>
   );

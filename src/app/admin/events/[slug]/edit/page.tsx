@@ -3,12 +3,13 @@ import { notFound } from "next/navigation";
 import AdminShell from "@/components/admin-shell";
 import { getAdminEventBySlug } from "@/lib/admin-events";
 import { updateEvent } from "../../actions";
+import EventVendorOptionsEditor from "../../EventVendorOptionsEditor";
 
 type EditEventPageProps = {
   params: Promise<{ slug: string }>;
 };
 
-export const metadata = { title: "Edit Event | Marketella" };
+export const metadata = { title: "Edit Event | MarketElla" };
 
 export default async function EditEventPage({ params }: EditEventPageProps) {
   const { slug } = await params;
@@ -33,6 +34,8 @@ export default async function EditEventPage({ params }: EditEventPageProps) {
             <label>Slug<input name="slug" defaultValue={event.slug} required /></label>
           </div>
           <label>Description<textarea name="description" rows={5} defaultValue={event.description} required /></label>
+          <input name="heroImage" type="hidden" value={event.heroImage} />
+          <label>Replace event hero image<input accept="image/jpeg,image/png,image/webp,image/gif" name="heroImageFile" type="file" /></label>
           <div className="form-grid two-column">
             <label>Date<input name="eventDate" type="date" defaultValue={event.date} required /></label>
             <label>Location name<input name="locationName" defaultValue={event.location} required /></label>
@@ -47,7 +50,6 @@ export default async function EditEventPage({ params }: EditEventPageProps) {
           <div className="form-grid two-column">
             <label>Open date<input name="applicationOpenDate" type="date" defaultValue={event.applicationOpenDate || ""} /></label>
             <label>Deadline<input name="applicationDeadline" type="date" defaultValue={event.applicationDeadline || ""} /></label>
-            <label>Application fee<input min="0" name="applicationFee" step="0.01" type="number" defaultValue={event.applicationFee} /></label>
             <label>Vendor capacity<input min="1" name="vendorCapacity" type="number" defaultValue={event.vendorCapacity || ""} /></label>
           </div>
           <label>Status
@@ -57,7 +59,14 @@ export default async function EditEventPage({ params }: EditEventPageProps) {
               <option value="cancelled">Cancelled</option>
             </select>
           </label>
-          <label className="checkbox-label"><input name="applicationsEnabled" type="checkbox" defaultChecked={event.applicationsEnabled} /> Applications open</label>
+          <label className="checkbox-label"><input name="generalApplicationsEnabled" type="checkbox" defaultChecked={event.generalApplicationsEnabled} /> General vendor applications open</label>
+          <label>General vendor note shown before continuing<textarea name="applicationNotes" rows={4} defaultValue={event.applicationNotes} placeholder="What should general vendors know or prepare before starting?" /></label>
+          <label>General vendor rules<textarea name="applicationRules" rows={6} defaultValue={event.applicationRules} /></label>
+          <EventVendorOptionsEditor applicationType="vendor" initialOptions={event.vendorOptions.filter((option) => option.applicationType === "vendor")} />
+          <label className="checkbox-label"><input name="foodApplicationsEnabled" type="checkbox" defaultChecked={event.foodApplicationsEnabled} /> Food vendor applications open</label>
+          <label>Food vendor note shown before continuing<textarea name="foodApplicationNotes" rows={4} defaultValue={event.foodApplicationNotes} placeholder="What should food vendors know or prepare before starting?" /></label>
+          <label>Food vendor rules<textarea name="foodApplicationRules" rows={6} defaultValue={event.foodApplicationRules} /></label>
+          <EventVendorOptionsEditor applicationType="food" initialOptions={event.vendorOptions.filter((option) => option.applicationType === "food")} />
           <label className="checkbox-label"><input name="published" type="checkbox" defaultChecked={event.published} /> Publish on the public site</label>
         </fieldset>
 

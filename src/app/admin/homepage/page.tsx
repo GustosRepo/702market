@@ -2,7 +2,7 @@ import AdminShell from "@/components/admin-shell";
 import { getAdminHomepageContent } from "@/lib/admin-homepage-content";
 import { updateHomepageContent } from "./actions";
 
-export const metadata = { title: "Homepage | Marketella Admin" };
+export const metadata = { title: "Homepage | MarketElla Admin" };
 
 export default async function AdminHomepagePage() {
   const { newLocation } = await getAdminHomepageContent();

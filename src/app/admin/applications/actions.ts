@@ -71,9 +71,20 @@ export async function updateApplicationReview(formData: FormData) {
   const status = readString(formData, "status");
   const paymentStatus = readString(formData, "paymentStatus");
   const paidAt = readDateTime(formData, "paidAt");
+  const allowedStatuses = new Set([
+    "submitted",
+    "under_review",
+    "approved",
+    "waitlisted",
+    "rejected",
+    "confirmed",
+    "pending",
+    "declined",
+  ]);
+  const allowedPaymentStatuses = new Set(["unpaid", "paid"]);
 
-  if (!id) {
-    throw new Error("Missing application id");
+  if (!id || !allowedStatuses.has(status) || !allowedPaymentStatuses.has(paymentStatus)) {
+    throw new Error("Choose a valid application and review status.");
   }
 
   const supabase = createAdminClient();

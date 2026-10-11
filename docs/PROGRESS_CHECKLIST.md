@@ -1,4 +1,4 @@
-# 702Market Progress Checklist
+# MarketElla Progress Checklist
 
 Source of truth for V1 delivery. Status: `[x]` complete, `[ ]` not started.
 
@@ -8,11 +8,11 @@ These items require client-owned accounts or credentials. The codebase can
 continue without them, but the connected workflow cannot be tested until they
 are available.
 
-- [ ] Client creates a Supabase project and shares the project URL/key through a secure channel
+- [x] Client creates a Supabase project and configures the project URL/key locally
 - [ ] Client creates the admin email/Gmail identity for Supabase Auth
 - [ ] Client creates a Resend account and confirms the sending domain/email
-- [ ] Apply the SQL migration to the client Supabase project
-- [ ] Add local environment values from `.env.example` without committing secrets
+- [x] Apply the SQL migrations to the client Supabase project
+- [x] Add local environment values from `.env.example` without committing secrets
 - [ ] Verify public submissions, admin login, storage uploads, and transactional email
 
 ## Current Milestone: Product Foundation
@@ -20,15 +20,15 @@ are available.
 - [x] Initialize Next.js App Router project with TypeScript, Tailwind, ESLint, and `src/`
 - [x] Create responsive 702Market homepage shell
 - [x] Establish kawaii Y2K display, accent, and body typography
-- [x] Use Cherry Bomb One for headings, DynaPuff for accents, and DM Sans for body text
+- [x] Use Archivo Black for display type, Chakra Petch for accents, and DM Sans for body text
 - [x] Establish current blush, coral pink, peach, orange glow, and berry visual direction
 - [x] Add initial homepage sections: hero, next market, about, vendor CTA, merch CTA, footer
 - [x] Define separate routes for public content, event details, applications, merch, and admin workflows
 - [x] Add shared navigation, socials navigation, and reusable footer primitives
-- [ ] Add real events, applications, and merch data models
+- [x] Add real events, applications, podcast, contact, and merch data models
 - [x] Add Supabase client scaffolding and `.env.example` without exposing service credentials
 - [x] Prepare initial database migration and Row Level Security policies
-- [ ] Connect to the client Supabase project and verify the migration
+- [x] Connect to the client Supabase project and verify the current schema
 
 ## Public Website
 
@@ -38,10 +38,12 @@ are available.
 - [x] `/events` — upcoming and past markets
 - [x] `/events/[slug]` — one event's details and vendor CTA
 - [x] `/apply` — application entry point and event selection
-- [x] `/apply/[eventSlug]` — application for one event
+- [x] `/events/[slug]/apply` — general/food application choice for one event
+- [x] `/events/[slug]/apply/[applicationType]` — native multi-step application form
 - [x] `/merch` — public merchandise catalog
-- [x] `/about` — 702Market story
+- [x] `/about` — MarketElla story, values, and owners
 - [x] `/faq` — common vendor and visitor questions
+- [x] `/podcast` — episodes plus story and chisme submission forms
 - [x] `/contact` — contact details and inquiry form
 - [x] `/privacy` — privacy policy starter page
 - [x] `/terms` — terms starter page
@@ -58,16 +60,18 @@ for every workflow.
 - [x] Add event detail page with date, time, location, deadline, fee, and CTA
 - [x] Add responsive vendor application form
 - [x] Validate application fields server-side
-- [ ] Support 1-5 product image uploads with file type/size restrictions
+- [x] Support required application documents/photos with count, type, and size restrictions
 - [x] Add application success/confirmation state
-- [x] Add merch catalog with temporary local product data
-- [ ] Link merch products to validated external checkout URLs
-- [ ] Add About, FAQ, and Contact pages
-- [ ] Add SEO metadata and social sharing metadata
+- [x] Add an admin-backed merch catalog with an intentional empty state
+- [x] Link active merch products to validated external checkout URLs
+- [x] Add About, FAQ, Contact, Podcast, and Social pages
+- [x] Add SEO metadata, sitemap, robots rules, icon, and generated social sharing image
 - [x] Add initial accessibility pass: skip link, navigation landmarks, labels, and focus styles
 - [x] Add site-wide footer with legal links and CODEWERX credit
 - [x] Add Socials page and navigation entry
-- [ ] Add mobile and desktop visual QA
+- [x] Add mobile and desktop visual QA
+- [x] Keep the shared contact section side by side on desktop/tablet without headline overlap
+- [x] Constrain and wrap the shared navigation at 390px and 320px without horizontal overflow
 
 ## Client Image Assets
 
@@ -75,24 +79,24 @@ Media placement and admin-wiring audit: [`docs/MEDIA_WIRING_PLAN.md`](./MEDIA_WI
 
 Recommended Supabase Storage buckets:
 
-- [ ] Create `site-assets`
-- [ ] Create `event-images`
-- [ ] Create `merch-images`
-- [ ] Create `application-images`
+- [x] Create `site-assets`
+- [x] Create `event-images`
+- [x] Create `merch-images`
+- [x] Create `application-images`
 - [x] Add migration to create recommended Supabase Storage buckets
 
 Current local drop zone while gathering client images: `public/assets/`.
 
 ### Site Assets
 
-- [x] Homepage hero/background image — `public/assets/site/home-hero.jpg`
-- [x] About/story image — `public/assets/site/about-story.jpg`
+- [x] Homepage hero/background image — `public/assets/site/home-hero-web.webp`
+- [x] About/story image — `public/assets/site/about-story-web.webp`
 - [x] Homepage gallery images — currently local `public/IMG_*.JPG`
 - [x] About gallery images — currently local `public/IMG_*.JPG`
-- [ ] Social sharing/Open Graph image — `site-assets/seo/og-image.jpg`
-- [x] Contact/community sprinkle image — `public/assets/site/contact-community.jpg`
-- [x] Social CTA sprinkle image — `public/assets/site/social-cta.jpg`
-- [x] New location strip image — currently local `public/IMG_3226.JPG`
+- [x] Social sharing/Open Graph image generated by the app
+- [x] Contact/community sprinkle image — `public/assets/site/contact-community-web.webp`
+- [x] Social CTA sprinkle image — `public/assets/site/social-cta-web.webp`
+- [x] New location strip image — `public/assets/site/img-3226-web.webp`
 - [x] Add `site_media` table or equivalent site media config
 - [x] Add admin controls for homepage hero, new location strip, homepage gallery, about gallery, contact image, and socials image
 - [ ] Add SEO image slot/admin control
@@ -105,30 +109,44 @@ Reference audit: [`docs/CLIENT_ALIGNMENT_AUDIT.md`](./CLIENT_ALIGNMENT_AUDIT.md)
 
 - [x] Audit current frontend against 1042 Flea reference and client PDF
 - [x] Capture final PDF page color direction: bright orange, hot pink, coral red, white/off-white, black, and pink/orange ombre backgrounds
-- [ ] Confirm whether the homepage should be 1042-inspired or a close structural adaptation
-- [ ] Confirm final public brand name usage: `702Market`, `Marketella`, or transitional `702 Marketella`
-- [x] Update homepage nav to include the client-requested destinations: Apply 2 Sell, What's Marketella, Online Store, Calendar, FAQ, Link Tree, Podcast
+- [x] Use the client reference as structural direction while keeping the MarketElla visual identity
+- [x] Confirm final public brand name usage: `MarketElla`
+- [x] Update homepage nav to include the client-requested destinations: Apply 2 Sell, What's MarketElla, Online Store, Calendar, FAQ, Link Tree, Podcast
 - [x] Update homepage color tokens toward the final PDF palette
-- [x] Add moving or still butterflies throughout the homepage
+- [x] Add flat white 2D butterflies with restrained floating motion throughout the homepage
 - [x] Add rotating/marquee text treatments
-- [x] Rebuild hero with full-bleed market photo and huge all-caps Marketella welcome text
+- [x] Rebuild hero with full-bleed market photo and huge all-caps MarketElla welcome text
 - [x] Add locations section with image cards, captions, map links, and calendar link
-- [x] Add homepage story/about section using the longer Marketella origin copy
+- [x] Add homepage story/about section using the longer MarketElla origin copy
 - [x] Add homepage Q&A/FAQ section matching the client-provided vendor/customer tone
 - [x] Add podcast section for `702 chisme`
-- [x] Add Instagram, Facebook, and TikTok links where requested
+- [x] Add verified Instagram, TikTok, YouTube, and Linktree destinations
 - [x] Add two-photo next-market collage from the feedback deck
 - [x] Add press/link strip for Channel 8, Influence.Vegas, and Fox 5
-- [x] Add `join the Marketella family` photo-background section
+- [x] Add `join the MarketElla family` photo-background section
 - [x] Add map and calendar CTA section
-- [x] Add `what the f**** is Marketella????` splash section
-- [x] Add meet-the-owners placeholder section
+- [x] Add `what the f**** is MarketElla????` splash section
+- [x] Add meet-the-owners section for Samantha and Sabrena
 - [x] Add split-image treatment to the podcast section
 - [x] Add client-reference new location section after the hero
 - [x] Make the new location section editable from the admin homepage screen
-- [x] Align public route metadata, copy, and styling with the Marketella homepage direction
-- [x] Rebrand shared public header/footer/admin labels from 702Market to Marketella where appropriate
-- [ ] Run mobile and desktop visual QA for all new homepage sections
+- [x] Align public route metadata, copy, and styling with the MarketElla homepage direction
+- [x] Rebrand shared public header/footer/admin labels from 702Market to MarketElla where appropriate
+- [x] Run mobile and desktop visual QA for all new homepage sections
+
+### Frontend Gap Audit — 11/11 Complete
+
+- [x] Use one shared public header/navigation component across routes
+- [x] Use one shared footer with legal links and linked CODEWERX credit
+- [x] Limit the homepage to the approved five-section structure plus footer
+- [x] Move deeper story, owner, location, FAQ, calendar, shop, and podcast content to dedicated routes
+- [x] Carry the MarketElla orange, coral, pink, cream, and black system across public routes
+- [x] Replace the puffy novelty fonts with the approved Y2K typography system
+- [x] Make event pages and both vendor application types follow the shared theme and structure
+- [x] Add calendar, map, ICS, contact, FAQ, podcast, and merch empty/data states
+- [x] Connect editable homepage, event, media, merch, podcast, message, and application content to admin
+- [x] Add metadata, sitemap, robots, legal, not-found, and error experiences
+- [x] Resolve responsive overlap and overflow in the shared contact section and mobile navigation
 
 ### Event Images
 
@@ -137,27 +155,27 @@ Reference audit: [`docs/CLIENT_ALIGNMENT_AUDIT.md`](./CLIENT_ALIGNMENT_AUDIT.md)
 - [x] Holiday Mini Market hero — `public/assets/events/holiday-mini-market-hero.jpg`
 - [x] Sweetheart Swap hero — `public/assets/events/sweetheart-swap-hero.jpg`
 - [x] Summer Sidewalk Market archive hero — `public/assets/events/summer-sidewalk-market-hero.jpg`
-- [ ] Read `events.hero_image` in public/admin event queries
-- [ ] Use `events.hero_image` before local slug fallback
-- [ ] Show event thumbnails in admin event list
-- [ ] Add event hero upload/change control to event create/edit
+- [x] Read `events.hero_image` in public/admin event queries
+- [x] Use `events.hero_image` before local slug fallback
+- [x] Show event thumbnails in admin event list
+- [x] Add event hero upload/change control to event create/edit
 
 ### Merch Images
 
 - [ ] 702 Logo Tee product image — `public/assets/merch/702-logo-tee.jpg`
 - [ ] Market Day Cap product image — `public/assets/merch/market-day-cap.jpg`
 - [ ] Additional product images use `public/assets/merch/{product-slug}.jpg`
-- [ ] Read `merch_products.image_path` on the public merch page
-- [ ] Show merch thumbnails in admin merch list
-- [ ] Replace manual merch image path field with upload/change control
+- [x] Read `merch_products.image_path` on the public merch page
+- [x] Show merch thumbnails in admin merch list
+- [x] Replace manual merch image path field with upload/change control
 
 ### Vendor/Application Images
 
-- [ ] Confirm max upload count and allowed file types
+- [x] Confirm max upload count and allowed file types
 - [ ] Vendor sample image placeholder — `application-images/examples/vendor-sample-1.jpg`
-- [ ] Wire public upload flow before collecting real vendor submission photos
-- [ ] Display submitted product photos on admin application detail
-- [ ] Add application image count/link to admin application list and CSV export
+- [x] Wire public upload flow before collecting real vendor submission photos
+- [x] Display submitted documents and photos on admin application detail
+- [x] Add application image count/link to admin application list and CSV export
 
 ## Database and Backend
 
@@ -170,23 +188,24 @@ Reference audit: [`docs/CLIENT_ALIGNMENT_AUDIT.md`](./CLIENT_ALIGNMENT_AUDIT.md)
 
 ### Event Management Data
 
-- [ ] Event title, slug, description, date, times, location, address
-- [ ] Hero image and storage path handling
-- [ ] Application open date and deadline
-- [ ] Application fee, enabled flag, capacity
-- [ ] Draft/published status
-- [ ] Upcoming/completed/cancelled status
-- [ ] Updated timestamps and slug uniqueness
+- [x] Event title, slug, description, date, times, location, address
+- [x] Hero image and storage path handling
+- [x] Application open date and deadline
+- [x] Separate general/food application flags, fees/options, rules, and capacity
+- [x] Draft/published status
+- [x] Upcoming/completed/cancelled status
+- [x] Updated timestamps and slug uniqueness
 
 ### Application Data
 
-- [ ] Contact and business fields
-- [ ] Category, product description, price range
-- [ ] Booth type, electricity requirement, special requests
-- [ ] Status: pending, approved, waitlisted, declined
-- [ ] Payment status: unpaid, paid, waived, refunded
-- [ ] Fee, payment reference, paid timestamp
-- [ ] Internal admin notes
+- [x] Contact and business fields
+- [x] Category, product/menu description, price range, and setup details
+- [x] General/food application type and event-specific vendor option
+- [x] Required documents/photos and rules acknowledgement timestamp
+- [x] Status: submitted, under review, approved, waitlisted, rejected, confirmed
+- [x] Payment status: unpaid, paid, waived, refunded
+- [x] Fee, payment reference, paid timestamp
+- [x] Internal admin notes
 
 ### Security
 
@@ -206,7 +225,7 @@ Reference audit: [`docs/CLIENT_ALIGNMENT_AUDIT.md`](./CLIENT_ALIGNMENT_AUDIT.md)
 - [x] `/admin/login`
 - [x] Protect all `/admin` routes with Supabase Auth
 - [x] Add authorized admin access rules
-- [x] Add admin navigation: Dashboard, Homepage, Events, Applications, Merch, Media
+- [x] Add admin navigation: Dashboard, Homepage, Podcast, Events, Applications, Messages, Merch, Media
 - [x] Add credential-free admin preview shell
 
 ### Dashboard
@@ -225,7 +244,7 @@ Reference audit: [`docs/CLIENT_ALIGNMENT_AUDIT.md`](./CLIENT_ALIGNMENT_AUDIT.md)
 - [x] Create event
 - [x] Edit event
 - [x] Publish/unpublish event
-- [ ] Upload/change event hero image
+- [x] Upload/change event hero image
 - [x] Enable/disable applications
 - [x] Configure deadline, fee, capacity, and status
 - [x] View event-specific applications
@@ -238,9 +257,9 @@ Reference audit: [`docs/CLIENT_ALIGNMENT_AUDIT.md`](./CLIENT_ALIGNMENT_AUDIT.md)
 - [x] Filter by status and archive state
 - [x] Sort by submission date
 - [x] Archive and restore applications
-- [ ] Filter by category and payment status
+- [x] Filter by application type and payment status
 - [x] View full application details
-- [ ] View product photos
+- [x] View submitted product/setup documents through private signed links
 - [x] Update status to approved, waitlisted, or declined
 - [x] Edit/save internal admin notes
 - [x] Track payment status and reference
@@ -251,7 +270,7 @@ Reference audit: [`docs/CLIENT_ALIGNMENT_AUDIT.md`](./CLIENT_ALIGNMENT_AUDIT.md)
 - [x] Add product
 - [x] Edit product
 - [x] Archive/delete product
-- [ ] Upload product image
+- [x] Upload product image
 - [x] Set name, description, price, external URL
 - [x] Set active/featured state
 - [x] Set display order
@@ -266,20 +285,20 @@ Reference audit: [`docs/CLIENT_ALIGNMENT_AUDIT.md`](./CLIENT_ALIGNMENT_AUDIT.md)
 - [x] Manage socials CTA image path
 - [x] Add upload controls backed by Supabase Storage for site media
 - [ ] Add SEO/Open Graph image control
-- [ ] Add event image controls to Event create/edit
-- [ ] Add merch image controls to Merch create/edit
+- [x] Add event image controls to Event create/edit
+- [x] Add merch image controls to Merch create/edit
 
 ## Email Automation
 
-- [ ] Send application received email
+- [x] Send application received email when Resend is configured
 - [ ] Send admin new-application notification
 - [ ] Send approved status email
 - [ ] Send waitlisted status email
 - [ ] Send declined status email
-- [ ] Add Resend configuration server-side
+- [x] Add optional Resend configuration server-side
 - [ ] Add React Email templates
 - [ ] Avoid duplicate status emails when an unchanged status is saved
-- [ ] Log or surface email failures for admins
+- [x] Log email failures without losing a successful application submission
 
 ## Reporting and Operations
 
@@ -299,7 +318,7 @@ Reference audit: [`docs/CLIENT_ALIGNMENT_AUDIT.md`](./CLIENT_ALIGNMENT_AUDIT.md)
 - [ ] Add focused tests for revenue calculations
 - [ ] Add focused tests for application validation
 - [ ] Add tests for status transition/email behavior
-- [ ] Verify public routes on mobile and desktop
+- [x] Verify public routes on mobile and desktop
 - [x] Verify admin routes reject unauthenticated access
 - [ ] Verify no secret values are exposed to the browser
 - [ ] Update README with setup, environment variables, migrations, and run commands
@@ -316,6 +335,6 @@ Reference audit: [`docs/CLIENT_ALIGNMENT_AUDIT.md`](./CLIENT_ALIGNMENT_AUDIT.md)
 
 ## Recommended Next Three Builds
 
-1. **Visual QA pass:** review every public/admin route on mobile and desktop, then refine spacing, text wrapping, focus states, and image treatment.
-2. **Pre-connection polish:** replace temporary social destinations with the real handles, finalize merch checkout URLs, and add focused validation tests.
-3. **Connected workflow when accounts arrive:** apply the migration, wire form submissions, then add admin authentication, live dashboard data, storage uploads, and email.
+1. **Connected workflow verification:** test public submissions, admin login, private uploads, and transactional email against the client Supabase project.
+2. **Launch content:** add final merch inventory, checkout URLs, owner bios/photos, production podcast episodes, and the production domain.
+3. **Test hardening:** add focused application validation, capacity, revenue, and status-email tests.

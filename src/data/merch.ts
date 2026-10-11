@@ -8,7 +8,7 @@ export type MerchProduct = {
 
 export const merchProducts: MerchProduct[] = [
   {
-    name: "Marketella Logo Tee",
+    name: "MarketElla Logo Tee",
     slug: "702-logo-tee",
     description: "A soft cotton staple for market nights and regular days.",
     price: "$30",

@@ -1,8 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { events } from "@/data/events";
-import { getEventBySlug } from "@/lib/events";
-import { eventHeroAsset } from "@/lib/site-assets";
+import { getEventBySlug, isApplicationTypeOpen } from "@/lib/events";
 import SiteHeader from "@/components/site-header";
 import SiteFooter from "@/components/site-footer";
 
@@ -19,7 +18,7 @@ export async function generateMetadata({ params }: EventPageProps) {
   const event = await getEventBySlug(slug);
 
   return {
-    title: event ? `${event.title} | Marketella` : "Event not found | Marketella",
+    title: event ? `${event.title} | MarketElla` : "Event not found | MarketElla",
     description: event?.description,
   };
 }
@@ -32,15 +31,19 @@ export default async function EventDetailPage({ params }: EventPageProps) {
     notFound();
   }
 
+  const generalOpen = isApplicationTypeOpen(event, "vendor");
+  const foodOpen = isApplicationTypeOpen(event, "food");
+  const anyApplicationsOpen = generalOpen || foodOpen;
+
   return (
     <main className="page-shell event-detail-page">
       <SiteHeader backHref="/events" backLabel="All events" />
 
       <section
         className="event-detail-hero"
-        style={{ "--asset-image": `url(${eventHeroAsset(event.slug)})` } as React.CSSProperties}
+        style={{ "--asset-image": `url(${event.heroImage})` } as React.CSSProperties}
       >
-        <p className="eyebrow">Marketella event</p>
+        <p className="eyebrow">MarketElla event</p>
         <h1>{event.title}</h1>
         <p className="event-detail-description">{event.description}</p>
       </section>
@@ -58,7 +61,7 @@ export default async function EventDetailPage({ params }: EventPageProps) {
         </div>
         <div>
           <p className="eyebrow">Vendor applications</p>
-          <h2>{event.applicationsEnabled ? "Open now" : "Closed"}</h2>
+          <h2>{anyApplicationsOpen ? "Open now" : "Closed"}</h2>
           <p>Deadline: {event.applicationDeadline}</p>
         </div>
       </section>
@@ -68,10 +71,19 @@ export default async function EventDetailPage({ params }: EventPageProps) {
           <p className="eyebrow">Apply 2 sell</p>
           <h2>bring the setup.<br /><em>bring the product.</em></h2>
         </div>
-        {event.applicationsEnabled ? (
-          <Link className="button button-accent" href={`/apply/${event.slug}`}>
-            Apply to sell <span aria-hidden="true">↗</span>
-          </Link>
+        {anyApplicationsOpen ? (
+          <div className="event-application-buttons">
+            {generalOpen ? (
+              <Link className="button button-accent" href={`/events/${event.slug}/apply/vendor`}>
+                Apply as vendor <span aria-hidden="true">↗</span>
+              </Link>
+            ) : null}
+            {foodOpen ? (
+              <Link className="button button-dark" href={`/events/${event.slug}/apply/food`}>
+                Apply as food vendor <span aria-hidden="true">↗</span>
+              </Link>
+            ) : null}
+          </div>
         ) : (
           <p className="empty-state">Applications are currently closed.</p>
         )}

@@ -1,9 +1,9 @@
 import Link from "next/link";
 import AdminShell from "@/components/admin-shell";
-import { getEvents } from "@/lib/events";
+import { getEvents, isUpcomingEvent } from "@/lib/events";
 import { getApplicationStats } from "@/lib/applications";
 
-export const metadata = { title: "Admin Dashboard | Marketella" };
+export const metadata = { title: "Admin Dashboard | MarketElla" };
 
 function formatMoney(amount: number) {
   return new Intl.NumberFormat("en-US", {
@@ -18,9 +18,15 @@ export default async function AdminDashboard() {
     getEvents(),
     getApplicationStats(),
   ]);
-  const nextEvent = events[0];
+  const nextEvent = events.find(isUpcomingEvent);
+  const emailConfigured = Boolean(
+    process.env.RESEND_API_KEY && process.env.APPLICATION_FROM_EMAIL,
+  );
 
   return <AdminShell title="Dashboard">
+    {!emailConfigured ? <section className="admin-setup-warning" role="status">
+      <div><p className="eyebrow">Setup needed</p><h2>Application emails are off</h2><p>Add <code>RESEND_API_KEY</code> and <code>APPLICATION_FROM_EMAIL</code> to production before launch. Applications still save in the admin.</p></div>
+    </section> : null}
     <section className="admin-event-banner"><div><p className="eyebrow">Next event</p><h2>{nextEvent?.title || "No published events"}</h2><p>{nextEvent ? `${nextEvent.dateLabel} · ${nextEvent.location}` : "Add an event in Supabase to start."}</p></div><Link className="button button-dark" href="/admin/events">Manage events ↗</Link></section>
     <section className="admin-stat-grid" aria-label="Application overview">
       <div><span>Applications</span><strong>{stats.total}</strong><small>{stats.waitlisted} waitlisted</small></div>

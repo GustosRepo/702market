@@ -1,16 +1,17 @@
-# 702Market Media Wiring Plan
+# MarketElla Media Wiring Status
 
-Audit goal: identify where the site should use client-managed media before wiring
-uploads and image controls into Supabase/Admin.
+Core media wiring and upload controls are implemented. This document now tracks
+the current ownership model and the small set of optional launch additions.
 
 ## Current Media Sources
 
-- `public/assets/site/*` drives the homepage hero, about/story, contact, and socials CTA.
-- `public/assets/events/*` drives event hero backgrounds and event list thumbnails by slug convention.
-- Root `public/IMG_*.JPG` files are currently used for homepage/about gallery moments.
+- `site_media` drives editable homepage, about, contact, and socials media with optimized local WebP fallbacks in `public/assets/site/*`.
+- `events.hero_image` drives event heroes and list thumbnails with local slug fallbacks in `public/assets/events/*`.
+- Homepage and about gallery slots are editable from `/admin/media`.
 - `public/assets/merch/*` is reserved, but empty.
-- Database columns already exist for `events.hero_image`, `merch_products.image_path`, and `application_images.storage_path`.
-- Missing data model: site-wide editable media slots such as homepage hero, gallery photos, SEO image, and contact/social images.
+- `merch_products.image_path` supports uploaded product imagery.
+- `application_images.storage_path` stores private vendor uploads and admin pages generate temporary signed links.
+- The remaining site-media gap is an optional dedicated SEO/Open Graph image slot.
 
 ## Recommended Buckets
 
@@ -21,15 +22,15 @@ uploads and image controls into Supabase/Admin.
 
 ## Public Route Media Opportunities
 
-| Route | Current Media | Add / Wire Next | Admin Owner |
+| Route | Current Media | Remaining Opportunity | Admin Owner |
 | --- | --- | --- | --- |
-| `/` | Hero background, new-location strip, about card, 3-photo gallery | Editable homepage hero, new-location strip, homepage gallery collection, next-event thumbnail, vendor CTA background, merch CTA media | Site media settings + Events |
-| `/events` | Event thumbnails by local slug path | Read thumbnail/hero from `events.hero_image`; fallback image; optional past event archive thumbnails | Events admin |
-| `/events/[slug]` | Event hero by local slug path | Read `events.hero_image`; add optional event gallery or venue/detail photos | Events admin |
-| `/apply` | No real photos | Add soft vendor/sample-products media strip tied to open events | Site media settings |
-| `/apply/[eventSlug]` | No real photos | Add event hero side banner; eventually show vendor sample photo guidelines | Events admin + Site media settings |
-| `/merch` | Product art uses local slug path; no files yet | Read `merch_products.image_path`; support multiple product shots later | Merch admin |
-| `/about` | About story image + gallery | Manage about hero/story/gallery images from admin | Site media settings |
+| `/` | Editable hero, new-location strip, and event photography | Optional additional campaign slots | Site media settings + Events |
+| `/events` | Database event thumbnails with local fallbacks | Optional archive-specific crops | Events admin |
+| `/events/[slug]` | Database event hero with local fallback | Optional event gallery or venue/detail photos | Events admin |
+| `/apply` | Full-photo branded hero | Optional vendor/sample-products strip | Site media settings |
+| `/events/[slug]/apply` | Event context and application uploads | Optional event-specific application banner | Events admin + Site media settings |
+| `/merch` | Uploaded product image with local fallback support | Multiple product shots later | Merch admin |
+| `/about` | Editable hero/story/gallery imagery | Final owner and family photography | Site media settings |
 | `/faq` | No photos | Optional small market detail photo band after FAQ intro | Site media settings |
 | `/contact` | One sprinkle image | Editable contact/community image and optional map/venue image | Site media settings |
 | `/socials` | One CTA image | Add editable social preview/media collage; real social handles | Site media settings |
@@ -37,30 +38,24 @@ uploads and image controls into Supabase/Admin.
 
 ## Admin Route Media Opportunities
 
-| Admin Area | Add / Wire Next |
+| Admin Area | Current Status / Next |
 | --- | --- |
 | Dashboard | Small preview cards for current homepage hero, next event hero, and latest vendor images |
-| Events list | Thumbnail column from `events.hero_image` |
-| Event create/edit | Upload/change hero image; optional thumbnail; optional gallery list |
-| Applications list | Indicator/count for vendor-uploaded product images |
-| Application detail | Display submitted product photos from `application_images` |
-| Merch list | Thumbnail from `merch_products.image_path` |
-| Merch create/edit | Upload/change product image instead of manually typing an image path |
-| Future site media settings | Manage named slots: homepage hero, homepage gallery, about gallery, contact image, socials image, SEO image |
+| Events list | Implemented thumbnail from `events.hero_image` |
+| Event create/edit | Implemented hero upload/change; optional gallery remains |
+| Applications list | Implemented upload indicator/count |
+| Application detail | Implemented private signed links for submitted files |
+| Merch list | Implemented thumbnail from `merch_products.image_path` |
+| Merch create/edit | Implemented product image upload/change |
+| Site media settings | Implemented named slots; SEO image slot remains optional |
 
 ## Data Model Gaps
 
 ### Events
 
-Already in schema:
-
-- `events.hero_image`
-
-Needs code wiring:
-
-- Include `hero_image` in public and admin event queries.
-- Update event create/edit actions to save uploaded storage path.
-- Use `hero_image` first, local slug fallback second.
+Implemented: `events.hero_image` is included in public/admin queries, event
+create/edit supports uploads, and public pages use the database image before a
+local slug fallback.
 
 Optional later:
 
@@ -69,15 +64,9 @@ Optional later:
 
 ### Merch
 
-Already in schema:
-
-- `merch_products.image_path`
-
-Needs code wiring:
-
-- Public merch should use `product.imagePath` before local slug fallback.
-- Admin merch list should show thumbnails.
-- Create/edit forms should upload files to `merch-images`.
+Implemented: public merch reads `merch_products.image_path`, admin lists show
+thumbnails, and create/edit forms upload to `merch-images`. Final product
+inventory and photography are client launch content.
 
 Optional later:
 
@@ -85,19 +74,13 @@ Optional later:
 
 ### Applications
 
-Already in schema:
-
-- `application_images.storage_path`
-
-Needs code wiring:
-
-- Public application form needs 1-5 uploads with size/type restrictions.
-- Admin application detail should display images.
-- CSV export can include image count or image links.
+Implemented: public applications validate and upload required files to the
+private `application-images` bucket, admin detail pages expose signed links,
+and CSV exports include upload metadata.
 
 ### Site-Wide Media
 
-Missing schema. Recommended table:
+Implemented schema:
 
 - `site_media`
 - Columns: `slot`, `storage_path`, `alt_text`, `caption`, `sort_order`, `active`, `created_at`, `updated_at`.
@@ -113,17 +96,14 @@ Added schema:
 - Editable fields: top rotating phrases, heading label, location name,
   description, CTA label/link, bottom rotating phrases, and active status.
 
-## Suggested Build Order
+## Implementation Status
 
-1. Wire existing DB image fields without uploads yet:
-   - `events.hero_image`
-   - `merch_products.image_path`
-   - `application_images` display on admin detail
-2. Add Supabase Storage buckets and upload helpers.
-3. Add admin upload controls for events and merch.
-4. Add public application image uploads.
-5. Add `site_media` table and admin page for site-wide media slots.
-6. Replace local `siteAssets` photo arrays with database-driven site media.
+1. [x] Wire event, merch, application, and site-wide media fields.
+2. [x] Add Supabase Storage buckets and upload helpers.
+3. [x] Add admin upload controls for events, merch, and named site slots.
+4. [x] Add validated private application uploads and admin review links.
+5. [x] Use database-managed site media with optimized local fallbacks.
+6. [ ] Add an optional dedicated SEO/Open Graph image slot and admin control.
 
 ## Priority Notes
 

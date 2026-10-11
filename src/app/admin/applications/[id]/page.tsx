@@ -8,7 +8,7 @@ type ApplicationDetailPageProps = {
   params: Promise<{ id: string }>;
 };
 
-export const metadata = { title: "Application Detail | Marketella" };
+export const metadata = { title: "Application Detail | MarketElla" };
 
 function formatMoney(amount: number) {
   return new Intl.NumberFormat("en-US", {
@@ -46,7 +46,7 @@ export default async function ApplicationDetailPage({
   return (
     <AdminShell title={application.vendorName}>
       <div className="admin-toolbar">
-        <p>{application.eventTitle} · {application.submittedAt}</p>
+        <p>{application.eventTitle} · {application.applicationType === "food" ? "Food vendor" : "General vendor"} · {application.submittedAt}</p>
         <Link className="text-link" href="/admin/applications">All applications ↗</Link>
       </div>
 
@@ -59,12 +59,34 @@ export default async function ApplicationDetailPage({
           {application.website ? <a className="text-link" href={application.website} target="_blank" rel="noreferrer">Website ↗</a> : null}
         </div>
         <div>
-          <p className="eyebrow">Products</p>
-          <h2>{application.category}</h2>
-          <p>{application.productDescription}</p>
-          <p>{application.priceRange} · {application.boothType} booth</p>
-          <p>{application.electricityRequired ? "Needs electricity" : "No electricity needed"}</p>
+          <p className="eyebrow">{application.applicationType === "food" ? "Menu and setup" : "Products"}</p>
+          <h2>{application.vendorOptionName}</h2>
+          <p>{application.foodMenu || application.productDescription}</p>
+          {application.priceRange ? <p>{application.priceRange}</p> : null}
+          {application.setupMeasurements ? <p>Measurements: {application.setupMeasurements}</p> : null}
+          {application.businessLicenseNumber ? <p>Business license: {application.businessLicenseNumber}</p> : null}
+          {application.healthDepartmentNumber ? <p>Health department: {application.healthDepartmentNumber}</p> : null}
         </div>
+      </section>
+
+      <section className="admin-application-reference">
+        <div><span>Reference</span><strong>{application.referenceCode || application.id}</strong></div>
+        <div><span>Rules</span><strong>{application.rulesAcknowledged ? "Acknowledged" : "Not recorded"}</strong></div>
+      </section>
+
+      <section className="admin-group">
+        <div className="admin-group-heading"><h2>Private uploads</h2><span>{application.uploads.length}</span></div>
+        {application.uploads.length ? (
+          <div className="admin-upload-list">
+            {application.uploads.map((upload) => (
+              <a href={upload.signedUrl || "#"} key={upload.id} rel="noreferrer" target="_blank">
+                <strong>{upload.documentType.replaceAll("_", " ")}</strong>
+                <span>{upload.originalName}</span>
+                <small>{upload.sizeBytes ? `${(upload.sizeBytes / 1024 / 1024).toFixed(1)} MB` : "Open file"} ↗</small>
+              </a>
+            ))}
+          </div>
+        ) : <p>No uploads are attached to this application.</p>}
       </section>
 
       {application.specialRequests ? (
@@ -81,18 +103,20 @@ export default async function ApplicationDetailPage({
           <div className="form-grid two-column">
             <label>Status
               <select name="status" defaultValue={application.status}>
-                <option value="pending">Pending</option>
+                <option value="submitted">Submitted</option>
+                <option value="under_review">Under review</option>
                 <option value="approved">Approved</option>
                 <option value="waitlisted">Waitlisted</option>
-                <option value="declined">Declined</option>
+                <option value="rejected">Rejected</option>
+                <option value="confirmed">Confirmed</option>
+                {application.status === "pending" ? <option value="pending">Pending (legacy)</option> : null}
+                {application.status === "declined" ? <option value="declined">Declined (legacy)</option> : null}
               </select>
             </label>
             <label>Payment
               <select name="paymentStatus" defaultValue={application.paymentStatus}>
                 <option value="unpaid">Unpaid</option>
                 <option value="paid">Paid</option>
-                <option value="waived">Waived</option>
-                <option value="refunded">Refunded</option>
               </select>
             </label>
             <label>Fee<input name="applicationFee" value={formatMoney(application.applicationFee)} readOnly /></label>

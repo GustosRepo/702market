@@ -8,7 +8,7 @@ type EditProductPageProps = {
   params: Promise<{ slug: string }>;
 };
 
-export const metadata = { title: "Edit Product | Marketella" };
+export const metadata = { title: "Edit Product | MarketElla" };
 
 export default async function EditProductPage({ params }: EditProductPageProps) {
   const { slug } = await params;
@@ -38,7 +38,8 @@ export default async function EditProductPage({ params }: EditProductPageProps) 
             <label>Display order<input name="sortOrder" type="number" defaultValue={product.sortOrder} /></label>
           </div>
           <label>External checkout URL<input name="externalUrl" type="url" defaultValue={product.externalUrl} required /></label>
-          <label>Image path<input name="imagePath" defaultValue={product.imagePath || ""} /></label>
+          <input name="imagePath" type="hidden" value={product.imagePath || ""} />
+          <label>Replace product image<input accept="image/jpeg,image/png,image/webp,image/gif" name="imageFile" type="file" /></label>
           <label className="checkbox-label"><input name="active" type="checkbox" defaultChecked={product.active} /> Active on public merch page</label>
           <label className="checkbox-label"><input name="featured" type="checkbox" defaultChecked={product.featured} /> Featured product</label>
         </fieldset>

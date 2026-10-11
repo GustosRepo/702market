@@ -11,6 +11,7 @@ export type PublicMerchProduct = {
   slug: string;
   description: string;
   price: string;
+  imagePath: string | null;
   externalUrl: string;
   featured: boolean;
 };
@@ -59,6 +60,7 @@ function mapPublicProduct(row: MerchRow): PublicMerchProduct {
     slug: row.slug,
     description: row.description,
     price: formatPrice(row.display_price),
+    imagePath: row.image_path,
     externalUrl: row.external_url,
     featured: row.featured,
   };
@@ -77,10 +79,7 @@ function mapAdminProduct(row: MerchRow): AdminMerchProduct {
 
 export const getMerchProducts = cache(async () => {
   if (!hasSupabaseEnv()) {
-    return fallbackProducts.map((product) => ({
-      ...product,
-      externalUrl: "#contact",
-    }));
+    return [];
   }
 
   const supabase = await createClient();
@@ -96,10 +95,7 @@ export const getMerchProducts = cache(async () => {
 
   if (error) {
     console.error("Unable to load merch products", error);
-    return fallbackProducts.map((product) => ({
-      ...product,
-      externalUrl: "#contact",
-    }));
+    return [];
   }
 
   return data.map((product) => mapPublicProduct(product as MerchRow));

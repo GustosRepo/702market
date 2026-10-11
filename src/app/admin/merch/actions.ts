@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { requireAdmin } from "@/lib/admin-auth";
 import { createSlug } from "@/lib/slugs";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { readImageFile, uploadAdminImage } from "@/lib/admin-image-upload";
 
 function readString(formData: FormData, key: string) {
   const value = formData.get(key);
@@ -27,6 +28,10 @@ export async function updateProduct(formData: FormData) {
   if (!originalSlug || !name || !slug || Number.isNaN(price)) {
     throw new Error("Product name, slug, and price are required.");
   }
+  const imageFile = readImageFile(formData, "imageFile");
+  const imagePath = imageFile
+    ? await uploadAdminImage(imageFile, `merch/${slug}`)
+    : readString(formData, "imagePath") || null;
 
   const supabase = createAdminClient();
   const { error } = await supabase
@@ -36,7 +41,7 @@ export async function updateProduct(formData: FormData) {
       slug,
       description: readString(formData, "description"),
       display_price: price,
-      image_path: readString(formData, "imagePath") || null,
+      image_path: imagePath,
       external_url: readString(formData, "externalUrl"),
       featured: formData.get("featured") === "on",
       active: formData.get("active") === "on",

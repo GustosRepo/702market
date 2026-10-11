@@ -1,24 +1,47 @@
 import Link from "next/link";
+import { siteNavLinks } from "@/components/site-navigation";
 
 type SiteHeaderProps = {
+  ariaLabel?: string;
   backHref?: string;
   backLabel?: string;
+  calendarHref?: string;
+  className?: string;
+  variant?: "page" | "hero";
 };
 
-export default function SiteHeader({ backHref = "/", backLabel = "Back home" }: SiteHeaderProps) {
+export default function SiteHeader({
+  ariaLabel = "Site navigation",
+  backHref,
+  backLabel = "Back",
+  calendarHref = "/events",
+  className,
+  variant = "page",
+}: SiteHeaderProps) {
+  const headerClassName = [
+    variant === "hero" ? "site-nav marketella-nav" : "page-header marketella-nav page-marketella-nav",
+    className,
+  ]
+    .filter(Boolean)
+    .join(" ");
+
   return (
-    <header className="page-header">
-      <Link className="wordmark" href="/" aria-label="Marketella home">
-        Market<span>ella</span>
+    <header className={headerClassName}>
+      <Link className="wordmark marketella-wordmark" href="/" aria-label="MarketElla home">
+        MarketElla
+        <small>est. 2023</small>
       </Link>
-      <nav className="compact-nav" aria-label="Site navigation">
-        <Link href="/events">Events</Link>
-        <Link href="/merch">Merch</Link>
-        <Link href="/socials">Socials</Link>
-        <Link href="/apply">Sell</Link>
-        <Link className="text-link" href={backHref}>
-          {backLabel} <span aria-hidden="true">↗</span>
-        </Link>
+      <nav className="nav-links" aria-label={ariaLabel}>
+        {siteNavLinks.map((link) => (
+          <Link href={link.label === "Calendar" ? calendarHref : link.href} key={link.label}>
+            {link.label}
+          </Link>
+        ))}
+        {backHref ? (
+          <Link className="text-link nav-context-link" href={backHref}>
+            {backLabel} <span aria-hidden="true">↗</span>
+          </Link>
+        ) : null}
       </nav>
     </header>
   );

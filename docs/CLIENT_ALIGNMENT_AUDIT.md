@@ -1,6 +1,6 @@
-# Client Alignment Audit: Marketella / 1042 Flea Direction
+# Client Alignment Audit: MarketElla / 1042 Flea Direction
 
-Last updated: September 29, 2026
+Last updated: October 11, 2026
 
 This document captures the client reference direction from `Homepage.pdf` and
 the 1042 Flea inspiration site. Notes in the PDF are client feedback/reference
@@ -8,26 +8,23 @@ material, not implementation instructions that override the project scope.
 
 ## Alignment Summary
 
-Initial frontend alignment before the first Marketella pass: approximately 45%.
+Initial frontend alignment before the first MarketElla pass was approximately
+45%. The completed frontend pass now follows the approved MarketElla structure,
+voice, palette, photography, and reusable page system.
 
-The site already has a playful market feel, large type, real photography,
-pink/coral/orange gradients, vendor CTAs, event pages, applications, merch,
-socials, FAQ, and admin-backed media. It does not yet match the louder
-Marketella homepage direction from the PDF.
-
-Implementation note: the first homepage pass added Marketella hero copy, the
+Implementation note: the first homepage pass added MarketElla hero copy, the
 brighter client palette, marquee text, butterflies, locations, story content,
 homepage Q&A, social links, and podcast teaser.
 
-Second-pass implementation note: the homepage now also includes a two-photo next
-market collage, press/link strip, "join the Marketella family" photo-background
-section, map/calendar CTA section, "what the f**** is Marketella????" splash,
-meet-the-owners placeholder, richer FAQ copy, and split-image podcast treatment.
-Remaining work is visual QA, final brand confirmation, real owner/podcast
-assets, final social/press URLs, and client-specific copy cleanup.
+The current implementation follows the final five-section homepage structure,
+uses the confirmed `MarketElla` name, and carries the orange, pink, coral,
+cream, and black system across every public route. Shared contact, navigation,
+footer, marquee, admin, and application components keep those pages aligned.
+Verified social and press destinations replace generic links, and the owner,
+FAQ, podcast, calendar, merch, and application experiences are admin-backed.
 
 Site-wide alignment note: public pages beyond the homepage have also been
-updated to match the Marketella direction, including route metadata, page hero
+updated to match the MarketElla direction, including route metadata, page hero
 copy, public shared header/footer labels, event/application/FAQ/social/merch
 language, and a CSS alignment layer for inner-page typography, cards, colors,
 and section treatments.
@@ -38,9 +35,13 @@ name, description, CTA label/link, and bottom rotating text from
 `/admin/homepage`. The section's bottom image strip is managed separately in
 `/admin/media` as `home.new_location.strip`.
 
+Latest visual QA confirmed flat white 2D butterflies, a side-by-side contact
+layout whose display heading stays inside its column, and a wrapping shared
+navigation with no document overflow at true 390px and 320px viewports.
+
 ## Client Direction Observed
 
-- Rebrand homepage language from 702Market toward Marketella.
+- Rebrand homepage language from 702Market toward MarketElla.
 - Use the 1042 Flea page as a close visual/content reference.
 - Full-bleed photo hero with huge all-caps welcome text.
 - Add moving or still butterflies throughout.
@@ -80,7 +81,7 @@ Recommended palette adjustment:
 - Increase saturation and contrast toward the final PDF page.
 - Add black as a first-class brand color for footer/logo/high-contrast sections.
 - Reduce the softer plum/berry dominance on the homepage if the client wants the
-  brighter Marketella template feel.
+  brighter MarketElla template feel.
 - Keep accessibility checks for white text over ombre/photo backgrounds.
 
 Implementation note: the active CSS tokens now use the brighter approximate
@@ -90,7 +91,7 @@ palette above.
 
 ### Homepage Structure
 
-Original homepage sections before the Marketella pass:
+Original homepage sections before the MarketElla pass:
 
 - Hero
 - Next market
@@ -102,15 +103,15 @@ Original homepage sections before the Marketella pass:
 
 Client PDF expected a longer homepage:
 
-- Hero with Marketella welcome text
+- Hero with MarketElla welcome text
 - Rotating phrase band
 - Upcoming market / next market section
 - Apply-to-sell section
 - Press or "same wording" section inspired by 1042 Flea
 - Social link section
 - Locations section
-- About / "what is Marketella?" story section
-- What makes Marketella different section
+- About / "what is MarketElla?" story section
+- What makes MarketElla different section
 - Meet the owners
 - Map/calendar section
 - Contact/questions section
@@ -119,19 +120,19 @@ Client PDF expected a longer homepage:
 
 ### Tone
 
-Current copy is polished and general. The target voice is more casual, blunt,
-founder-led, and intentionally messy/cute. Examples from the PDF include:
+The implemented copy uses the requested casual, blunt, founder-led, and
+intentionally messy/cute voice. Examples from the PDF include:
 
 - "what the f**** is marketella????"
 - "girl, YES."
 - "a little chaotic. in a cute way."
 - "cute shit."
 
-Use this voice carefully and confirm profanity level before launch.
+Confirm the final profanity level with the client before launch.
 
 ### Motion
 
-Missing:
+Originally missing, now implemented:
 
 - Moving or still butterflies
 - Rotating text/marquee bands
@@ -140,7 +141,7 @@ Missing:
 
 ### Navigation
 
-Current nav:
+Original nav before the alignment pass:
 
 - Next market
 - About
@@ -148,10 +149,10 @@ Current nav:
 - Socials
 - Apply to sell
 
-PDF/reference nav direction:
+Implemented PDF/reference nav direction:
 
 - Apply 2 Sell
-- What is 1042? / What's Marketella?
+- What is 1042? / What's MarketElla?
 - Online Store
 - Calendar
 - FAQ
@@ -160,10 +161,11 @@ PDF/reference nav direction:
 
 ## Recommended Implementation Priority
 
-Status: mostly implemented in the first and second homepage passes. Remaining
-items are validation, final assets, final links, and visual QA.
+Status: implemented and validated. Remaining launch dependencies are the
+client-owned production domain, Resend credentials/verified sender, final merch
+inventory, and any new podcast episodes the owners want to publish.
 
-1. Rebrand homepage copy and nav to Marketella while preserving existing route
+1. Rebrand homepage copy and nav to MarketElla while preserving existing route
    functionality.
 2. Update CSS tokens to match the final PDF color palette more closely.
 3. Rebuild homepage hero with full-bleed photo, huge all-caps welcome text, and
@@ -178,10 +180,6 @@ items are validation, final assets, final links, and visual QA.
 
 ## Product Note
 
-The original project scope said 1042 Flea should be inspiration rather than an
-exact copy. The newer PDF feedback asks for a much closer adaptation of the
-1042 format and energy. Before implementation, confirm whether the desired
-direction is:
-
-- Inspired by 1042 but still distinct, or
-- Intentionally close to the 1042 homepage structure and tone.
+The implemented direction treats 1042 Flea and the client deck as structural
+and tonal references while keeping MarketElla's own palette, content,
+photography, routes, and reusable components. It is not an exact visual copy.

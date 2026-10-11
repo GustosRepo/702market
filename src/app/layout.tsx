@@ -1,23 +1,18 @@
 import type { Metadata } from "next";
-import { Cherry_Bomb_One, DM_Sans, DynaPuff, Lobster } from "next/font/google";
+import { Archivo_Black, Chakra_Petch, DM_Sans } from "next/font/google";
 import "./globals.css";
+import { siteConfig } from "@/lib/site-config";
 
-const cherryBomb = Cherry_Bomb_One({
-  variable: "--font-bubble",
-  subsets: ["latin"],
-  weight: "400",
-});
-
-const dynaPuff = DynaPuff({
-  variable: "--font-accent",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
-
-const lobster = Lobster({
+const archivoBlack = Archivo_Black({
   variable: "--font-display",
   subsets: ["latin"],
   weight: "400",
+});
+
+const chakraPetch = Chakra_Petch({
+  variable: "--font-accent",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
 const dmSans = DM_Sans({
@@ -26,16 +21,30 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Marketella | Las Vegas Markets",
+  metadataBase: new URL(siteConfig.url),
+  title: "MarketElla | Las Vegas Markets",
   description:
     "A lively Las Vegas market for vintage finds, handmade goods, food, local makers, and community events.",
+  applicationName: "MarketElla",
+  openGraph: {
+    type: "website",
+    siteName: "MarketElla",
+    title: "MarketElla | Las Vegas Markets",
+    description: "Not your average Las Vegas market. Shop small, eat well, and stay for the whole experience.",
+    url: "/",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "MarketElla | Las Vegas Markets",
+    description: "Not your average Las Vegas market.",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${cherryBomb.variable} ${dynaPuff.variable} ${lobster.variable} ${dmSans.variable} h-full antialiased`}
+      className={`${archivoBlack.variable} ${chakraPetch.variable} ${dmSans.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <a className="skip-link" href="#main-content">Skip to content</a>

@@ -10,6 +10,8 @@ export type AdminApplication = {
   email: string;
   category: string;
   boothType: string;
+  applicationType: "vendor" | "food";
+  vendorOptionName: string;
   phone: string;
   instagram: string | null;
   website: string | null;
@@ -17,10 +19,18 @@ export type AdminApplication = {
   priceRange: string;
   electricityRequired: boolean;
   specialRequests: string | null;
+  businessLicenseNumber: string | null;
+  foodMenu: string | null;
+  setupMeasurements: string | null;
+  healthDepartmentNumber: string | null;
+  rulesAcknowledged: boolean;
+  rulesAcknowledgedAt: string | null;
+  referenceCode: string | null;
+  uploads: ApplicationUpload[];
   adminNotes: string | null;
   paymentReference: string | null;
   paidAt: string | null;
-  status: "pending" | "approved" | "waitlisted" | "declined";
+  status: ApplicationStatus;
   paymentStatus: "unpaid" | "paid" | "waived" | "refunded";
   applicationFee: number;
   eventTitle: string;
@@ -30,12 +40,35 @@ export type AdminApplication = {
   archivedAt: string | null;
 };
 
+export type ApplicationStatus =
+  | "submitted"
+  | "under_review"
+  | "approved"
+  | "waitlisted"
+  | "rejected"
+  | "confirmed"
+  | "pending"
+  | "declined";
+
+export type ApplicationUpload = {
+  id: string;
+  documentType: string;
+  originalName: string;
+  mimeType: string | null;
+  sizeBytes: number | null;
+  signedUrl: string | null;
+};
+
 export type ApplicationStats = {
   total: number;
   pending: number;
   approved: number;
   waitlisted: number;
   declined: number;
+  submitted: number;
+  under_review: number;
+  rejected: number;
+  confirmed: number;
   paid: number;
   unpaid: number;
   revenue: number;
@@ -54,8 +87,17 @@ type ApplicationRow = {
   product_description: string;
   price_range: string;
   booth_type: string;
+  application_type: AdminApplication["applicationType"];
+  vendor_option_name: string | null;
   electricity_required: boolean;
   special_requests: string | null;
+  business_license_number: string | null;
+  food_menu: string | null;
+  setup_measurements: string | null;
+  health_department_number: string | null;
+  rules_acknowledged: boolean;
+  rules_acknowledged_at: string | null;
+  reference_code: string | null;
   admin_notes: string | null;
   status: AdminApplication["status"];
   payment_status: AdminApplication["paymentStatus"];
@@ -68,6 +110,16 @@ type ApplicationRow = {
     title: string;
     slug: string;
   } | null;
+  application_images?: ApplicationImageRow[] | null;
+};
+
+type ApplicationImageRow = {
+  id: string;
+  storage_path: string;
+  document_type: string;
+  original_name: string | null;
+  mime_type: string | null;
+  size_bytes: number | null;
 };
 
 function mapApplication(row: ApplicationRow): AdminApplication {
@@ -79,12 +131,22 @@ function mapApplication(row: ApplicationRow): AdminApplication {
     phone: row.phone,
     category: row.category,
     boothType: row.booth_type,
+    applicationType: row.application_type || "vendor",
+    vendorOptionName: row.vendor_option_name || row.booth_type,
     instagram: row.instagram,
     website: row.website,
     productDescription: row.product_description,
     priceRange: row.price_range,
     electricityRequired: row.electricity_required,
     specialRequests: row.special_requests,
+    businessLicenseNumber: row.business_license_number,
+    foodMenu: row.food_menu,
+    setupMeasurements: row.setup_measurements,
+    healthDepartmentNumber: row.health_department_number,
+    rulesAcknowledged: row.rules_acknowledged,
+    rulesAcknowledgedAt: row.rules_acknowledged_at,
+    referenceCode: row.reference_code,
+    uploads: [],
     adminNotes: row.admin_notes,
     paymentReference: row.payment_reference,
     paidAt: row.paid_at,
@@ -113,6 +175,10 @@ function emptyStats(): ApplicationStats {
     approved: 0,
     waitlisted: 0,
     declined: 0,
+    submitted: 0,
+    under_review: 0,
+    rejected: 0,
+    confirmed: 0,
     paid: 0,
     unpaid: 0,
     revenue: 0,
@@ -125,7 +191,11 @@ export type ApplicationQuery = {
   archive?: ApplicationArchiveView;
   eventSlug?: string;
   status?: AdminApplication["status"] | "all";
+  applicationType?: AdminApplication["applicationType"] | "all";
+  paymentStatus?: AdminApplication["paymentStatus"] | "all";
 };
+
+const applicationSelect = "id, first_name, last_name, email, phone, business_name, instagram, website, category, product_description, price_range, booth_type, application_type, vendor_option_name, electricity_required, special_requests, business_license_number, food_menu, setup_measurements, health_department_number, rules_acknowledged, rules_acknowledged_at, reference_code, admin_notes, status, payment_status, payment_reference, paid_at, application_fee, created_at, archived_at, events!inner(title, slug)";
 
 export async function getApplications(options: ApplicationQuery = {}) {
   if (!hasSupabaseAdminEnv()) {
@@ -136,9 +206,7 @@ export async function getApplications(options: ApplicationQuery = {}) {
   const supabase = createAdminClient();
   let query = supabase
     .from("applications")
-    .select(
-      "id, first_name, last_name, email, phone, business_name, instagram, website, category, product_description, price_range, booth_type, electricity_required, special_requests, admin_notes, status, payment_status, payment_reference, paid_at, application_fee, created_at, archived_at, events!inner(title, slug)",
-    )
+    .select(applicationSelect)
     .order("created_at", { ascending: false });
 
   if (archive === "active") {
@@ -153,6 +221,14 @@ export async function getApplications(options: ApplicationQuery = {}) {
 
   if (options.eventSlug && options.eventSlug !== "all") {
     query = query.eq("events.slug", options.eventSlug);
+  }
+
+  if (options.applicationType && options.applicationType !== "all") {
+    query = query.eq("application_type", options.applicationType);
+  }
+
+  if (options.paymentStatus && options.paymentStatus !== "all") {
+    query = query.eq("payment_status", options.paymentStatus);
   }
 
   const { data, error } = await query;
@@ -175,9 +251,7 @@ export async function getApplicationById(id: string) {
   const supabase = createAdminClient();
   const { data, error } = await supabase
     .from("applications")
-    .select(
-      "id, first_name, last_name, email, phone, business_name, instagram, website, category, product_description, price_range, booth_type, electricity_required, special_requests, admin_notes, status, payment_status, payment_reference, paid_at, application_fee, created_at, archived_at, events!inner(title, slug)",
-    )
+    .select(`${applicationSelect}, application_images(id, storage_path, document_type, original_name, mime_type, size_bytes)`)
     .eq("id", id)
     .maybeSingle();
 
@@ -186,7 +260,27 @@ export async function getApplicationById(id: string) {
     return undefined;
   }
 
-  return data ? mapApplication(data as unknown as ApplicationRow) : undefined;
+  if (!data) return undefined;
+
+  const row = data as unknown as ApplicationRow;
+  const application = mapApplication(row);
+  application.uploads = await Promise.all(
+    (row.application_images || []).map(async (upload) => {
+      const { data: signed } = await supabase.storage
+        .from("application-images")
+        .createSignedUrl(upload.storage_path, 60 * 15);
+      return {
+        id: upload.id,
+        documentType: upload.document_type,
+        originalName: upload.original_name || "Application upload",
+        mimeType: upload.mime_type,
+        sizeBytes: upload.size_bytes,
+        signedUrl: signed?.signedUrl || null,
+      };
+    }),
+  );
+
+  return application;
 }
 
 export async function getApplicationStats(options: ApplicationQuery = {}) {

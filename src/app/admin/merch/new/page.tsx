@@ -2,7 +2,7 @@ import Link from "next/link";
 import AdminShell from "@/components/admin-shell";
 import { createProduct } from "./actions";
 
-export const metadata = { title: "Add Product | Marketella" };
+export const metadata = { title: "Add Product | MarketElla" };
 
 export default function NewMerchProductPage() {
   return (
@@ -24,7 +24,7 @@ export default function NewMerchProductPage() {
             <label>Display order<input name="sortOrder" type="number" defaultValue="0" /></label>
           </div>
           <label>External checkout URL<input name="externalUrl" type="url" placeholder="https://" required /></label>
-          <label>Image path<input name="imagePath" placeholder="optional storage path" /></label>
+          <label>Product image<input accept="image/jpeg,image/png,image/webp,image/gif" name="imageFile" type="file" /></label>
           <label className="checkbox-label"><input name="active" type="checkbox" defaultChecked /> Active on public merch page</label>
           <label className="checkbox-label"><input name="featured" type="checkbox" /> Featured product</label>
         </fieldset>
