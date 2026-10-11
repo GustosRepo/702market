@@ -1,12 +1,16 @@
 import Link from "next/link";
 import { signOutAdmin } from "@/app/admin/actions";
+import AdminSessionGuard from "@/components/admin-session-guard";
 import { requireAdmin } from "@/lib/admin-auth";
+import { getAdminSessionPolicy } from "@/lib/admin-session";
 
 export default async function AdminShell({ children, title }: { children: React.ReactNode; title: string }) {
   const admin = await requireAdmin();
+  const { idleTimeoutMs } = getAdminSessionPolicy();
 
   return (
     <main className="admin-shell">
+      <AdminSessionGuard idleTimeoutMs={idleTimeoutMs} />
       <aside className="admin-sidebar">
         <Link className="admin-brand" href="/admin">Market<span>ella</span><small>Admin</small></Link>
         <nav aria-label="Admin navigation">

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getAdminSession, getAdminEmails, hasSupabaseEnv } from "@/lib/admin-auth";
+import { hasAdminSessionSecret } from "@/lib/admin-session";
 import LoginForm from "./LoginForm";
 
 export const metadata = { title: "Admin Login | MarketElla" };
@@ -12,7 +13,10 @@ export default async function AdminLoginPage() {
     redirect("/admin");
   }
 
-  const isConfigured = hasSupabaseEnv() && getAdminEmails().length > 0;
+  const isConfigured =
+    hasSupabaseEnv() &&
+    getAdminEmails().length > 0 &&
+    hasAdminSessionSecret();
 
   return (
     <main className="admin-login-page">
@@ -30,7 +34,7 @@ export default async function AdminLoginPage() {
         </div>
         {!isConfigured ? (
           <p className="form-error" role="status">
-            Add Supabase env values and ADMIN_EMAILS before signing in.
+            Add Supabase env values, ADMIN_EMAILS, and ADMIN_SESSION_SECRET before signing in.
           </p>
         ) : null}
         <LoginForm />

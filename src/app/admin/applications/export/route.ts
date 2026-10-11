@@ -85,8 +85,10 @@ export async function GET(request: Request) {
 
   return new Response(csv, {
     headers: {
+      "cache-control": "private, no-store, max-age=0",
       "content-type": "text/csv; charset=utf-8",
       "content-disposition": `attachment; filename="marketella-applications.csv"`,
+      "x-content-type-options": "nosniff",
     },
   });
 }

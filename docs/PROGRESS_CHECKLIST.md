@@ -211,12 +211,18 @@ Reference audit: [`docs/CLIENT_ALIGNMENT_AUDIT.md`](./CLIENT_ALIGNMENT_AUDIT.md)
 
 - [x] Include Supabase Row Level Security policies in the migration
 - [ ] Verify Row Level Security policies in the client project
-- [ ] Protect admin-only mutations
-- [ ] Keep service-role credentials server-only
-- [ ] Allow public application submission only through controlled server routes/actions
-- [ ] Restrict storage uploads by file type and size
+- [x] Protect admin pages, exports, and mutations with authenticated allowlist checks
+- [x] Keep service-role credentials server-only
+- [x] Allow public application submission only through controlled server actions
+- [x] Restrict storage uploads by file type and size
 - [ ] Validate external merchandise URLs
 - [ ] Add spam/rate-limit protection to public applications
+- [x] Add no-cache/no-index admin responses and browser security headers
+- [x] Use generic login failures to avoid exposing the admin allowlist
+- [x] Enforce a signed 30-minute idle timeout and 12-hour absolute admin session limit
+- [ ] Disable public Supabase Auth sign-ups and enroll admin accounts in MFA
+
+Production checklist: [`docs/ADMIN_SECURITY.md`](./ADMIN_SECURITY.md).
 
 ## Admin Portal
 

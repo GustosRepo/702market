@@ -1,7 +1,14 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 import { getAdminEmails, hasSupabaseEnv, isAdminEmail } from "@/lib/admin-auth";
+import {
+  ADMIN_SESSION_COOKIE,
+  createAdminSessionValue,
+  getAdminSessionCookieOptions,
+  hasAdminSessionSecret,
+} from "@/lib/admin-session";
 import { createClient } from "@/lib/supabase/server";
 
 export type LoginFormState = {
@@ -31,15 +38,22 @@ export async function loginAdmin(
     };
   }
 
+  if (!hasAdminSessionSecret()) {
+    return {
+      message:
+        "Admin session security is not configured. Add ADMIN_SESSION_SECRET to .env.local.",
+    };
+  }
+
   const email = readString(formData, "email").toLowerCase();
   const password = readString(formData, "password");
 
-  if (!email || !password) {
+  if (!email || !password || email.length > 254 || password.length > 1024) {
     return { message: "Enter your admin email and password." };
   }
 
   if (!isAdminEmail(email)) {
-    return { message: "This email is not allowed to access the admin." };
+    return { message: "The email or password is incorrect." };
   }
 
   const supabase = await createClient();
@@ -49,8 +63,33 @@ export async function loginAdmin(
   });
 
   if (error) {
-    return { message: "The email or password did not match Supabase Auth." };
+    return { message: "The email or password is incorrect." };
   }
+
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+
+  if (userError || !isAdminEmail(user?.email)) {
+    await supabase.auth.signOut();
+    return { message: "The email or password is incorrect." };
+  }
+
+  const issuedAt = Date.now();
+  const sessionValue = await createAdminSessionValue(issuedAt, issuedAt);
+
+  if (!sessionValue) {
+    await supabase.auth.signOut();
+    return { message: "Admin session security is not configured." };
+  }
+
+  const cookieStore = await cookies();
+  cookieStore.set(
+    ADMIN_SESSION_COOKIE,
+    sessionValue,
+    getAdminSessionCookieOptions(issuedAt),
+  );
 
   redirect("/admin");
 }

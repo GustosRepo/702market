@@ -1,4 +1,9 @@
 import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
+import {
+  ADMIN_SESSION_COOKIE,
+  validateAdminSessionValue,
+} from "@/lib/admin-session";
 import { createClient } from "@/lib/supabase/server";
 
 export type AdminSession = {
@@ -29,6 +34,15 @@ export function hasSupabaseEnv() {
 
 export async function getAdminSession(): Promise<AdminSession | null> {
   if (!hasSupabaseEnv()) {
+    return null;
+  }
+
+  const cookieStore = await cookies();
+  const adminSession = await validateAdminSessionValue(
+    cookieStore.get(ADMIN_SESSION_COOKIE)?.value,
+  );
+
+  if (!adminSession.valid) {
     return null;
   }
 
