@@ -24,10 +24,10 @@ type SiteContentRow = {
 export const defaultNewLocationContent: NewLocationContent = {
   active: true,
   topMarqueePhrases: ["not your average market", "where everyone's a star"],
-  headingLabel: "new location:",
-  locationName: "santa anita",
+  headingLabel: "now in:",
+  locationName: "las vegas",
   description:
-    "we heard the 626 needed a new market that focuses on vintage goods and handmade items.....",
+    "we heard the 702 needed a new market that focuses on vintage goods and handmade items.....",
   buttonLabel: "Tell me more",
   buttonHref: "/events",
   bottomMarqueePhrases: ["apply to sell"],
