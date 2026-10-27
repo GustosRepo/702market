@@ -78,7 +78,12 @@ export default function ContactFormSection({
             <h3>we got u.</h3>
             <p>{state.message}</p>
           </div>
-        ) : <form className="home-contact-form" action={action}>
+        ) : <form className="home-contact-form" action={action}
+          onReset={(event) => {
+            // Success replaces the form. Keep fields for recoverable errors.
+            event.preventDefault();
+          }}
+        >
           <label className="form-honeypot" aria-hidden="true">Company website<input autoComplete="off" name="companyWebsite" tabIndex={-1} /></label>
           <fieldset>
             <legend>Name</legend>

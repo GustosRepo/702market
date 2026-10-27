@@ -1,5 +1,47 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## End-to-end tests
+
+The [Playwright](https://playwright.dev/docs/intro) suite runs against a production
+build on desktop Chromium and mobile Chromium (Pixel 7).
+
+```bash
+npm ci
+npx playwright install chromium
+npm run test:e2e
+```
+
+Playwright starts the app at `http://127.0.0.1:3100` and a local Supabase HTTP
+fixture at `http://127.0.0.1:54329`. Both ports must be free. No running dev server,
+Supabase project, credentials, database migrations, or email service is needed.
+The test process overrides app credentials, disables outgoing confirmation emails,
+and builds into `.next/e2e` so it does not replace the normal app build.
+Existing `.env.local` values are not used for these services.
+
+```bash
+npm run test:e2e -- --project=chromium        # Desktop only
+npm run test:e2e -- tests/e2e/applications.spec.ts
+npm run test:e2e:ui                         # Interactive runner
+npm run test:e2e:report                     # Last HTML report
+```
+
+Coverage includes public navigation, FAQ, legal pages, shop and podcast links,
+calendar downloads, open/closed applications, general and food vendor submissions,
+file uploads, validation, upload rollback and retry, contact and podcast submissions,
+and anonymous admin protection plus invalid login. Failures retain screenshots and
+traces under `test-results/`; the HTML report is under `playwright-report/`.
+GitHub Actions runs the suite for pull requests and pushes to `main`/`master`
+and uploads these artifacts.
+
+Tests exercise the actual Next.js pages, server actions, and Supabase SDK against
+`tests/e2e/support/supabase-server.mjs`. The fixture supplies dates relative to today
+and captures writes; unique test identities isolate parallel runs and retries.
+Extend `support/data.mjs` for new content and add explicit fixture handlers for new
+service requests. Unknown requests fail rather than silently succeeding.
+This suite does not verify real Supabase schema/RLS, real email delivery, or
+authenticated admin workflows; those require a separate disposable integration
+environment.
+
 ## Getting Started
 
 First, run the development server:

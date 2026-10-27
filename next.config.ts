@@ -19,6 +19,7 @@ if (process.env.NODE_ENV === "production") {
 }
 
 const nextConfig: NextConfig = {
+  distDir: process.env.E2E_TEST === "1" ? ".next/e2e" : ".next",
   poweredByHeader: false,
   experimental: {
     serverActions: {

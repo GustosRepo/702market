@@ -44,7 +44,12 @@ export default function PodcastSubmissionForm({
   }
 
   return (
-    <form className={`podcast-form ${className}`} action={action}>
+    <form className={`podcast-form ${className}`} action={action}
+      onReset={(event) => {
+        // Success replaces the form. Keep fields for recoverable errors.
+        event.preventDefault();
+      }}
+    >
       <p className="eyebrow">{eyebrow}</p>
       <h2>{heading}</h2>
       <p>{description}</p>

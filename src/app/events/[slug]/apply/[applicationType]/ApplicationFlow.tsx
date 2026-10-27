@@ -96,7 +96,12 @@ export default function ApplicationFlow({
   }
 
   return (
-    <form className="application-form application-flow" action={formAction} onSubmit={validateSubmission} ref={formRef}>
+    <form className="application-form application-flow" action={formAction} onSubmit={validateSubmission} ref={formRef}
+      onReset={(event) => {
+        // Success replaces the form. Keep fields and files for recoverable errors.
+        event.preventDefault();
+      }}
+    >
       <input name="submissionToken" type="hidden" value={submissionToken} />
       <div className="application-progress" aria-label={`Step ${step + 1} of ${steps.length}`}>
         <span style={{ width: `${((step + 1) / steps.length) * 100}%` }} />
@@ -197,9 +202,9 @@ export default function ApplicationFlow({
       <div className="application-step-actions">
         {step > 0 ? <button className="button button-dark" disabled={pending} onClick={() => setStep((current) => current - 1)} type="button">Back</button> : <span />}
         {step < steps.length - 1 ? (
-          <button className="button button-accent" onClick={nextStep} type="button">Next <span aria-hidden="true">↗</span></button>
+          <button key="next" className="button button-accent" onClick={nextStep} type="button">Next <span aria-hidden="true">↗</span></button>
         ) : (
-          <button className="button button-accent submit-button" disabled={pending} formNoValidate type="submit">
+          <button key="submit" className="button button-accent submit-button" disabled={pending} formNoValidate type="submit">
             {pending ? "Uploading and submitting..." : "Submit application"} <span aria-hidden="true">↗</span>
           </button>
         )}
