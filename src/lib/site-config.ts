@@ -7,7 +7,7 @@ export const siteConfig = {
     instagram: "https://instagram.com/702market_",
     tiktok: "https://tiktok.com/@702_market",
     youtube: "https://www.youtube.com/channel/UCZFRdz1RiGJcPZMJ66_i-XA",
-    linktree: "https://linktr.ee/702markets",
+    linktree: "https://linktr.ee/702markets?utm_source=apple-wallet&utm_medium=qr_code&card=29656",
   },
   press: [
     {

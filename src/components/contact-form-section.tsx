@@ -68,6 +68,7 @@ export default function ContactFormSection({
             {socialLinks.map((link) => (
               <a href={link.href} key={link.name} target="_blank" rel="noreferrer">
                 {link.name}
+                <span aria-hidden="true">→</span>
               </a>
             ))}
           </div>
@@ -115,7 +116,10 @@ export default function ContactFormSection({
             <textarea name="message" required rows={5} />
           </label>
           {state.status === "error" ? <p className="form-error contact-form-error" role="alert">{state.message}</p> : null}
-          <button className="home-contact-submit" disabled={pending} type="submit">{pending ? "Sending..." : "Submit"}</button>
+          <button className="home-contact-submit" disabled={pending} type="submit">
+            {pending ? "Sending..." : "Submit"}
+            <span aria-hidden="true">→</span>
+          </button>
         </form>}
       </div>
     </section>

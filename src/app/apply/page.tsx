@@ -54,20 +54,16 @@ export default async function ApplyPage() {
 
         <MarqueeBand
           className="apply-hero-marquee"
-          label="not your average market"
-          phrases={["where everyone's a star", "not your average market"]}
+          label="Join the family"
+          phrases={["Join the family"]}
         />
 
         <div className="apply-hero-content">
           <h1>want 2 grow<br />ur business?</h1>
           <div className="apply-hero-quote">
             <Link className="button button-light" href="#open-applications">
-              Join the MarketElla family <span aria-hidden="true">↓</span>
+              Join the MarketElla family <span aria-hidden="true">→</span>
             </Link>
-            <p>
-              We want your products, your setup, your social page, and your
-              whole vibe.
-            </p>
           </div>
         </div>
       </section>
@@ -85,6 +81,9 @@ export default async function ApplyPage() {
                   sizes="(max-width: 900px) min(100vw, 560px), 31vw"
                 />
               </div>
+              <Link className="button apply-location-cta" href="#open-applications">
+                Apply 2 sell <span aria-hidden="true">→</span>
+              </Link>
               <div className="apply-location-copy">
                 <h3>{location.name}</h3>
                 <p className="apply-location-tagline">{location.tagline}</p>
@@ -97,7 +96,7 @@ export default async function ApplyPage() {
 
       <section className="application-event-list" id="open-applications" aria-labelledby="open-events-heading">
         <div className="list-heading">
-          <p className="eyebrow" id="open-events-heading">Open applications</p>
+          <h2 id="open-events-heading">Open applications</h2>
           <span>{openEvents.length} available</span>
         </div>
         {openEvents.length > 0 ? (
@@ -105,7 +104,7 @@ export default async function ApplyPage() {
             <Link className="application-event-card" href={`/apply/${event.slug}`} key={event.slug}>
               <div>
                 <p className="event-kicker">{event.dateLabel}</p>
-                <h2>{event.title}</h2>
+                <h3>{event.title}</h3>
                 <p>{event.location} · Choose general or food vendor</p>
               </div>
               <span aria-hidden="true">Apply 2 sell ↗</span>

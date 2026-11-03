@@ -1,0 +1,235 @@
+/* Shared admin theme. Scope every rule so public pages keep their own styles. */
+.admin-shell {
+  background: #fcd1cc;
+  color: var(--plum);
+}
+
+.admin-shell .admin-sidebar,
+.admin-login-page {
+  background: var(--brand-gradient-2);
+  color: #fff;
+}
+
+.admin-shell .admin-sidebar {
+  border-color: rgba(255, 255, 255, .6);
+}
+
+.admin-shell .admin-brand,
+.admin-login-page .admin-brand {
+  color: #fff;
+}
+
+.admin-shell .admin-brand small,
+.admin-login-page .admin-brand small {
+  font-size: .9rem;
+}
+
+.admin-shell .admin-sidebar nav {
+  margin-top: 40px;
+}
+
+.admin-shell .admin-sidebar nav a {
+  align-items: center;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  color: #fff;
+  display: flex;
+  font-size: 1rem;
+  letter-spacing: .04em;
+  min-height: 44px;
+  padding: 10px 16px;
+}
+
+.admin-shell .admin-sidebar nav a:hover {
+  background: rgba(255, 255, 255, .16);
+  border-color: #fff;
+}
+
+.admin-shell .admin-preview-note {
+  color: #fff;
+  font-size: .95rem;
+  padding-top: 24px;
+}
+
+.admin-shell .admin-topbar {
+  flex-wrap: wrap;
+  gap: 12px;
+  padding-bottom: 16px;
+}
+
+.admin-shell .admin-user {
+  border-radius: 999px;
+  font-size: .95rem;
+  overflow-wrap: anywhere;
+}
+
+.admin-shell .admin-page-heading h1 {
+  font-size: clamp(2.75rem, 6vw, 5.5rem);
+  overflow-wrap: anywhere;
+}
+
+.admin-shell :is(.admin-event-banner, .admin-empty-panel),
+.admin-login-page .admin-login-panel {
+  background: var(--brand-gradient);
+  border: 1px solid #fff;
+  border-radius: 20px;
+  box-shadow: none;
+  color: #fff;
+}
+
+.admin-shell :is(.admin-event-banner, .admin-empty-panel) :is(.eyebrow, em),
+.admin-login-page :is(.eyebrow, h1 em) {
+  color: #fff;
+  font-style: normal;
+}
+
+.admin-shell .admin-empty-panel h2,
+.admin-login-page h1 {
+  text-shadow: var(--hero-text-shadow);
+}
+
+.admin-shell :is(.admin-setup-warning, .admin-modal-panel) {
+  border: 1px solid #fff;
+  border-radius: 20px;
+  box-shadow: none;
+}
+
+.admin-shell :is(.admin-stat-grid, .admin-product-list, .admin-media-list) {
+  gap: 12px;
+}
+
+.admin-shell :is(.admin-stat-grid > div, .admin-product-list article, .admin-media-card,
+  .admin-message-list article, .admin-option-row, .admin-upload-list a,
+  .admin-application-reference > div, .admin-table-wrap) {
+  border: 1px solid #fff;
+  border-radius: 14px;
+}
+
+.admin-shell .admin-table-wrap th {
+  background: #fc5851;
+  color: #fff;
+}
+
+.admin-shell :is(.admin-table-wrap th, .admin-table-wrap td, .admin-table-wrap td small,
+  .admin-stat-grid span, .admin-stat-grid small, .admin-group-heading span,
+  .admin-message-from, .admin-message-list footer, .admin-product-list p,
+  .admin-application-filters label, .admin-application-reference span,
+  .admin-form label, .status-pill),
+.admin-login-page .admin-login-form label {
+  font-size: .95rem;
+}
+
+.admin-shell .status-pill {
+  border-radius: 999px;
+  padding: 6px 12px;
+}
+
+.admin-shell :is(.status-pending, .status-featured, .status-confirmed) {
+  background: #fc5851;
+  color: #fff;
+}
+
+.admin-shell :is(.button, .admin-danger-button),
+.admin-login-page .submit-button {
+  background: linear-gradient(180deg, #ff529a 0%, #ff167d 100%);
+  border: 1.5px solid #fff;
+  border-radius: 999px;
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, .16);
+  color: #fff;
+  font-family: var(--font-accent), sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  justify-content: center;
+  letter-spacing: .06em;
+  min-height: 44px;
+  text-shadow: none;
+}
+
+.admin-shell .button-light {
+  background: #f77f43;
+}
+
+.admin-shell .admin-danger-button {
+  background: #9f173f;
+}
+
+.admin-shell :is(.text-button, .admin-filter-row a, .admin-filter-row button) {
+  border-radius: 999px;
+  font-size: .95rem;
+  min-height: 44px;
+}
+
+.admin-shell .admin-filter-row .filter-active {
+  background: #fc5851;
+  color: #fff;
+}
+
+.admin-shell .admin-filter-row .filter-active span {
+  color: #fff;
+}
+
+.admin-shell .admin-form :is(input:not([type="checkbox"]), select, textarea),
+.admin-shell .admin-application-filters select,
+.admin-login-page .admin-login-form input {
+  background: var(--cream);
+  border: 1px solid rgba(67, 26, 46, .35);
+  border-radius: 10px;
+  color: var(--plum);
+  min-height: 48px;
+}
+
+.admin-shell .admin-form input[type="checkbox"] {
+  accent-color: #ff167d;
+}
+
+.admin-shell .admin-modal-close {
+  border: 1px solid var(--plum);
+  border-radius: 999px;
+  height: 44px;
+  width: 44px;
+}
+
+.admin-login-page .admin-login-form .form-error,
+.admin-login-page .admin-login-panel > .form-error {
+  background: var(--cream);
+  border-color: #9f173f;
+  border-radius: 10px;
+  color: #9f173f;
+}
+
+.admin-shell :is(a, button, input, select, textarea):focus-visible,
+.admin-login-page :is(a, button, input):focus-visible {
+  box-shadow: none;
+  outline: 3px solid var(--plum);
+  outline-offset: 3px;
+}
+
+.admin-shell .admin-sidebar a:focus-visible,
+.admin-login-page a:focus-visible {
+  outline-color: #fff;
+}
+
+@media (max-width: 760px) {
+  .admin-shell .admin-sidebar nav {
+    margin-top: 24px;
+  }
+
+  .admin-shell .admin-user-menu {
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px;
+    min-width: 0;
+  }
+
+  .admin-shell .admin-topbar {
+    align-items: start;
+  }
+
+  .admin-shell .admin-event-banner {
+    align-items: start;
+    flex-direction: column;
+    gap: 24px;
+    padding: 24px;
+  }
+}

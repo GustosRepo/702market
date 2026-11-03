@@ -1,5 +1,12 @@
 function dateOffset(days) {
-  const date = new Date();
+  // Match the application's calendar day, including during UTC/Las Vegas date differences.
+  const today = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "America/Los_Angeles",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(new Date());
+  const date = new Date(`${today}T12:00:00Z`);
   date.setUTCDate(date.getUTCDate() + days);
   return date.toISOString().slice(0, 10);
 }

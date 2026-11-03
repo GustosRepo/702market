@@ -20,7 +20,7 @@ export default async function PodcastPage() {
         <div className="podcast-hero-content">
           <div className="podcast-hero-title">
             <p className="eyebrow">market talk, real stories</p>
-            <h1>the 702 chisme podcast</h1>
+            <h1>702 chisme podcast</h1>
             <p>Market talk, real stories, behind the scenes, and whatever is on our minds.</p>
           </div>
           <div className="podcast-hero-photo" aria-label="MarketElla podcast hosts" role="img" />
@@ -32,11 +32,7 @@ export default async function PodcastPage() {
         />
       </section>
 
-      <section className="podcast-episodes" aria-labelledby="episodes-heading">
-        <div className="podcast-episodes-heading">
-          <p className="eyebrow">episodes</p>
-          <h2 id="episodes-heading">pick one. we have a lot to say.</h2>
-        </div>
+      <section className="podcast-episodes" aria-label="Podcast episodes">
         {episodes.length ? <div className="episode-grid">
           {episodes.map((episode) => (
             <article className="episode-card" key={episode.slug}>

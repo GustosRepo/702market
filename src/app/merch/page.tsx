@@ -1,5 +1,4 @@
 import ContactFormSection from "@/components/contact-form-section";
-import MarqueeBand from "@/components/marquee-band";
 import SiteHeader from "@/components/site-header";
 import SiteFooter from "@/components/site-footer";
 import { getMerchProducts } from "@/lib/merch";
@@ -17,11 +16,6 @@ export default async function MerchPage() {
     <main className="shop-page">
       <section className="shop-hero">
         <SiteHeader ariaLabel="Shop navigation" className="shop-hero-nav" variant="hero" />
-        <MarqueeBand
-          className="shop-hero-marquee"
-          label="take a little marketella home"
-          phrases={["marketella shop", "take a little marketella home", "made for market days"]}
-        />
         <div className="shop-hero-content">
           <p className="eyebrow">online store</p>
           <h1>the marketella shop</h1>
@@ -29,11 +23,7 @@ export default async function MerchPage() {
         </div>
       </section>
 
-      <section className="shop-catalog" aria-labelledby="shop-catalog-heading">
-        <div className="shop-catalog-heading">
-          <p className="eyebrow">the first drop</p>
-          <h2 id="shop-catalog-heading">stuff worth taking home.</h2>
-        </div>
+      <section className="shop-catalog" aria-label="MarketElla shop products">
         {merchProducts.length > 0 ? (
           <div className="product-grid" aria-label="MarketElla products">
             {merchProducts.map((product) => (

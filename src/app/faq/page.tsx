@@ -77,15 +77,14 @@ export default function FaqPage() {
         <SiteHeader ariaLabel="FAQ navigation" className="faq-hero-nav" variant="hero" />
         <MarqueeBand
           className="faq-hero-marquee"
-          label="comments? questions? concerns?"
-          phrases={["comments? questions? concerns?", "we got u", "marketella help desk"]}
+          label="MarketElla help desk"
+          phrases={["MarketElla help desk"]}
         />
         <h1>comments? questions? concerns?</h1>
       </section>
 
       <section className="faq-section" aria-labelledby="faq-heading">
         <div className="faq-section-heading">
-          <p className="eyebrow">q&amp;a separate for you</p>
           <h2 id="faq-heading">let us help.<br />we got u!</h2>
         </div>
         <div className="faq-accordion">

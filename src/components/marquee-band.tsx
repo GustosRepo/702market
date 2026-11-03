@@ -18,7 +18,12 @@ export default function MarqueeBand({
   phrases = defaultPhrases,
   className = "",
 }: MarqueeBandProps) {
-  const repeated = [...phrases, label, ...phrases];
+  const cycle = [...phrases, label];
+  const group = Array.from(
+    { length: Math.max(1, Math.ceil(6 / cycle.length)) },
+    () => cycle,
+  ).flat();
+  const repeated = [...group, ...group];
 
   return (
     <div className={`marquee-band ${className}`.trim()} aria-hidden="true">

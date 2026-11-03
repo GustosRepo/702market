@@ -23,7 +23,7 @@ type SiteContentRow = {
 
 export const defaultNewLocationContent: NewLocationContent = {
   active: true,
-  topMarqueePhrases: ["not your average market", "where everyone's a star"],
+  topMarqueePhrases: ["Not your average market"],
   headingLabel: "now in:",
   locationName: "las vegas",
   description:
