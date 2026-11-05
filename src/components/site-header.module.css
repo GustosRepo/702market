@@ -58,7 +58,7 @@
   white-space: nowrap;
 }
 .link:hover, .link[aria-current="page"] { background: #ffe5ee; color: #b71049; }
-.link.apply { background: linear-gradient(180deg, #ff529a, #ff167d); border: 1px solid #fff; color: #fff; padding-inline: 20px; }
+.link.apply { background: linear-gradient(180deg, #ff529a, #ff167d); border: 1px solid #fff; color: #fff; max-width: 100%; padding-inline: 20px; width: fit-content; }
 .link.apply:hover, .link.apply[aria-current="page"] { background: #d91e65; color: #fff; }
 .context { border: 1px solid var(--line); }
 .brand:focus-visible, .link:focus-visible, .toggle:focus-visible { outline: 3px solid var(--peach); outline-offset: 4px; }

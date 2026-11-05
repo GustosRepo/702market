@@ -136,7 +136,7 @@ em { color: var(--pink); font-style: italic; }
 .hero-copy { font-size: clamp(1rem, 1.4vw, 1.3rem); line-height: 1.45; margin: 26px 0 24px; max-width: 430px; text-shadow: 0 2px 16px rgba(5, 3, 4, 0.52); }
 .button { align-items: center; display: inline-flex; font-family: var(--font-accent), sans-serif; font-size: 0.76rem; font-weight: 600; gap: 28px; justify-content: space-between; letter-spacing: 0.04em; padding: 15px 18px; text-transform: uppercase; transition: transform 180ms ease, background 180ms ease; }
 .button:hover { transform: translateY(-3px); }
-.button-light { background: var(--lilac); color: var(--plum); min-width: 208px; }
+.button-light { background: var(--lilac); color: var(--plum); }
 .button-dark {
   background: var(--cream);
   border: 2px solid var(--ink);
@@ -144,6 +144,20 @@ em { color: var(--pink); font-style: italic; }
   color: var(--ink);
 }
 .button-accent { background: var(--peach); color: var(--plum); }
+
+.button,
+.new-location-button,
+.next-market-info,
+.home-contact-socials a,
+.home-contact-submit,
+.podcast-form button {
+  max-width: 100%;
+  min-height: 44px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  width: fit-content;
+}
+
 .hero-note { bottom: 38px; display: flex; font-family: var(--font-display), sans-serif; font-size: 0.85rem; gap: 28px; left: clamp(22px, 5vw, 76px); position: absolute; }
 .hero-note span::before { color: var(--lilac); content: "✳"; margin-right: 8px; }
 
@@ -489,7 +503,6 @@ em { color: var(--pink); font-style: italic; }
   font-size: clamp(0.9rem, 1.7vw, 1.35rem);
   gap: 24px;
   justify-content: space-between;
-  min-width: min(100%, 370px);
   padding: 18px 38px;
   text-transform: uppercase;
   transition: background 180ms ease, transform 180ms ease;
@@ -598,7 +611,6 @@ em { color: var(--pink); font-style: italic; }
   gap: 24px;
   justify-content: space-between;
   justify-self: center;
-  min-width: min(100%, 360px);
   padding: 17px 34px;
   text-transform: uppercase;
   transition: background 180ms ease, color 180ms ease, transform 180ms ease;
@@ -911,7 +923,6 @@ em { color: var(--pink); font-style: italic; }
   gap: 24px;
   justify-content: space-between;
   justify-self: start;
-  min-width: min(100%, 260px);
   padding: 18px 36px;
   text-transform: uppercase;
   transition: background 180ms ease, color 180ms ease, transform 180ms ease;
@@ -1124,10 +1135,10 @@ em { color: var(--pink); font-style: italic; }
   align-self: end;
   color: #fff;
   font-size: clamp(4rem, 9vw, 10.2rem);
-  margin: clamp(58px, 13vw, 175px) 0 0;
+  margin: clamp(58px, 13vw, 175px) auto 0;
   max-width: 1240px;
   overflow-wrap: anywhere;
-  text-align: left;
+  text-align: center;
   text-shadow: var(--hero-text-shadow);
 }
 
@@ -1294,7 +1305,7 @@ em { color: var(--pink); font-style: italic; }
   background-position: center;
   background-size: cover;
   color: #fff;
-  min-height: min(850px, 100vh);
+  min-height: max(680px, min(850px, 100svh));
   padding: 30px clamp(18px, 4vw, 58px) clamp(42px, 6vw, 82px);
   position: relative;
 }
@@ -1327,10 +1338,15 @@ em { color: var(--pink); font-style: italic; }
 }
 
 .shop-hero-content {
-  bottom: clamp(42px, 6vw, 82px);
-  left: clamp(18px, 4vw, 58px);
+  left: 0;
+  margin-inline: auto;
   max-width: min(1120px, 88vw);
   position: absolute;
+  right: 0;
+  text-align: center;
+  top: 50%;
+  transform: translateY(-50%);
+  width: calc(100% - 2 * clamp(18px, 4vw, 58px));
 }
 
 .shop-hero-content .eyebrow {
@@ -1352,7 +1368,7 @@ em { color: var(--pink); font-style: italic; }
   font-size: clamp(1rem, 1.7vw, 1.35rem);
   font-weight: 700;
   line-height: 1.35;
-  margin: 26px 0 0;
+  margin: 26px auto 0;
   max-width: 430px;
   text-shadow: 0 3px 12px rgba(5, 3, 4, 0.76);
 }
@@ -1732,12 +1748,14 @@ em { color: var(--pink); font-style: italic; }
 }
 
 .calendar-page-heading {
-  align-items: end;
+  align-items: center;
   border-bottom: 3px solid rgba(255, 255, 255, 0.4);
   display: flex;
+  flex-direction: column;
   gap: 28px;
   justify-content: space-between;
   padding-bottom: clamp(26px, 4vw, 46px);
+  text-align: center;
 }
 
 .calendar-page-heading .eyebrow {
@@ -1750,7 +1768,7 @@ em { color: var(--pink); font-style: italic; }
   line-height: 1;
   margin: 0;
   max-width: 760px;
-  text-align: right;
+  text-align: center;
   text-transform: uppercase;
   text-shadow: var(--hero-text-shadow);
 }
@@ -1862,7 +1880,7 @@ em { color: var(--pink); font-style: italic; }
   background-position: center;
   background-size: cover;
   color: var(--cream);
-  min-height: min(800px, 100vh);
+  min-height: 840px;
   overflow: hidden;
   padding: 30px clamp(18px, 4vw, 58px) clamp(42px, 6vw, 82px);
   position: relative;
@@ -1882,16 +1900,21 @@ em { color: var(--pink); font-style: italic; }
 }
 
 .faq-hero h1 {
-  bottom: clamp(42px, 6vw, 82px);
   color: #fff;
   font-family: var(--font-display), sans-serif;
   font-size: clamp(4rem, 9vw, 10rem);
   line-height: 1;
-  margin: 0;
+  left: 0;
+  margin: 0 auto;
   max-width: min(1100px, 92vw);
   position: absolute;
+  right: 0;
+  text-align: center;
   text-shadow: var(--hero-text-shadow);
   text-transform: uppercase;
+  top: 50%;
+  transform: translateY(-50%);
+  width: calc(100% - 2 * clamp(18px, 4vw, 58px));
 }
 
 .faq-section {
@@ -2010,8 +2033,9 @@ em { color: var(--pink); font-style: italic; }
 
 .podcast-hero-title {
   align-self: end;
-  padding: 0 clamp(26px, 5vw, 88px) 0 0;
+  padding: 0 clamp(13px, 2.5vw, 44px);
   position: relative;
+  text-align: center;
   z-index: 1;
 }
 
@@ -2034,7 +2058,7 @@ em { color: var(--pink); font-style: italic; }
   font-size: clamp(1rem, 1.5vw, 1.25rem);
   font-weight: 700;
   line-height: 1.45;
-  margin: 26px 0 0;
+  margin: 26px auto 0;
   max-width: 470px;
 }
 
@@ -2296,10 +2320,12 @@ em { color: var(--pink); font-style: italic; }
   align-content: end;
   display: grid;
   gap: clamp(28px, 5vw, 74px);
-  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.54fr);
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
   min-height: calc(min(920px, 100vh) - 92px);
   padding: clamp(120px, 17vw, 230px) 0 clamp(52px, 7vw, 86px);
   position: relative;
+  text-align: center;
   z-index: 1;
 }
 
@@ -2309,7 +2335,7 @@ em { color: var(--pink); font-style: italic; }
   font-family: var(--font-display), sans-serif;
   font-size: clamp(4.5rem, 10vw, 11rem);
   line-height: 1;
-  margin: 0;
+  margin: 0 auto;
   max-width: 1040px;
   text-shadow: var(--hero-text-shadow);
   text-transform: uppercase;
@@ -2319,9 +2345,9 @@ em { color: var(--pink); font-style: italic; }
   align-self: end;
   display: grid;
   gap: 18px;
-  justify-items: end;
+  justify-items: center;
   padding-bottom: 8px;
-  text-align: right;
+  text-align: center;
 }
 
 .apply-hero-quote .button-light {
@@ -2333,7 +2359,7 @@ em { color: var(--pink); font-style: italic; }
   font-size: clamp(1rem, 1.7vw, 1.35rem);
   font-weight: 700;
   line-height: 1.35;
-  margin: 0;
+  margin: 0 auto;
   max-width: 520px;
   text-shadow: 0 3px 16px rgba(5, 3, 4, 0.76);
 }
@@ -2370,7 +2396,6 @@ em { color: var(--pink); font-style: italic; }
 .apply-location-cta {
   justify-self: center;
   max-width: 100%;
-  min-width: min(100%, 200px);
   padding-inline: 24px;
 }
 
@@ -2791,7 +2816,7 @@ em { color: var(--pink); font-style: italic; }
 }
 
 .event-application-buttons {
-  align-items: stretch;
+  align-items: flex-start;
   display: flex;
   flex-wrap: wrap;
   gap: 14px;
@@ -3287,7 +3312,6 @@ em { color: var(--pink); font-style: italic; }
 .admin-login-form .submit-button {
   justify-content: space-between;
   margin-top: 4px;
-  width: 100%;
 }
 
 .admin-login-form .form-error,
@@ -3515,6 +3539,29 @@ em { color: var(--pink); font-style: italic; }
 .status-rejected { background: var(--plum); color: var(--blush); }
 .status-confirmed { background: var(--pink); }
 
+.listing-intro,
+.event-detail-hero,
+.content-intro,
+.apply-intro,
+.application-header,
+.application-closed,
+.legal-intro {
+  text-align: center;
+}
+
+:is(.listing-intro, .event-detail-hero, .content-intro, .apply-intro, .application-header, .application-closed, .legal-intro) > :is(h1, p),
+.event-detail-hero p:last-child {
+  margin-inline: auto;
+}
+
+.contact-page .home-contact-copy {
+  text-align: center;
+}
+
+.contact-page .home-contact-socials {
+  justify-items: center;
+}
+
 @media (max-width: 1280px) {
   .marketella-nav {
     align-items: flex-start;
@@ -3566,15 +3613,6 @@ em { color: var(--pink); font-style: italic; }
     gap: 34px;
   }
 
-  .apply-hero-content {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .apply-hero-quote {
-    justify-items: start;
-    text-align: left;
-  }
-
   .apply-location-grid {
     gap: clamp(28px, 4vw, 48px);
   }
@@ -3597,7 +3635,7 @@ em { color: var(--pink); font-style: italic; }
   }
 
   .podcast-hero-title {
-    padding-right: 0;
+    padding: 0;
   }
 
   .podcast-hero-photo {
@@ -3646,7 +3684,7 @@ em { color: var(--pink); font-style: italic; }
   }
 
   .home-contact-copy h2 {
-    font-size: 5.4rem;
+    font-size: clamp(2.8rem, 17cqi, 5.4rem);
   }
 
   .apply-hero {
@@ -3674,11 +3712,6 @@ em { color: var(--pink); font-style: italic; }
 }
 
 @media (max-width: 680px) {
-  .button {
-    max-width: 100%;
-    min-width: 0;
-  }
-
   .marketella-hero {
     min-height: 720px;
     padding: 18px;
@@ -3699,8 +3732,6 @@ em { color: var(--pink); font-style: italic; }
   }
 
   .shop-hero-content {
-    bottom: 38px;
-    left: 18px;
     max-width: calc(100% - 36px);
   }
 
@@ -3735,14 +3766,11 @@ em { color: var(--pink); font-style: italic; }
   }
 
   .calendar-page-heading {
-    align-items: flex-start;
-    flex-direction: column;
     gap: 18px;
   }
 
   .calendar-page-heading h1 {
     font-size: clamp(3.2rem, 15vw, 5.4rem);
-    text-align: left;
   }
 
   .calendar-event {
@@ -3773,7 +3801,6 @@ em { color: var(--pink); font-style: italic; }
   }
 
   .faq-hero h1 {
-    bottom: 38px;
     font-size: 3rem;
     line-height: 1;
     max-width: calc(100% - 36px);
@@ -4001,12 +4028,6 @@ em { color: var(--pink); font-style: italic; }
   }
 
   .home-contact-socials {
-    width: 100%;
-  }
-
-  .home-contact-socials a,
-  .home-contact-submit {
-    text-align: center;
     width: 100%;
   }
 
@@ -4239,8 +4260,7 @@ em { color: var(--pink); font-style: italic; }
     text-shadow: var(--hero-text-shadow);
   }
 
-  .apply-hero-quote,
-  .apply-hero-quote .button {
+  .apply-hero-quote {
     width: 100%;
   }
   .event-card { align-items: start; grid-template-columns: 88px 1fr 18px; gap: 12px; }
@@ -4290,7 +4310,6 @@ em { color: var(--pink); font-style: italic; }
   .admin-option-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .admin-option-row > label, .admin-option-controls { grid-column: 1 / -1; }
   .admin-application-filters { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .admin-application-filters .button { width: 100%; }
   .admin-upload-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
@@ -4310,12 +4329,8 @@ em { color: var(--pink); font-style: italic; }
   }
 
   .admin-modal-actions {
-    align-items: stretch;
+    align-items: flex-start;
     flex-direction: column-reverse;
-  }
-
-  .admin-modal-actions .button {
-    width: 100%;
   }
 
   .admin-login-page {
@@ -4344,14 +4359,8 @@ em { color: var(--pink); font-style: italic; }
 
   .event-application-buttons,
   .application-step-actions {
-    align-items: stretch;
+    align-items: flex-start;
     flex-direction: column;
-    width: 100%;
-  }
-
-  .event-application-buttons .button,
-  .application-step-actions .button {
-    justify-content: space-between;
     width: 100%;
   }
 
@@ -4423,13 +4432,7 @@ em { color: var(--pink); font-style: italic; }
   }
 
   .admin-option-controls {
-    align-items: stretch;
+    align-items: flex-start;
     flex-direction: column;
-  }
-
-  .admin-application-filters .button,
-  .admin-option-controls .button,
-  .admin-option-controls button {
-    width: 100%;
   }
 }
