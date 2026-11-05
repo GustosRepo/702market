@@ -61,20 +61,21 @@ export default async function Home() {
                 <path id="home-hero-welcome-arch" d="M 180 200 Q 600 40 1020 200" />
                 <path id="home-hero-marketella-arch" d="M 60 425 Q 600 185 1140 425" />
               </defs>
-              <text className="hero-title-welcome" textAnchor="middle">
+              {/* Half the spare path length centers text without Safari's stretched-text anchor bug. */}
+              <text className="hero-title-welcome" textAnchor="start">
                 <textPath
                   href="#home-hero-welcome-arch"
-                  startOffset="50%"
+                  startOffset="39.949"
                   textLength="780"
                   lengthAdjust="spacingAndGlyphs"
                 >
                   WELCOME 2
                 </textPath>
               </text>{" "}
-              <text className="hero-title-marketella" textAnchor="middle">
+              <text className="hero-title-marketella" textAnchor="start">
                 <textPath
                   href="#home-hero-marketella-arch"
-                  startOffset="50%"
+                  startOffset="7.285"
                   textLength="1100"
                   lengthAdjust="spacingAndGlyphs"
                 >
