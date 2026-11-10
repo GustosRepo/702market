@@ -1,3 +1,4 @@
+import Link from "next/link";
 import AdminShell from "@/components/admin-shell";
 import { getAdminHomepageContent } from "@/lib/admin-homepage-content";
 import { updateHomepageContent } from "./actions";
@@ -5,85 +6,34 @@ import { updateHomepageContent } from "./actions";
 export const metadata = { title: "Homepage | MarketElla Admin" };
 
 export default async function AdminHomepagePage() {
-  const { newLocation } = await getAdminHomepageContent();
+  const { countdown } = await getAdminHomepageContent();
 
   return (
     <AdminShell title="Homepage">
       <div className="admin-toolbar">
-        <p>Edit homepage section content without changing the site design.</p>
+        <p>The countdown automatically uses your next published, upcoming event. Update its date, start time, and location in <Link href="/admin/events">Events</Link>. Times use Las Vegas time.</p>
       </div>
 
       <form className="admin-form" action={updateHomepageContent}>
         <section className="admin-group">
           <div className="admin-group-heading">
-            <h2>New location</h2>
+            <h2>Next event countdown</h2>
             <span>Homepage section</span>
           </div>
 
           <label className="checkbox-label">
-            <input
-              name="newLocation:active"
-              type="checkbox"
-              defaultChecked={newLocation.active}
-            />
+            <input name="countdown:active" type="checkbox" defaultChecked={countdown.active} />
             Show this section on the homepage
           </label>
 
           <label>
-            Top rotating text
-            <input
-              name="newLocation:topMarqueePhrases"
-              defaultValue={newLocation.topMarqueePhrases.join(" | ")}
-            />
+            Countdown heading
+            <input name="countdown:heading" defaultValue={countdown.heading} maxLength={160} />
           </label>
 
           <label>
-            Heading label
-            <input
-              name="newLocation:headingLabel"
-              defaultValue={newLocation.headingLabel}
-            />
-          </label>
-
-          <label>
-            Location name
-            <input
-              name="newLocation:locationName"
-              defaultValue={newLocation.locationName}
-            />
-          </label>
-
-          <label>
-            Description
-            <textarea
-              name="newLocation:description"
-              defaultValue={newLocation.description}
-              rows={4}
-            />
-          </label>
-
-          <label>
-            Button label
-            <input
-              name="newLocation:buttonLabel"
-              defaultValue={newLocation.buttonLabel}
-            />
-          </label>
-
-          <label>
-            Button link
-            <input
-              name="newLocation:buttonHref"
-              defaultValue={newLocation.buttonHref}
-            />
-          </label>
-
-          <label>
-            Bottom rotating text
-            <input
-              name="newLocation:bottomMarqueePhrases"
-              defaultValue={newLocation.bottomMarqueePhrases.join(" | ")}
-            />
+            Message when no events are scheduled
+            <textarea name="countdown:emptyMessage" defaultValue={countdown.emptyMessage} rows={3} maxLength={500} />
           </label>
         </section>
 

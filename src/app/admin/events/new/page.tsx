@@ -1,5 +1,7 @@
 import Link from "next/link";
 import AdminShell from "@/components/admin-shell";
+import AdminLocationField from "@/components/admin-location-field";
+import { defaultVendorTerms } from "@/lib/vendor-terms";
 import { createEvent } from "./actions";
 import EventVendorOptionsEditor from "../EventVendorOptionsEditor";
 
@@ -23,7 +25,7 @@ export default function NewEventPage() {
           <label>Event hero image<input accept="image/jpeg,image/png,image/webp,image/gif" name="heroImageFile" type="file" /></label>
           <div className="form-grid two-column">
             <label>Date<input name="eventDate" type="date" required /></label>
-            <label>Location name<input name="locationName" required /></label>
+            <AdminLocationField />
             <label>Start time<input name="startTime" type="time" required /></label>
             <label>End time<input name="endTime" type="time" required /></label>
           </div>
@@ -46,7 +48,9 @@ export default function NewEventPage() {
           </label>
           <label className="checkbox-label"><input name="generalApplicationsEnabled" type="checkbox" defaultChecked /> General vendor applications open</label>
           <label>General vendor note shown before continuing<textarea name="applicationNotes" rows={4} placeholder="What should general vendors know or prepare before starting?" /></label>
-          <label>General vendor rules<textarea name="applicationRules" rows={6} /></label>
+          <label htmlFor="general-vendor-terms">General vendor terms &amp; agreement</label>
+          <textarea id="general-vendor-terms" name="applicationRules" rows={16} defaultValue={defaultVendorTerms} />
+          <p className="form-helper">Edit the agreement for this event. These terms appear in the general vendor application before submission.</p>
           <EventVendorOptionsEditor applicationType="vendor" />
           <label className="checkbox-label"><input name="foodApplicationsEnabled" type="checkbox" /> Food vendor applications open</label>
           <label>Food vendor note shown before continuing<textarea name="foodApplicationNotes" rows={4} placeholder="What should food vendors know or prepare before starting?" /></label>

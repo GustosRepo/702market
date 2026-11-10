@@ -1,19 +1,24 @@
 .header {
+  --edge-gap: 18px;
   align-items: center;
+  background: #ecc0c1;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(5, 3, 4, 0.12);
+  color: #fc396dbe;
   display: flex;
   gap: 24px;
   justify-content: space-between;
+  min-width: 0;
+  padding: 22px clamp(18px, 4vw, 58px);
   position: relative;
   text-shadow: none;
   z-index: 20;
 }
 
-.hero { color: #fff; }
-.page {
-  background: var(--cream);
-  color: var(--ink);
-  padding: 22px clamp(18px, 4vw, 58px);
+.hero {
+  margin: 0 calc(var(--edge-gap) - clamp(18px, 4vw, 58px));
 }
+.page { margin: 30px var(--edge-gap) 0; width: calc(100% - 2 * var(--edge-gap)); }
 
 .bar { align-items: center; display: flex; flex-shrink: 0; gap: 24px; justify-content: space-between; }
 .brand {
@@ -33,14 +38,8 @@
 }
 .navigation {
   align-items: center;
-  background: var(--cream);
-  border: 1.5px solid rgba(255, 255, 255, 0.8);
-  border-radius: 999px;
-  box-shadow: 0 4px 20px rgba(5, 3, 4, 0.12);
-  color: var(--ink);
   display: flex;
   gap: 2px;
-  padding: 6px;
 }
 .link {
   align-items: center;
@@ -57,11 +56,11 @@
   transition: background-color 160ms ease, color 160ms ease;
   white-space: nowrap;
 }
-.link:hover, .link[aria-current="page"] { background: #ffe5ee; color: #b71049; }
-.link.apply { background: linear-gradient(180deg, #ff529a, #ff167d); border: 1px solid #fff; color: #fff; max-width: 100%; padding-inline: 20px; width: fit-content; }
+.link:hover, .link[aria-current="page"] { background: rgba(255, 255, 255, 0.25); }
+.link.apply { background: linear-gradient(180deg, #ff529a, #ff167d); border: 1.5px solid #fff; color: #fff; max-width: 100%; padding-inline: 20px; width: fit-content; }
 .link.apply:hover, .link.apply[aria-current="page"] { background: #d91e65; color: #fff; }
-.context { border: 1px solid var(--line); }
-.brand:focus-visible, .link:focus-visible, .toggle:focus-visible { outline: 3px solid var(--peach); outline-offset: 4px; }
+.context { border: 1px solid currentColor; }
+.brand:focus-visible, .link:focus-visible, .toggle:focus-visible { outline: 3px solid currentColor; outline-offset: 4px; }
 .toggle { display: none; }
 
 @media (max-width: 1100px) {
@@ -70,10 +69,10 @@
   .brand { font-size: 28px; }
   .toggle {
     align-items: center;
-    background: var(--cream);
-    border: 1.5px solid #fff;
+    background: transparent;
+    border: 1.5px solid currentColor;
     border-radius: 999px;
-    color: var(--ink);
+    color: inherit;
     cursor: pointer;
     display: inline-flex;
     font-family: var(--font-accent), sans-serif;
@@ -86,7 +85,8 @@
   }
   .navigation {
     align-items: stretch;
-    border-radius: 24px;
+    background: #ecc0c1;
+    border-radius: 20px;
     box-shadow: 0 12px 32px rgba(5, 3, 4, 0.2);
     display: none;
     gap: 4px;
@@ -96,12 +96,17 @@
     padding: 12px;
     position: absolute;
     right: 0;
-    top: calc(100% + 12px);
+    top: 100%;
   }
-  .page .navigation { left: clamp(18px, 4vw, 58px); right: clamp(18px, 4vw, 58px); top: calc(100% - 8px); }
   .navigation.open { display: grid; }
   .link { border-radius: 12px; min-height: 48px; padding: 14px 16px; }
   .link.apply { border-radius: 999px; justify-content: space-between; margin-top: 6px; }
+}
+
+@media (max-width: 680px) {
+  .header { --edge-gap: 12px; }
+  .hero { margin: 0 calc(var(--edge-gap) - 18px); }
+  .page { margin-top: 18px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

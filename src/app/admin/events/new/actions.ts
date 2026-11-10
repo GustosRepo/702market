@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireAdmin } from "@/lib/admin-auth";
 import { createSlug } from "@/lib/slugs";
+import { readMarketLocation } from "@/lib/market-locations";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { readImageFile, uploadAdminImage } from "@/lib/admin-image-upload";
 import {
@@ -32,6 +33,7 @@ export async function createEvent(formData: FormData) {
     throw new Error("Event title is required.");
   }
 
+  const locationName = readMarketLocation(formData);
   const generalEnabled = formData.get("generalApplicationsEnabled") === "on";
   const foodEnabled = formData.get("foodApplicationsEnabled") === "on";
   const vendorOptions = readEventVendorOptions(formData);
@@ -49,7 +51,7 @@ export async function createEvent(formData: FormData) {
     event_date: readString(formData, "eventDate"),
     start_time: readString(formData, "startTime"),
     end_time: readString(formData, "endTime"),
-    location_name: readString(formData, "locationName"),
+    location_name: locationName,
     address: readString(formData, "address"),
     hero_image: heroImage,
     application_open_date: readString(formData, "applicationOpenDate") || null,

@@ -1,5 +1,48 @@
 import { test, expect } from "./support/test";
 import { openEvent, closedEvent, pastEvent } from "./support/data.mjs";
+import { findMarketLocation, readMarketLocation } from "../../src/lib/market-locations";
+
+test("location names are normalized and admin selections save consistent names", () => {
+  expect(findMarketLocation("  FERGUSON’S Downtown ")?.id).toBe("fergusons-downtown");
+  expect(findMarketLocation("Downtown Container Park")?.id).toBe("container-park");
+  expect(findMarketLocation("Downtown Las Vegas")).toBeUndefined();
+  const form = new FormData();
+  form.set("locationSelection", "container-park");
+  expect(readMarketLocation(form)).toBe("Container Park");
+  form.set("locationSelection", "other");
+  form.set("locationName", "Arts District Courtyard");
+  expect(readMarketLocation(form)).toBe("Arts District Courtyard");
+  form.set("locationName", "Downtown Container Park");
+  expect(readMarketLocation(form)).toBe("Container Park");
+  form.set("locationName", " ");
+  expect(() => readMarketLocation(form)).toThrow();
+});
+
+test("location application buttons filter events and All locations restores the directory", async ({ page }) => {
+  await page.goto("/apply");
+  const applications = page.locator("#open-applications");
+  const filters = page.getByRole("navigation", { name: "Filter applications by location" });
+  await page.locator(".apply-location-card").filter({ hasText: "fergusons downtown" }).getByRole("link").click();
+  await expect(page).toHaveURL(/location=fergusons-downtown#open-applications$/);
+  await expect(applications.getByRole("link", { name: new RegExp(openEvent.title) })).toHaveAttribute("href", `/apply/${openEvent.slug}`);
+  await expect(applications).not.toContainText(closedEvent.title);
+  await expect(filters.getByRole("link", { name: "Fergusons Downtown" })).toHaveAttribute("aria-current", "true");
+  await expect(applications).toContainText("1 available");
+  await page.reload();
+  await expect(applications).toContainText(openEvent.title);
+  for (const [name, id] of [["cowabunga canyon", "cowabunga-canyon"], ["container park", "container-park"]]) {
+    await page.locator(".apply-location-card").filter({ hasText: name }).getByRole("link").click();
+    await expect(page).toHaveURL(new RegExp(`location=${id}#open-applications$`));
+    await expect(applications).toContainText("No applications currently open at");
+    await expect(applications).toContainText("0 available");
+    await expect(applications.locator(".application-event-card")).toHaveCount(0);
+  }
+  await filters.getByRole("link", { name: "All locations", exact: true }).click();
+  await expect(applications).toContainText(openEvent.title);
+  await page.goto("/apply?location=unknown#open-applications");
+  await expect(filters.getByRole("link", { name: "All locations", exact: true })).toHaveAttribute("aria-current", "true");
+  await expect(applications).toContainText(openEvent.title);
+});
 
 test("calendar leads to event details and both application types", async ({ page }) => {
   await page.goto("/events");

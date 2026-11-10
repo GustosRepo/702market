@@ -63,6 +63,8 @@ export async function GET(request: Request) {
     "Fee",
     "Submitted",
     "Reference",
+    "Theme fit",
+    "Following MarketElla on Instagram",
   ];
   const rows = applications.map((application) => [
     application.vendorName,
@@ -78,6 +80,8 @@ export async function GET(request: Request) {
     application.applicationFee,
     application.submittedAt,
     application.referenceCode,
+    application.themeFit,
+    application.followingInstagram === null ? "Not recorded" : application.followingInstagram ? "Confirmed by applicant" : "Not confirmed",
   ]);
   const csv = [header, ...rows]
     .map((row) => row.map((cell) => csvCell(cell)).join(","))

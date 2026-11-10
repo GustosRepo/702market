@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireAdmin } from "@/lib/admin-auth";
 import { createSlug } from "@/lib/slugs";
+import { readMarketLocation } from "@/lib/market-locations";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { readImageFile, uploadAdminImage } from "@/lib/admin-image-upload";
 import {
@@ -78,6 +79,7 @@ export async function updateEvent(formData: FormData) {
     throw new Error("Event title and slug are required.");
   }
 
+  const locationName = readMarketLocation(formData);
   const generalEnabled = formData.get("generalApplicationsEnabled") === "on";
   const foodEnabled = formData.get("foodApplicationsEnabled") === "on";
   const vendorOptions = readEventVendorOptions(formData);
@@ -97,7 +99,7 @@ export async function updateEvent(formData: FormData) {
       event_date: readString(formData, "eventDate"),
       start_time: readString(formData, "startTime"),
       end_time: readString(formData, "endTime"),
-      location_name: readString(formData, "locationName"),
+      location_name: locationName,
       address: readString(formData, "address"),
       hero_image: heroImage,
       application_open_date: readString(formData, "applicationOpenDate") || null,
@@ -125,6 +127,12 @@ export async function updateEvent(formData: FormData) {
 
   await saveEventVendorOptions(supabase, event.id, vendorOptions);
 
+  for (const eventSlug of new Set([originalSlug, slug])) {
+    revalidatePath(`/events/${eventSlug}`);
+    revalidatePath(`/apply/${eventSlug}`);
+    revalidatePath(`/events/${eventSlug}/apply/vendor`);
+    revalidatePath(`/events/${eventSlug}/apply/food`);
+  }
   revalidateEventAdmin();
   redirect("/admin/events");
 }

@@ -29,11 +29,34 @@ copy, public shared header/footer labels, event/application/FAQ/social/merch
 language, and a CSS alignment layer for inner-page typography, cards, colors,
 and section treatments.
 
-Admin/content note: the new location section is now a client-editable homepage
-section. Admins can toggle it, update the rotating phrases, heading, location
-name, description, CTA label/link, and bottom rotating text from
-`/admin/homepage`. The section's bottom image strip is managed separately in
-`/admin/media` as `home.new_location.strip`.
+Admin/content note (November 8, 2026): the announcement after the hero is now
+an automatic next-event countdown. `/admin/homepage` controls visibility, heading,
+and the empty-state message using `site_content` key `home.countdown`.
+`/admin/events` controls its event title, date, Las Vegas start/end times, and
+location. Only published, unarchived events with upcoming status are eligible;
+cancelled, completed, and ended events are excluded. At start time it shows
+zero and “It's market time!” until the event ends, then advances to the next
+scheduled event or shows the empty message. Countdown box: `#FDD0CC`; text:
+`#FC574F`. The old announcement fields and unused Media slot have been removed
+from the UI; historical database rows and uploaded images are retained.
+
+Apply `20261108120000_replace_home_location_with_countdown.sql` with the release.
+It preserves the previous visibility setting and allows visitors to read the
+countdown's disabled setting, fixing the old visible-default fallback issue.
+Existing event create/edit/publish/archive actions already revalidate `/`.
+
+The section after the countdown is now a photo carousel instead of two event
+panels. `/admin/media` → Homepage carousel manages existing `home.gallery.*`
+photos and accepts multiple additional uploads. Photos support ordering,
+captions, alt text, and visibility. Photos enlarge without a framed viewer or
+visible toolbar. The gallery background is `#FDD0CC`; arrow keys and mobile
+swipes navigate enlarged photos, while clicking or Escape closes them and
+restores focus. Calendar navigation points to
+`/events`; it no longer anchors to the retired panels. This gallery change uses
+the existing media schema and storage bucket.
+The carousel advances every five seconds and loops. Hover, touch, focus,
+enlargement, reduced motion, the global motion pause control, and background or
+offscreen viewing pause automatic movement. Enlarged images only change manually.
 
 Latest visual QA confirmed flat white 2D butterflies, a side-by-side contact
 layout whose display heading stays inside its column, and a wrapping shared
@@ -52,8 +75,8 @@ navigation with no document overflow at true 390px and 320px viewports.
 - Add social links for Instagram, Facebook, and TikTok.
 - Add a podcast area for "702 chisme."
 - Add locations with image cards, short captions, map links, and calendar links.
-- Add a new-location announcement section directly after the hero when the
-  client needs to promote Santa Anita or a future market expansion.
+- Show an automatic next-event countdown directly after the hero (replaces the
+  earlier new-location announcement).
 - Add a larger FAQ/Q&A section with plus-sign accordions.
 - Keep the logo direction similar to the current/old 702 logo and base the site
   around that treatment.

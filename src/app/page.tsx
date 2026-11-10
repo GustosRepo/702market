@@ -1,14 +1,25 @@
 import Image from "next/image";
 import Link from "next/link";
+import localFont from "next/font/local";
 import ContactFormSection from "@/components/contact-form-section";
+import EventCountdown from "@/components/event-countdown";
+import PhotoCarousel from "@/components/photo-carousel";
 import DetailedButterfly from "@/components/detailed-butterfly";
-import MarqueeBand from "@/components/marquee-band";
 import SiteFooter from "@/components/site-footer";
 import SiteHeader from "@/components/site-header";
-import { getEvents, isUpcomingEvent } from "@/lib/events";
+import { getEvents } from "@/lib/events";
+import { prepareEventCountdown } from "@/lib/event-countdown";
 import { siteConfig } from "@/lib/site-config";
 import { getHomepageContent } from "@/lib/homepage-content";
 import { getSiteMedia } from "@/lib/site-media";
+
+const shrikhand = localFont({
+  src: "./fonts/Shrikhand-Regular.ttf",
+  variable: "--font-hero",
+  weight: "400",
+  style: "normal",
+  display: "swap",
+});
 
 export default async function Home() {
   const [events, siteMedia, homepageContent] = await Promise.all([
@@ -16,24 +27,8 @@ export default async function Home() {
     getSiteMedia(),
     getHomepageContent(),
   ]);
-  const upcomingEvents = events.filter(isUpcomingEvent);
-  const newLocation = homepageContent.newLocation;
-  const nextMarketPanels = [
-    {
-      event: upcomingEvents[0],
-      image: "/IMG_3217.JPG",
-      fallbackTitle: "more dates soon",
-      fallbackSubtitle: "The next MarketElla date is on the way.",
-      fallbackButtonLabel: "calendar info",
-    },
-    {
-      event: upcomingEvents[1],
-      image: "/IMG_3226.JPG",
-      fallbackTitle: "new markets soon",
-      fallbackSubtitle: "Keep an eye on the calendar for the next drop.",
-      fallbackButtonLabel: "more info",
-    },
-  ];
+  const countdown = homepageContent.countdown;
+  const countdownData = prepareEventCountdown(events);
 
   return (
     <main className="marketella-home">
@@ -41,7 +36,7 @@ export default async function Home() {
         className="marketella-hero"
         style={{ "--hero-image": `url(${siteMedia.homeHero})` } as React.CSSProperties}
       >
-        <SiteHeader ariaLabel="Main navigation" calendarHref="#calendar" variant="hero" />
+        <SiteHeader ariaLabel="Main navigation" variant="hero" />
 
         <div className="butterfly-field" aria-hidden="true">
           {Array.from({ length: 9 }).map((_, index) => (
@@ -50,7 +45,7 @@ export default async function Home() {
         </div>
 
         <div className="hero-content marketella-hero-content">
-          <h1 aria-label="WELCOME 2 MARKETELLA">
+          <h1 className={shrikhand.variable} aria-label="WELCOME 2 MARKETELLA">
             <svg
               className="hero-title-curve"
               viewBox="0 0 1200 470"
@@ -96,78 +91,11 @@ export default async function Home() {
         </div>
       </section>
 
-      {newLocation.active ? (
-        <section
-          className="new-location-section"
-          aria-labelledby="new-location-heading"
-          style={
-            {
-              "--new-location-strip-image": `url(${siteMedia.newLocationStrip})`,
-            } as React.CSSProperties
-          }
-        >
-          <MarqueeBand
-            className="marquee-soft"
-            label={newLocation.topMarqueePhrases[0]}
-            phrases={newLocation.topMarqueePhrases}
-          />
-          <div className="spray-butterfly spray-butterfly-left" aria-hidden="true">
-            <DetailedButterfly />
-          </div>
-          <div className="spray-butterfly spray-butterfly-right" aria-hidden="true">
-            <DetailedButterfly />
-          </div>
-          <div className="new-location-content">
-            <h2 id="new-location-heading">
-              {newLocation.headingLabel}
-              <br />
-              {newLocation.locationName}
-            </h2>
-            <p>{newLocation.description}</p>
-            <Link className="new-location-button" href={newLocation.buttonHref}>
-              {newLocation.buttonLabel}
-              <span aria-hidden="true">→</span>
-            </Link>
-          </div>
-          <MarqueeBand
-            className="marquee-apply"
-            label={newLocation.bottomMarqueePhrases[0]}
-            phrases={newLocation.bottomMarqueePhrases}
-          />
-        </section>
+      {countdown.active ? (
+        <EventCountdown content={countdown} events={countdownData.events} initialNow={countdownData.initialNow} />
       ) : null}
 
-      <section className="market-section marketella-next" id="calendar" aria-labelledby="next-market-heading">
-        <h2 className="visually-hidden" id="next-market-heading">Upcoming markets</h2>
-        {nextMarketPanels.map((panel, index) => {
-          const href = panel.event ? `/events/${panel.event.slug}` : "/events";
-          const title = panel.event ? panel.event.location : panel.fallbackTitle;
-          const subtitle = panel.event ? panel.event.title : panel.fallbackSubtitle;
-          const buttonLabel = panel.event ? "market info" : panel.fallbackButtonLabel;
-
-          return (
-            <article className="next-market-panel" key={`${title}-${index}`}>
-              <Image
-                src={panel.image}
-                alt={panel.event ? `${panel.event.title} at ${panel.event.location}.` : "MarketElla vendor setup."}
-                fill
-                sizes="(max-width: 760px) 100vw, 50vw"
-              />
-              <div className="next-market-panel-content">
-                <p className="next-market-tag">next market</p>
-                <div>
-                  <h3>{title}</h3>
-                  <p>{subtitle}</p>
-                </div>
-                <Link className="next-market-info" href={href}>
-                  {buttonLabel}
-                  <span aria-hidden="true">→</span>
-                </Link>
-              </div>
-            </article>
-          );
-        })}
-      </section>
+      <PhotoCarousel photos={siteMedia.homeGallery} />
 
       <section className="press-strip" aria-labelledby="press-heading">
         <h2 id="press-heading">
@@ -178,20 +106,27 @@ export default async function Home() {
         <div className="press-copy">
           <p className="press-kicker">maybe you&apos;ve heard of us???</p>
           <p>idk we&apos;ve been in a few papers hehe.</p>
-          <div className="press-links" aria-label="Press links">
-            {siteConfig.press.map((link, index) => (
-              <a href={link.href} key={link.name} target="_blank" rel="noreferrer">
-                {link.name}
-                {index < siteConfig.press.length - 1 ? <span aria-hidden="true"> • </span> : null}
-              </a>
-            ))}
-          </div>
+        </div>
+        <div className="press-links" aria-label="Press links">
+          {siteConfig.press.map((link) => (
+            <a className="press-card" href={link.href} key={link.name} target="_blank" rel="noreferrer">
+              <div className="press-card-image">
+                <Image src={link.image} alt={link.imageAlt} fill sizes="(max-width: 680px) 90vw, (max-width: 1100px) 45vw, 33vw" />
+                <span className="press-card-type">Article</span>
+              </div>
+              <div className="press-card-body">
+                <p className="press-card-outlet">{link.name}</p>
+                <h3 className="press-card-title">{link.title}</h3>
+                <span className="press-card-cta">Read on {link.name} <span aria-hidden="true">↗</span></span>
+              </div>
+            </a>
+          ))}
         </div>
       </section>
 
       <ContactFormSection />
 
-      <SiteFooter actionHref="/apply" actionLabel="Apply 2 sell" />
+      <SiteFooter />
     </main>
   );
 }

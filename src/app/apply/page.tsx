@@ -6,6 +6,7 @@ import SiteFooter from "@/components/site-footer";
 import SiteHeader from "@/components/site-header";
 import { getEvents, isApplicationTypeOpen } from "@/lib/events";
 import { getSiteMedia } from "@/lib/site-media";
+import { findMarketLocation, marketLocations } from "@/lib/market-locations";
 
 export const metadata = {
   title: "Apply 2 Sell | MarketElla",
@@ -14,6 +15,7 @@ export const metadata = {
 
 const applyLocations = [
   {
+    id: "fergusons-downtown",
     name: "fergusons downtown",
     tagline: "we take over the street.",
     description:
@@ -21,6 +23,7 @@ const applyLocations = [
     image: "/IMG_3076.JPG",
   },
   {
+    id: "cowabunga-canyon",
     name: "cowabunga canyon",
     tagline: "where the whole family comes to play",
     description:
@@ -28,6 +31,7 @@ const applyLocations = [
     image: "/IMG_3223.JPG",
   },
   {
+    id: "container-park",
     name: "container park",
     tagline: "cultura meets community",
     description:
@@ -36,13 +40,20 @@ const applyLocations = [
   },
 ];
 
-export default async function ApplyPage() {
+export default async function ApplyPage({ searchParams }: { searchParams: Promise<{ location?: string | string[] }> }) {
+  const locationParam = (await searchParams).location;
+  const selectedLocation = typeof locationParam === "string"
+    ? marketLocations.find((location) => location.id === locationParam)
+    : undefined;
   const [events, siteMedia] = await Promise.all([getEvents(), getSiteMedia()]);
   const openEvents = events.filter(
     (event) =>
       isApplicationTypeOpen(event, "vendor") ||
       isApplicationTypeOpen(event, "food"),
   );
+  const filteredEvents = selectedLocation
+    ? openEvents.filter((event) => findMarketLocation(event.location)?.id === selectedLocation.id)
+    : openEvents;
 
   return (
     <main className="page-shell apply-page">
@@ -61,7 +72,7 @@ export default async function ApplyPage() {
         <div className="apply-hero-content">
           <h1>want 2 grow<br />ur business?</h1>
           <div className="apply-hero-quote">
-            <Link className="button button-light" href="#open-applications">
+            <Link className="button button-light" href="/apply#open-applications">
               Join the MarketElla family <span aria-hidden="true">→</span>
             </Link>
           </div>
@@ -81,7 +92,7 @@ export default async function ApplyPage() {
                   sizes="(max-width: 900px) min(100vw, 560px), 31vw"
                 />
               </div>
-              <Link className="button apply-location-cta" href="#open-applications">
+              <Link className="button apply-location-cta" href={`/apply?location=${location.id}#open-applications`}>
                 Apply 2 sell <span aria-hidden="true">→</span>
               </Link>
               <div className="apply-location-copy">
@@ -97,21 +108,29 @@ export default async function ApplyPage() {
       <section className="application-event-list" id="open-applications" aria-labelledby="open-events-heading">
         <div className="list-heading">
           <h2 id="open-events-heading">Open applications</h2>
-          <span>{openEvents.length} available</span>
+          <span>{filteredEvents.length} available</span>
         </div>
-        {openEvents.length > 0 ? (
-          openEvents.map((event) => (
+        <nav className="application-location-filters" aria-label="Filter applications by location">
+          <Link href="/apply#open-applications" aria-current={!selectedLocation ? "true" : undefined}>All locations</Link>
+          {marketLocations.map((location) => (
+            <Link key={location.id} href={`/apply?location=${location.id}#open-applications`} aria-current={selectedLocation?.id === location.id ? "true" : undefined}>
+              {location.name}
+            </Link>
+          ))}
+        </nav>
+        {filteredEvents.length > 0 ? (
+          filteredEvents.map((event) => (
             <Link className="application-event-card" href={`/apply/${event.slug}`} key={event.slug}>
               <div>
                 <p className="event-kicker">{event.dateLabel}</p>
                 <h3>{event.title}</h3>
-                <p>{event.location} · Choose general or food vendor</p>
+                <p>{event.location} · {isApplicationTypeOpen(event, "vendor") && isApplicationTypeOpen(event, "food") ? "Choose general or food vendor" : isApplicationTypeOpen(event, "food") ? "Food vendor applications" : "General vendor applications"}</p>
               </div>
               <span aria-hidden="true">Apply 2 sell ↗</span>
             </Link>
           ))
         ) : (
-          <p className="empty-state">Applications are closed for now. Check back soon.</p>
+          <p className="empty-state">{selectedLocation ? `No applications currently open at ${selectedLocation.name}.` : "Applications are closed for now. Check back soon."}</p>
         )}
       </section>
 

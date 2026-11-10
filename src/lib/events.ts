@@ -1,4 +1,5 @@
 import { cache } from "react";
+import { defaultVendorTerms } from "@/lib/vendor-terms";
 import {
   events as fallbackEvents,
   type ApplicationType,
@@ -117,7 +118,7 @@ function mapEvent(row: EventRow): MarketEvent {
     foodApplicationsEnabled: row.food_applications_enabled,
     applicationNotes: row.application_notes,
     foodApplicationNotes: row.food_application_notes,
-    applicationRules: row.application_rules,
+    applicationRules: row.application_rules.trim() || defaultVendorTerms,
     foodApplicationRules: row.food_application_rules,
     vendorOptions: (row.event_vendor_options || [])
       .map(mapVendorOption)

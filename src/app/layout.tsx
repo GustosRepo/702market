@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { siteConfig } from "@/lib/site-config";
-import AccessibilityControls from "@/components/accessibility-controls";
 
 const anton = localFont({
   src: "./fonts/Anton-Regular.ttf",
@@ -48,7 +47,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col">
         <a className="skip-link" href="#main-content">Skip to content</a>
-        <AccessibilityControls />
         <div id="main-content">{children}</div>
       </body>
     </html>

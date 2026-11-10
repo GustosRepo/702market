@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import AdminShell from "@/components/admin-shell";
+import AdminLocationField from "@/components/admin-location-field";
+import { defaultVendorTerms } from "@/lib/vendor-terms";
 import { getAdminEventBySlug } from "@/lib/admin-events";
 import { updateEvent } from "../../actions";
 import EventVendorOptionsEditor from "../../EventVendorOptionsEditor";
@@ -38,7 +40,7 @@ export default async function EditEventPage({ params }: EditEventPageProps) {
           <label>Replace event hero image<input accept="image/jpeg,image/png,image/webp,image/gif" name="heroImageFile" type="file" /></label>
           <div className="form-grid two-column">
             <label>Date<input name="eventDate" type="date" defaultValue={event.date} required /></label>
-            <label>Location name<input name="locationName" defaultValue={event.location} required /></label>
+            <AdminLocationField initialLocation={event.location} />
             <label>Start time<input name="startTime" type="time" defaultValue={event.startTime} required /></label>
             <label>End time<input name="endTime" type="time" defaultValue={event.endTime} required /></label>
           </div>
@@ -61,7 +63,9 @@ export default async function EditEventPage({ params }: EditEventPageProps) {
           </label>
           <label className="checkbox-label"><input name="generalApplicationsEnabled" type="checkbox" defaultChecked={event.generalApplicationsEnabled} /> General vendor applications open</label>
           <label>General vendor note shown before continuing<textarea name="applicationNotes" rows={4} defaultValue={event.applicationNotes} placeholder="What should general vendors know or prepare before starting?" /></label>
-          <label>General vendor rules<textarea name="applicationRules" rows={6} defaultValue={event.applicationRules} /></label>
+          <label htmlFor="general-vendor-terms">General vendor terms &amp; agreement</label>
+          <textarea id="general-vendor-terms" name="applicationRules" rows={16} defaultValue={event.applicationRules.trim() || defaultVendorTerms} />
+          <p className="form-helper">Edit the agreement for this event. These terms appear in the general vendor application before submission.</p>
           <EventVendorOptionsEditor applicationType="vendor" initialOptions={event.vendorOptions.filter((option) => option.applicationType === "vendor")} />
           <label className="checkbox-label"><input name="foodApplicationsEnabled" type="checkbox" defaultChecked={event.foodApplicationsEnabled} /> Food vendor applications open</label>
           <label>Food vendor note shown before continuing<textarea name="foodApplicationNotes" rows={4} defaultValue={event.foodApplicationNotes} placeholder="What should food vendors know or prepare before starting?" /></label>

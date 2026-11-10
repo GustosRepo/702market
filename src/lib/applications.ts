@@ -19,6 +19,8 @@ export type AdminApplication = {
   priceRange: string;
   electricityRequired: boolean;
   specialRequests: string | null;
+  themeFit: string | null;
+  followingInstagram: boolean | null;
   businessLicenseNumber: string | null;
   foodMenu: string | null;
   setupMeasurements: string | null;
@@ -91,6 +93,8 @@ type ApplicationRow = {
   vendor_option_name: string | null;
   electricity_required: boolean;
   special_requests: string | null;
+  theme_fit: string | null;
+  following_instagram: boolean | null;
   business_license_number: string | null;
   food_menu: string | null;
   setup_measurements: string | null;
@@ -139,6 +143,8 @@ function mapApplication(row: ApplicationRow): AdminApplication {
     priceRange: row.price_range,
     electricityRequired: row.electricity_required,
     specialRequests: row.special_requests,
+    themeFit: row.theme_fit ?? null,
+    followingInstagram: row.following_instagram ?? null,
     businessLicenseNumber: row.business_license_number,
     foodMenu: row.food_menu,
     setupMeasurements: row.setup_measurements,
@@ -195,7 +201,7 @@ export type ApplicationQuery = {
   paymentStatus?: AdminApplication["paymentStatus"] | "all";
 };
 
-const applicationSelect = "id, first_name, last_name, email, phone, business_name, instagram, website, category, product_description, price_range, booth_type, application_type, vendor_option_name, electricity_required, special_requests, business_license_number, food_menu, setup_measurements, health_department_number, rules_acknowledged, rules_acknowledged_at, reference_code, admin_notes, status, payment_status, payment_reference, paid_at, application_fee, created_at, archived_at, events!inner(title, slug)";
+const applicationSelect = "id, first_name, last_name, email, phone, business_name, instagram, website, category, product_description, price_range, booth_type, application_type, vendor_option_name, electricity_required, special_requests, theme_fit, following_instagram, business_license_number, food_menu, setup_measurements, health_department_number, rules_acknowledged, rules_acknowledged_at, reference_code, admin_notes, status, payment_status, payment_reference, paid_at, application_fee, created_at, archived_at, events!inner(title, slug)";
 
 export async function getApplications(options: ApplicationQuery = {}) {
   if (!hasSupabaseAdminEnv()) {

@@ -1,128 +1,62 @@
 import { createClient } from "@/lib/supabase/server";
 
-export type NewLocationContent = {
+export const HOMEPAGE_COUNTDOWN_KEY = "home.countdown";
+
+export type CountdownContent = {
   active: boolean;
-  topMarqueePhrases: string[];
-  headingLabel: string;
-  locationName: string;
-  description: string;
-  buttonLabel: string;
-  buttonHref: string;
-  bottomMarqueePhrases: string[];
+  heading: string;
+  emptyMessage: string;
 };
 
 export type HomepageContent = {
-  newLocation: NewLocationContent;
+  countdown: CountdownContent;
 };
 
-type SiteContentRow = {
-  key: string;
-  content: unknown;
-  active: boolean;
-};
-
-export const defaultNewLocationContent: NewLocationContent = {
+export const defaultCountdownContent: CountdownContent = {
   active: true,
-  topMarqueePhrases: ["Not your average market"],
-  headingLabel: "now in:",
-  locationName: "las vegas",
-  description:
-    "we heard the 702 needed a new market that focuses on vintage goods and handmade items.....",
-  buttonLabel: "Tell me more",
-  buttonHref: "/events",
-  bottomMarqueePhrases: ["apply to sell"],
+  heading: "UPCOMING MARKET",
+  emptyMessage: "More market dates coming soon. Stay tuned!",
 };
 
 export const fallbackHomepageContent: HomepageContent = {
-  newLocation: defaultNewLocationContent,
+  countdown: defaultCountdownContent,
 };
-
-function hasSupabaseEnv() {
-  return Boolean(
-    process.env.NEXT_PUBLIC_SUPABASE_URL &&
-      process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
-  );
-}
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return Boolean(value && typeof value === "object" && !Array.isArray(value));
-}
 
 function stringValue(value: unknown, fallback: string) {
   return typeof value === "string" && value.trim() ? value.trim() : fallback;
 }
 
-function stringArrayValue(value: unknown, fallback: string[]) {
-  if (!Array.isArray(value)) {
-    return fallback;
-  }
-
-  const phrases = value
-    .filter((item): item is string => typeof item === "string")
-    .map((item) => item.trim())
-    .filter(Boolean);
-
-  return phrases.length > 0 ? phrases : fallback;
-}
-
-export function normalizeNewLocationContent(
+export function normalizeCountdownContent(
   content: unknown,
-  active = defaultNewLocationContent.active,
-): NewLocationContent {
-  const source = isRecord(content) ? content : {};
+  active = defaultCountdownContent.active,
+): CountdownContent {
+  const source = content && typeof content === "object" && !Array.isArray(content)
+    ? content as Record<string, unknown>
+    : {};
 
   return {
     active,
-    topMarqueePhrases: stringArrayValue(
-      source.topMarqueePhrases,
-      defaultNewLocationContent.topMarqueePhrases,
-    ),
-    headingLabel: stringValue(
-      source.headingLabel,
-      defaultNewLocationContent.headingLabel,
-    ),
-    locationName: stringValue(
-      source.locationName,
-      defaultNewLocationContent.locationName,
-    ),
-    description: stringValue(
-      source.description,
-      defaultNewLocationContent.description,
-    ),
-    buttonLabel: stringValue(
-      source.buttonLabel,
-      defaultNewLocationContent.buttonLabel,
-    ),
-    buttonHref: stringValue(source.buttonHref, defaultNewLocationContent.buttonHref),
-    bottomMarqueePhrases: stringArrayValue(
-      source.bottomMarqueePhrases,
-      defaultNewLocationContent.bottomMarqueePhrases,
-    ),
+    heading: source.heading === "countdown to our next market" || source.heading === "NEXT MARKET"
+      ? defaultCountdownContent.heading
+      : stringValue(source.heading, defaultCountdownContent.heading),
+    emptyMessage: stringValue(source.emptyMessage, defaultCountdownContent.emptyMessage),
   };
 }
 
 export async function getHomepageContent(): Promise<HomepageContent> {
-  if (!hasSupabaseEnv()) {
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY) {
     return fallbackHomepageContent;
   }
 
   const supabase = await createClient();
+  // Read inactive settings too: the saved visibility must not fall back to true.
   const { data, error } = await supabase
     .from("site_content")
-    .select("key, content, active")
-    .eq("key", "home.new_location")
-    .eq("active", true)
-    .limit(1);
+    .select("content, active")
+    .eq("key", HOMEPAGE_COUNTDOWN_KEY)
+    .maybeSingle();
 
-  if (error) {
-    return fallbackHomepageContent;
-  }
-
-  const row = ((data || []) as SiteContentRow[])[0];
-
-  return {
-    newLocation: row
-      ? normalizeNewLocationContent(row.content, row.active)
-      : defaultNewLocationContent,
-  };
+  return error || !data
+    ? fallbackHomepageContent
+    : { countdown: normalizeCountdownContent(data.content, data.active) };
 }

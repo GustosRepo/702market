@@ -66,18 +66,10 @@ export const mediaSlotDefinitions: MediaSlotDefinition[] = [
     fallbackAlt: "Vendor booth with clothing and accessories at MarketElla.",
     sortOrder: 0,
   },
-  {
-    slot: "home.new_location.strip",
-    label: "New location strip",
-    group: "Homepage",
-    fallbackPath: fallbackSiteMedia.newLocationStrip,
-    fallbackAlt: "MarketElla shoppers and event moments.",
-    sortOrder: 1,
-  },
   ...fallbackSiteMedia.homeGallery.map((photo, index) => ({
     slot: `home.gallery.${index + 1}`,
-    label: `Homepage gallery ${index + 1}`,
-    group: "Homepage gallery",
+    label: `Homepage carousel photo ${index + 1}`,
+    group: "Homepage carousel",
     fallbackPath: photo.src,
     fallbackAlt: photo.alt,
     fallbackCaption: photo.caption,
@@ -125,11 +117,21 @@ export async function getAdminSiteMedia() {
     return mediaSlotDefinitions.map((definition) => slotFromDefinition(definition));
   }
 
-  const rowsBySlot = new Map(
-    ((data || []) as SiteMediaRow[]).map((row) => [row.slot, row]),
-  );
+  const rows = (data || []) as SiteMediaRow[];
+  const rowsBySlot = new Map(rows.map((row) => [row.slot, row]));
+  const knownSlots = new Set(mediaSlotDefinitions.map((definition) => definition.slot));
+  const extraPhotos = rows
+    .filter((row) => row.slot.startsWith("home.gallery.") && !knownSlots.has(row.slot))
+    .map((row) => slotFromDefinition({
+      slot: row.slot,
+      label: "Homepage carousel photo",
+      group: "Homepage carousel",
+      fallbackPath: row.storage_path,
+      fallbackAlt: "MarketElla market photo.",
+      sortOrder: row.sort_order,
+    }, row));
 
-  return mediaSlotDefinitions.map((definition) =>
+  return [...mediaSlotDefinitions.map((definition) =>
     slotFromDefinition(definition, rowsBySlot.get(definition.slot)),
-  );
+  ), ...extraPhotos];
 }

@@ -3,7 +3,6 @@ export const siteAssets = {
   aboutStory: "/assets/site/about-story-web.webp",
   contactCommunity: "/assets/site/contact-community-web.webp",
   socialCta: "/assets/site/social-cta-web.webp",
-  newLocationStrip: "/assets/site/img-3226-web.webp",
   homeGallery: [
     {
       src: "/IMG_3076.JPG",

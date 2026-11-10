@@ -18,8 +18,15 @@ export default defineConfig({
     screenshot: "only-on-failure",
   },
   projects: [
-    { name: "chromium", use: { ...devices["Desktop Chrome"] } },
-    { name: "mobile-chromium", use: { ...devices["Pixel 7"] } },
+    { name: "chromium", testIgnore: "**/homepage-admin.spec.ts", use: { ...devices["Desktop Chrome"] } },
+    { name: "mobile-chromium", testIgnore: "**/homepage-admin.spec.ts", use: { ...devices["Pixel 7"] } },
+    {
+      name: "homepage-admin",
+      testMatch: "**/homepage-admin.spec.ts",
+      // These checks change global homepage settings; run after public readers.
+      dependencies: ["chromium", "mobile-chromium"],
+      use: { ...devices["Desktop Chrome"] },
+    },
   ],
   webServer: [
     {

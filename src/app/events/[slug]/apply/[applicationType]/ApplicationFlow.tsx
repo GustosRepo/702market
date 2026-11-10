@@ -3,6 +3,7 @@
 import { useActionState, useEffect, useRef, useState, type FormEvent } from "react";
 import type { ApplicationType, EventVendorOption } from "@/data/events";
 import type { ApplicationFormState } from "./actions";
+import { siteConfig } from "@/lib/site-config";
 
 const categories = ["Vintage", "Clothing", "Jewelry", "Art", "Collectibles", "Handmade", "Beauty", "Accessories", "Prepackaged Food", "Other"];
 const steps = ["Event", "You", "Business", "Space", "Uploads", "Rules"];
@@ -139,10 +140,10 @@ export default function ApplicationFlow({
         <legend>Your business</legend>
         <label>Business name<input name="businessName" required /></label>
         <div className="form-grid two-column">
-          <label>Instagram or social handle<input name="instagram" placeholder="@yourbusiness" /></label>
-          <label>Website<input name="website" placeholder="https://" type="url" /></label>
+          <label>Instagram or social handle (optional)<input name="instagram" placeholder="@yourbusiness" /></label>
+          <label>Website (optional)<input name="website" placeholder="https://" type="url" /></label>
         </div>
-        <label>City of Las Vegas business license number<input name="businessLicenseNumber" placeholder="G00-0000" required /></label>
+        <label>City of Las Vegas business license number (optional)<input name="businessLicenseNumber" placeholder="G00-0000" /></label>
         {applicationType === "food" ? (
           <>
             <label>Setup measurements<input name="setupMeasurements" placeholder="Tow hitch to back of trailer, or tent dimensions" required /></label>
@@ -158,9 +159,11 @@ export default function ApplicationFlow({
               </select>
             </label>
             <label>List every product you plan to sell<textarea name="productDescription" required rows={6} /></label>
-            <label>Typical price range<input name="priceRange" placeholder="$15 - $80" /></label>
           </>
         )}
+        <label>How will you fit the theme? (Character art, decor, merch, etc.)
+          <textarea name="themeFit" required rows={4} />
+        </label>
       </fieldset>
 
       <fieldset data-application-step="3" hidden={step !== 3}>
@@ -174,23 +177,30 @@ export default function ApplicationFlow({
             </label>
           ))}
         </div>
-        <label>Special setup requests<textarea name="specialRequests" rows={4} /></label>
       </fieldset>
 
       <fieldset data-application-step="4" hidden={step !== 4}>
         <legend>Documents and photos</legend>
-        <p className="form-helper">JPG, PNG, WebP, or PDF. Maximum 10MB per file, 12 files, and 45MB total.</p>
-        <label>Business license upload<input accept="image/jpeg,image/png,image/webp,application/pdf" name="businessLicense" required type="file" /></label>
-        {applicationType === "food" ? <label>Health permit upload<input accept="image/jpeg,image/png,image/webp,application/pdf" name="healthPermit" required type="file" /></label> : <label>Health permit, if selling sealed or prepackaged food<input accept="image/jpeg,image/png,image/webp,application/pdf" name="healthPermit" type="file" /></label>}
-        {applicationType === "food" ? <label>Business logo<input accept="image/jpeg,image/png,image/webp" name="logo" required type="file" /></label> : null}
-        <label>Setup, truck, tent, and booth photos<input accept="image/jpeg,image/png,image/webp" multiple name="setupPhotos" required type="file" /></label>
-        {applicationType === "food" ? <label>Food and product photos<input accept="image/jpeg,image/png,image/webp" multiple name="productPhotos" type="file" /></label> : null}
-        {applicationType === "food" ? <label>Menu file, if available<input accept="image/jpeg,image/png,image/webp,application/pdf" name="menuFile" type="file" /></label> : null}
+        <p className="form-helper">All uploads are optional. Share any documents or photos you have available. JPG, PNG, WebP, or PDF. Maximum 10MB per file, 12 files, and 45MB total.</p>
+        <label>Business license upload (optional)<input accept="image/jpeg,image/png,image/webp,application/pdf" name="businessLicense" type="file" /></label>
+        {applicationType === "food" ? <label>Health permit upload (optional)<input accept="image/jpeg,image/png,image/webp,application/pdf" name="healthPermit" type="file" /></label> : <label>Health permit, if selling sealed or prepackaged food (optional)<input accept="image/jpeg,image/png,image/webp,application/pdf" name="healthPermit" type="file" /></label>}
+        {applicationType === "food" ? <label>Business logo (optional)<input accept="image/jpeg,image/png,image/webp" name="logo" type="file" /></label> : null}
+        <label>Setup, truck, tent, and booth photos (optional)<input accept="image/jpeg,image/png,image/webp" multiple name="setupPhotos" type="file" /></label>
+        {applicationType === "food" ? <label>Food and product photos (optional)<input accept="image/jpeg,image/png,image/webp" multiple name="productPhotos" type="file" /></label> : null}
+        {applicationType === "food" ? <label>Menu file (optional)<input accept="image/jpeg,image/png,image/webp,application/pdf" name="menuFile" type="file" /></label> : null}
       </fieldset>
 
       <fieldset data-application-step="5" hidden={step !== 5}>
         <legend>Rules and review</legend>
-        <div className="application-rules"><p>{rules || "Approved vendors must follow event instructions, arrive on time, keep their space clean, sell only approved items, and remain for the full event."}</p></div>
+        <div className="application-rules" role="region" aria-label="Event terms and agreement" tabIndex={0}>
+          {(rules || "Approved vendors must follow event instructions, arrive on time, keep their space clean, sell only approved items, and remain for the full event.")
+            .split(/\n\s*\n/)
+            .map((paragraph, index) => /^(?:VENDOR TERMS & AGREEMENT|VENDOR ACKNOWLEDGEMENT|\d+\.\s)/.test(paragraph.trim())
+              ? <h3 key={index}>{paragraph}</h3>
+              : <p key={index}>{paragraph}</p>)}
+        </div>
+        <label className="checkbox-label"><input name="followingInstagram" type="checkbox" /> I’m following {siteConfig.name} on Instagram.</label>
+        <p className="form-helper"><a href={siteConfig.socials.instagram} target="_blank" rel="noreferrer">Follow {siteConfig.name} on Instagram ↗</a></p>
         <label className="checkbox-label"><input name="rulesAcknowledged" required type="checkbox" /> I read and agree to these event rules and understand that submitting does not guarantee acceptance.</label>
         <p className="application-copyright">
           © 2026 MarketElla LV LLC. All rights reserved. This application and all included content are protected by copyright. No part may be copied, reproduced, or distributed without written permission from the owner.

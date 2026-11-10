@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireAdmin } from "@/lib/admin-auth";
-import { defaultNewLocationContent } from "@/lib/homepage-content";
+import { defaultCountdownContent, HOMEPAGE_COUNTDOWN_KEY } from "@/lib/homepage-content";
 import { createAdminClient } from "@/lib/supabase/admin";
 
 type SupabaseErrorLike = {
@@ -11,28 +11,9 @@ type SupabaseErrorLike = {
   message?: string;
 };
 
-const CONTENT_KEY = "home.new_location";
-
 function readString(formData: FormData, key: string) {
   const value = formData.get(key);
   return typeof value === "string" ? value.trim() : "";
-}
-
-function readPhrases(formData: FormData, key: string, fallback: string[]) {
-  const phrases = readString(formData, key)
-    .split("|")
-    .map((phrase) => phrase.trim())
-    .filter(Boolean);
-
-  return phrases.length > 0 ? phrases : fallback;
-}
-
-function normalizeInternalHref(value: string) {
-  if (value.startsWith("/") || value.startsWith("#")) {
-    return value;
-  }
-
-  return defaultNewLocationContent.buttonHref;
 }
 
 function isMissingTableError(error: SupabaseErrorLike) {
@@ -49,40 +30,16 @@ export async function updateHomepageContent(formData: FormData) {
   await requireAdmin();
 
   const content = {
-    topMarqueePhrases: readPhrases(
-      formData,
-      "newLocation:topMarqueePhrases",
-      defaultNewLocationContent.topMarqueePhrases,
-    ),
-    headingLabel:
-      readString(formData, "newLocation:headingLabel") ||
-      defaultNewLocationContent.headingLabel,
-    locationName:
-      readString(formData, "newLocation:locationName") ||
-      defaultNewLocationContent.locationName,
-    description:
-      readString(formData, "newLocation:description") ||
-      defaultNewLocationContent.description,
-    buttonLabel:
-      readString(formData, "newLocation:buttonLabel") ||
-      defaultNewLocationContent.buttonLabel,
-    buttonHref: normalizeInternalHref(
-      readString(formData, "newLocation:buttonHref") ||
-        defaultNewLocationContent.buttonHref,
-    ),
-    bottomMarqueePhrases: readPhrases(
-      formData,
-      "newLocation:bottomMarqueePhrases",
-      defaultNewLocationContent.bottomMarqueePhrases,
-    ),
+    heading: readString(formData, "countdown:heading").slice(0, 160) || defaultCountdownContent.heading,
+    emptyMessage: readString(formData, "countdown:emptyMessage").slice(0, 500) || defaultCountdownContent.emptyMessage,
   };
 
   const supabase = createAdminClient();
   const { error } = await supabase.from("site_content").upsert(
     {
-      key: CONTENT_KEY,
+      key: HOMEPAGE_COUNTDOWN_KEY,
       content,
-      active: formData.get("newLocation:active") === "on",
+      active: formData.get("countdown:active") === "on",
       updated_at: new Date().toISOString(),
     },
     { onConflict: "key" },

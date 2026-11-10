@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireAdmin } from "@/lib/admin-auth";
-import { mediaSlotDefinitions } from "@/lib/admin-site-media";
+import { getAdminSiteMedia } from "@/lib/admin-site-media";
 import { createAdminClient } from "@/lib/supabase/admin";
 
 const SITE_MEDIA_BUCKET = "site-assets";
@@ -23,6 +23,16 @@ type SupabaseErrorLike = {
 function readString(formData: FormData, key: string) {
   const value = formData.get(key);
   return typeof value === "string" ? value.trim() : "";
+}
+
+function readDisplayOrder(formData: FormData, slot: string, fallback: number) {
+  const value = readString(formData, `${slot}:sortOrder`);
+  if (!value) return fallback;
+  const order = Number(value);
+  if (!Number.isSafeInteger(order) || order < 0 || order > 1000000) {
+    throw new Error("Photo display order must be a whole number between 0 and 1000000.");
+  }
+  return order;
 }
 
 function readFile(formData: FormData, key: string) {
@@ -73,6 +83,15 @@ function isMissingBucketError(error: SupabaseErrorLike) {
   );
 }
 
+function validateImage(file: File) {
+  if (!ALLOWED_IMAGE_TYPES.has(file.type)) {
+    throw new Error("Upload must be a JPG, PNG, WebP, or GIF image.");
+  }
+  if (file.size > MAX_UPLOAD_SIZE) {
+    throw new Error("Image uploads must be 10MB or smaller.");
+  }
+}
+
 async function uploadSiteMediaFile({
   file,
   slot,
@@ -80,13 +99,7 @@ async function uploadSiteMediaFile({
   file: File;
   slot: string;
 }) {
-  if (!ALLOWED_IMAGE_TYPES.has(file.type)) {
-    throw new Error("Upload must be a JPG, PNG, WebP, or GIF image.");
-  }
-
-  if (file.size > MAX_UPLOAD_SIZE) {
-    throw new Error("Image uploads must be 10MB or smaller.");
-  }
+  validateImage(file);
 
   const supabase = createAdminClient();
   const uploadPath = `${slot.replace(/[^a-z0-9.-]+/gi, "-")}/${Date.now()}-${safeFileName(file.name)}`;
@@ -125,10 +138,17 @@ function revalidateMediaPaths() {
 export async function updateSiteMedia(formData: FormData) {
   await requireAdmin();
 
+  const files = [...formData.values()].filter((value): value is File => value instanceof File && value.size > 0);
+  if (files.reduce((total, file) => total + file.size, 0) > 40 * 1024 * 1024) {
+    throw new Error("Upload up to 40MB of photos per save.");
+  }
+  files.forEach(validateImage);
+
   const supabase = createAdminClient();
   const rows = [];
+  const slots = await getAdminSiteMedia();
 
-  for (const definition of mediaSlotDefinitions) {
+  for (const definition of slots) {
     const uploadedFile = readFile(formData, `${definition.slot}:file`);
     const uploadedPath = uploadedFile
       ? await uploadSiteMediaFile({
@@ -140,7 +160,7 @@ export async function updateSiteMedia(formData: FormData) {
     const storagePath =
       uploadedPath ||
       readString(formData, `${definition.slot}:storagePath`) ||
-      definition.fallbackPath;
+      definition.storagePath;
 
     if (!storagePath) {
       continue;
@@ -151,10 +171,28 @@ export async function updateSiteMedia(formData: FormData) {
       storage_path: storagePath,
       alt_text:
         readString(formData, `${definition.slot}:altText`) ||
-        definition.fallbackAlt,
+        definition.altText,
       caption: readString(formData, `${definition.slot}:caption`) || null,
-      sort_order: definition.sortOrder,
+      sort_order: definition.slot.startsWith("home.gallery.")
+        ? readDisplayOrder(formData, definition.slot, definition.sortOrder)
+        : definition.sortOrder,
       active: formData.get(`${definition.slot}:active`) === "on",
+      updated_at: new Date().toISOString(),
+    });
+  }
+
+  let nextOrder = Math.max(0, ...rows.filter((row) => row.slot.startsWith("home.gallery.")).map((row) => row.sort_order));
+  const addedPhotos = formData.getAll("homeGalleryFiles").filter((value): value is File => value instanceof File && value.size > 0);
+  for (const file of addedPhotos) {
+    const slot = `home.gallery.${crypto.randomUUID()}`;
+    const storagePath = await uploadSiteMediaFile({ file, slot });
+    rows.push({
+      slot,
+      storage_path: storagePath,
+      alt_text: file.name.replace(/\.[^/.]+$/, "").replace(/[-_]+/g, " ").trim() || "MarketElla market photo.",
+      caption: null,
+      sort_order: ++nextOrder,
+      active: true,
       updated_at: new Date().toISOString(),
     });
   }

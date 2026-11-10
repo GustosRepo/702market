@@ -52,7 +52,7 @@ export const openEvent = {
   event_date: dateOffset(30),
   start_time: "16:00",
   end_time: "22:00",
-  location_name: "Downtown Las Vegas",
+  location_name: "Ferguson's Downtown",
   address: "1028 Fremont Street, Las Vegas, NV",
   hero_image: "/IMG_3076.JPG",
   application_open_date: dateOffset(-7),
@@ -75,6 +75,7 @@ export const closedEvent = {
   ...openEvent,
   id: "00000000-0000-4000-8000-000000000002",
   title: "E2E Closed Market",
+  location_name: "Arts District Courtyard",
   slug: "e2e-closed-market",
   application_deadline: dateOffset(-1),
 };
@@ -91,7 +92,11 @@ export const pastEvent = {
 export const tables = {
   events: [openEvent, closedEvent, pastEvent],
   event_vendor_options: vendorOptions.map((option) => ({ ...option, event_id: openEvent.id })),
-  site_media: [],
+  site_media: [
+    { slot: "home.gallery.1", storage_path: "/IMG_3076.JPG", alt_text: "Crowd browsing vendor tents at MarketElla.", caption: "Market days", sort_order: 1, active: true },
+    { slot: "home.gallery.2", storage_path: "/IMG_3223.JPG", alt_text: "Vendor booth with clothing and accessories at MarketElla.", caption: "Vendor corners", sort_order: 2, active: true },
+    { slot: "home.gallery.3", storage_path: "/IMG_3220.JPG", alt_text: "Music and vendor setup at an outdoor MarketElla event.", caption: "Good energy", sort_order: 3, active: true },
+  ],
   site_content: [],
   podcast_episodes: [
     {

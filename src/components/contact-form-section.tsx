@@ -3,6 +3,7 @@
 import { useActionState, type ReactNode } from "react";
 import { submitContactForm, type ContactFormState } from "@/app/contact/actions";
 import { siteConfig } from "@/lib/site-config";
+import MarqueeBand from "@/components/marquee-band";
 
 type ContactFormSectionProps = {
   id?: string;
@@ -16,20 +17,6 @@ const socialLinks = [
   { name: "Linktree", href: siteConfig.socials.linktree },
 ];
 const initialState: ContactFormState = { status: "idle", message: "" };
-
-function ContactMarquee() {
-  const repeated = [...contactPhrases, ...contactPhrases, ...contactPhrases];
-
-  return (
-    <div className="marquee-band marquee-contact" aria-hidden="true">
-      <div className="marquee-track">
-        {repeated.map((phrase, index) => (
-          <span key={`${phrase}-${index}`}>{phrase}</span>
-        ))}
-      </div>
-    </div>
-  );
-}
 
 function FieldLabel({
   children,
@@ -57,7 +44,7 @@ export default function ContactFormSection({
 
   return (
     <section className="home-contact-section" id={id} aria-labelledby={`${id}-heading`}>
-      {showMarquee ? <ContactMarquee /> : null}
+      {showMarquee ? <MarqueeBand className="marquee-contact" phrases={contactPhrases} label="wanna connect?" /> : null}
       <div className="home-contact-layout">
         <div className="home-contact-copy">
           <h2 id={`${id}-heading`}>

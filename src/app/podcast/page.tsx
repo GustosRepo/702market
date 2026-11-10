@@ -4,6 +4,7 @@ import SiteFooter from "@/components/site-footer";
 import SiteHeader from "@/components/site-header";
 import PodcastSubmissionForm from "@/components/podcast-submission-form";
 import { getPodcastEpisodes } from "@/lib/podcast";
+import { siteConfig } from "@/lib/site-config";
 
 export const metadata = {
   title: "702 Chisme Podcast | MarketElla",
@@ -19,7 +20,6 @@ export default async function PodcastPage() {
         <SiteHeader ariaLabel="Podcast navigation" className="podcast-hero-nav" variant="hero" />
         <div className="podcast-hero-content">
           <div className="podcast-hero-title">
-            <p className="eyebrow">market talk, real stories</p>
             <h1>702 chisme podcast</h1>
             <p>Market talk, real stories, behind the scenes, and whatever is on our minds.</p>
           </div>
@@ -72,7 +72,7 @@ export default async function PodcastPage() {
       </section>
 
       <ContactFormSection id="podcast-contact" />
-      <SiteFooter actionHref="/socials" actionLabel="Follow along" />
+      <SiteFooter actionHref={siteConfig.socials.linktree} actionLabel="Follow along" />
     </main>
   );
 }

@@ -4,7 +4,7 @@ import { siteConfig } from "@/lib/site-config";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
-  const pages = ["", "/about", "/apply", "/events", "/faq", "/merch", "/podcast", "/contact", "/socials", "/privacy", "/terms"];
+  const pages = ["", "/about", "/apply", "/events", "/faq", "/merch", "/podcast", "/contact", "/privacy", "/terms"];
   const staticEntries: MetadataRoute.Sitemap = pages.map((path) => ({
     url: `${siteConfig.url}${path}`,
     lastModified: now,

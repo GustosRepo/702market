@@ -19,7 +19,6 @@ export default async function EventsPage() {
       <SiteHeader ariaLabel="Calendar navigation" />
       <section className="calendar-events" aria-labelledby="calendar-heading">
         <div className="calendar-page-heading">
-          <p className="eyebrow">market calendar</p>
           <h1 id="calendar-heading">where to find us.</h1>
         </div>
         {upcomingEvents.length > 0 ? (
@@ -57,7 +56,7 @@ export default async function EventsPage() {
         )}
       </section>
       <ContactFormSection id="calendar-contact" />
-      <SiteFooter actionHref="/apply" actionLabel="Apply to sell" />
+      <SiteFooter />
     </main>
   );
 }

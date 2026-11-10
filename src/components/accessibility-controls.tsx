@@ -1,21 +1,25 @@
 "use client";
 
-import { useState } from "react";
-import { usePathname } from "next/navigation";
+import { useSyncExternalStore } from "react";
+
+function subscribe(onChange: () => void) {
+  const observer = new MutationObserver(onChange);
+  observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-motion-paused"] });
+  return () => observer.disconnect();
+}
+
+function getPaused() {
+  return document.documentElement.dataset.motionPaused === "true";
+}
+
+function getServerPaused() { return false; }
 
 export default function AccessibilityControls() {
-  const [paused, setPaused] = useState(false);
-  const pathname = usePathname();
+  const paused = useSyncExternalStore(subscribe, getPaused, getServerPaused);
 
   return (
-    <>
-      {!pathname.startsWith("/admin") ? (
-        <button className="motion-toggle" type="button" aria-pressed={paused} onClick={() => {
-          const next = !paused;
-          setPaused(next);
-          document.documentElement.dataset.motionPaused = String(next);
-        }}>{paused ? "Resume animations" : "Pause animations"}</button>
-      ) : null}
-    </>
+    <button className="motion-toggle" type="button" aria-pressed={paused} onClick={() => {
+      document.documentElement.dataset.motionPaused = String(!paused);
+    }}>{paused ? "Resume animations" : "Pause animations"}</button>
   );
 }

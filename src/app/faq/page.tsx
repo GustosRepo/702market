@@ -102,7 +102,7 @@ export default function FaqPage() {
         </div>
       </section>
 
-      <SiteFooter actionHref="/apply" actionLabel="Apply to sell" />
+      <SiteFooter />
     </main>
   );
 }

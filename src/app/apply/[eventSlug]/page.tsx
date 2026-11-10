@@ -56,21 +56,23 @@ export default async function ApplicationPage({ params }: ApplicationPageProps) 
         <p className="eyebrow">Choose your application</p>
         <h1>{event.title}<br /><em>starts here.</em></h1>
         <p className="application-header-meta">
-          {event.dateLabel} · {event.location}
+          <span className="application-meta-pill">{event.dateLabel} · {event.location}</span>
         </p>
       </section>
       <section className="application-type-chooser">
         {generalOpen ? (
-          <Link className="application-type-choice" href={`/events/${event.slug}/apply/vendor`}>
-            <p className="eyebrow">General vendor</p>
-            <h2>Products, vintage,<br />art, and more.</h2>
+          <Link className="application-type-choice application-type-retail" href={`/events/${event.slug}/apply/vendor`}>
+            <p className="eyebrow">01 / Retail babes</p>
+            <h2>Selling<br />something cool?</h2>
+            <p className="application-type-description">Handmade, vintage, art, prepackaged goods, all things creative.</p>
             <span>Start vendor application ↗</span>
           </Link>
         ) : null}
         {foodOpen ? (
-          <Link className="application-type-choice" href={`/events/${event.slug}/apply/food`}>
-            <p className="eyebrow">Food vendor</p>
-            <h2>Trucks, tents,<br />stands, and drinks.</h2>
+          <Link className="application-type-choice application-type-food" href={`/events/${event.slug}/apply/food`}>
+            <p className="eyebrow">02 / Foodie crew</p>
+            <h2>Bringing<br />the flavor?</h2>
+            <p className="application-type-description">Food trucks, food tents, drinks &amp; delicious eats.</p>
             <span>Start food application ↗</span>
           </Link>
         ) : null}

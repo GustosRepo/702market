@@ -1,43 +1,22 @@
 import {
-  defaultNewLocationContent,
-  normalizeNewLocationContent,
+  fallbackHomepageContent,
+  HOMEPAGE_COUNTDOWN_KEY,
+  normalizeCountdownContent,
+  type HomepageContent,
 } from "@/lib/homepage-content";
-import {
-  createAdminClient,
-  hasSupabaseAdminEnv,
-} from "@/lib/supabase/admin";
+import { createAdminClient, hasSupabaseAdminEnv } from "@/lib/supabase/admin";
 
-type SiteContentRow = {
-  key: string;
-  content: unknown;
-  active: boolean;
-};
-
-export async function getAdminHomepageContent() {
-  if (!hasSupabaseAdminEnv()) {
-    return {
-      newLocation: defaultNewLocationContent,
-    };
-  }
+export async function getAdminHomepageContent(): Promise<HomepageContent> {
+  if (!hasSupabaseAdminEnv()) return fallbackHomepageContent;
 
   const supabase = createAdminClient();
   const { data, error } = await supabase
     .from("site_content")
-    .select("key, content, active")
-    .eq("key", "home.new_location")
-    .limit(1);
+    .select("content, active")
+    .eq("key", HOMEPAGE_COUNTDOWN_KEY)
+    .maybeSingle();
 
-  if (error) {
-    return {
-      newLocation: defaultNewLocationContent,
-    };
-  }
-
-  const row = ((data || []) as SiteContentRow[])[0];
-
-  return {
-    newLocation: row
-      ? normalizeNewLocationContent(row.content, row.active)
-      : defaultNewLocationContent,
-  };
+  return error || !data
+    ? fallbackHomepageContent
+    : { countdown: normalizeCountdownContent(data.content, data.active) };
 }

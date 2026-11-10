@@ -1,0 +1,59 @@
+.gallery { background: #FDD0CC; padding: clamp(32px, 5vw, 64px) 0; }
+.track {
+  display: flex;
+  gap: clamp(14px, 2vw, 28px);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  padding: 8px clamp(18px, 4vw, 58px) 16px;
+  scrollbar-width: none;
+  scroll-padding-inline: clamp(18px, 4vw, 58px);
+  scroll-snap-type: x mandatory;
+}
+.track::-webkit-scrollbar { display: none; }
+.photo {
+  aspect-ratio: 4 / 5;
+  background: #FDD0CC;
+  border: 0;
+  border-radius: 20px;
+  cursor: zoom-in;
+  flex: 0 0 clamp(240px, 34vw, 440px);
+  overflow: hidden;
+  padding: 0;
+  position: relative;
+  scroll-snap-align: start;
+}
+.photo img { object-fit: cover; transition: transform 180ms ease; }
+.photo:hover img { transform: scale(1.025); }
+.caption { background: rgba(5, 3, 4, 0.64); bottom: 0; color: #fff; font: 1.2rem var(--font-accent), sans-serif; left: 0; overflow-wrap: anywhere; padding: 18px; position: absolute; right: 0; text-align: left; }
+.expand { align-items: center; background: #ecc0c1; border-radius: 50%; color: var(--ink); display: flex; font-size: 24px; height: 40px; justify-content: center; position: absolute; right: 14px; top: 14px; width: 40px; }
+.controls { align-items: center; color: var(--ink); display: flex; font: 1rem var(--font-accent), sans-serif; gap: 20px; justify-content: center; margin-top: 12px; }
+.controls button { background: #ecc0c1; border: 1px solid transparent; border-radius: 50%; color: var(--ink); cursor: pointer; font: 24px sans-serif; height: 48px; width: 48px; }
+.controls button:disabled { cursor: default; opacity: 0.35; }
+.gallery button:focus-visible, .track:focus-visible { outline: 3px solid var(--pink); outline-offset: 4px; }
+.viewer {
+  background: transparent;
+  border: 0;
+  margin: auto;
+  max-height: calc(100svh - 32px);
+  max-width: calc(100vw - 32px);
+  overflow: visible;
+  padding: 0;
+  width: max-content;
+}
+.viewer::backdrop { background: rgba(5, 3, 4, 0.55); }
+.viewerPhoto { background: transparent; border: 0; cursor: zoom-out; display: block; padding: 0; }
+.enlargedPhoto {
+  border-radius: 12px;
+  display: block;
+  height: auto;
+  max-height: calc(100svh - 64px);
+  max-width: calc(100vw - 32px);
+  width: auto;
+}
+.viewerPhoto:focus-visible { outline: 3px solid #fff; outline-offset: 4px; }
+@media (max-width: 680px) {
+  .photo { flex-basis: 78vw; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .photo img { transition: none; }
+}

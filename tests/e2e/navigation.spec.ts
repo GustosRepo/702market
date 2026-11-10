@@ -6,6 +6,33 @@ async function openNavigation(page: Page) {
   if (await toggle.isVisible()) await toggle.click();
 }
 
+test("footer links stay clear of the motion control and its setting survives navigation", async ({ page }) => {
+  await page.goto("/");
+  const footer = page.locator("footer");
+  await footer.scrollIntoViewIfNeeded();
+  await expect(footer).not.toContainText("Come find us.");
+  await expect(footer).toContainText("© 2026 MarketElla LV LLC. All rights reserved.");
+  await expect(footer.locator('a[href="/apply"]')).toHaveCount(0);
+  const pause = footer.getByRole("button", { name: "Pause animations", exact: true });
+  await expect(pause).not.toHaveCSS("position", "fixed");
+  const clear = await footer.evaluate((element) => {
+    const button = element.querySelector("button")!.getBoundingClientRect();
+    return [...element.querySelectorAll("a")].every((link) => {
+      const bounds = link.getBoundingClientRect();
+      return bounds.right <= button.left || bounds.left >= button.right || bounds.bottom <= button.top || bounds.top >= button.bottom;
+    });
+  });
+  expect(clear).toBe(true);
+  await pause.click();
+  await expect(footer.getByRole("button", { name: "Resume animations", exact: true })).toHaveAttribute("aria-pressed", "true");
+  await footer.getByRole("link", { name: "Privacy", exact: true }).click();
+  await expect(page).toHaveURL("/privacy");
+  const resume = footer.getByRole("button", { name: "Resume animations", exact: true });
+  await expect(resume).toHaveAttribute("aria-pressed", "true");
+  await resume.click();
+  await expect(footer.getByRole("button", { name: "Pause animations", exact: true })).toHaveAttribute("aria-pressed", "false");
+});
+
 test("home navigation reaches the public pages", async ({ page }) => {
   const pages = [
     { link: "Apply 2 Sell", path: "/apply", heading: /want 2 grow/i },
@@ -13,7 +40,6 @@ test("home navigation reaches the public pages", async ({ page }) => {
     { link: "Shop", path: "/merch", heading: /the marketella shop/i },
     { link: "Calendar", path: "/events", heading: /where to find us/i },
     { link: "FAQ", path: "/faq", heading: /comments\? questions\? concerns\?/i },
-    { link: "Link Tree", path: "/socials", heading: /MarketElla Linktree/i },
     { link: "Podcast", path: "/podcast", heading: /702 chisme podcast/i },
   ];
   await page.goto("/");
@@ -29,15 +55,18 @@ test("home navigation reaches the public pages", async ({ page }) => {
   await expect(page).toHaveURL("/");
 });
 
-test("Link Tree page links to the official Linktree", async ({ page }) => {
+test("Link Tree navigation goes directly to the official Linktree and the old page redirects", async ({ page, request }) => {
   const linktree = "https://linktr.ee/702markets?utm_source=apple-wallet&utm_medium=qr_code&card=29656";
   await page.goto("/");
-  await expect(page.locator("footer").getByRole("link", { name: "Socials", exact: true })).toHaveAttribute("href", "/socials");
+  await expect(page.locator("footer").getByRole("link", { name: "Socials", exact: true })).toHaveAttribute("href", linktree);
   await openNavigation(page);
+  await expect(page.getByRole("navigation").getByRole("link", { name: "Link Tree", exact: true })).toHaveAttribute("href", linktree);
+  await page.route("https://linktr.ee/**", (route) => route.fulfill({ status: 200, contentType: "text/html", body: "Official Linktree" }));
   await page.getByRole("navigation").getByRole("link", { name: "Link Tree", exact: true }).click();
-  await expect(page).toHaveURL("/socials");
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("MarketElla Linktree");
-  await expect(page.getByRole("link", { name: "Visit our Linktree", exact: true })).toHaveAttribute("href", linktree);
+  await expect(page).toHaveURL(linktree);
+  const response = await request.get("/socials", { maxRedirects: 0 });
+  expect(response.status()).toBe(308);
+  expect(response.headers().location).toBe(linktree);
 });
 
 test("mobile navigation supports Escape, current-page state, and closing after a link", async ({ page, isMobile }) => {

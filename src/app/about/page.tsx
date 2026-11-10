@@ -103,24 +103,24 @@ export default async function AboutPage() {
         <div className="owners-grid">
           <article className="owner-card">
             <h3>Samantha</h3>
-            <p>Co-founder</p>
-            <span>Community builder, market maker, and one half of the sister team behind MarketElla.</span>
+            <p>[28] | SINGLE MOM</p>
+            <span>The single mama juggling motherhood, vendor applications, permits, and property relationships. From coordinating with venues to making sure everything comes together behind the scenes, she’s always got a million things on her plate. One half of the sister duo making Marketella happen.</span>
           </article>
           <article className="owner-card">
             <h3>Sabrena</h3>
-            <p>Co-founder</p>
-            <span>Creative lead, small-business champion, and the other half of the MarketElla sister team.</span>
+            <p>[23] | DOG MOM</p>
+            <span>The dog mama behind Marketella’s social media, marketing, and advertising. From creating content and promoting events to keeping everyone updated, she’s the creative mind helping bring Marketella to your screens. The other half of the sister duo making it all happen.</span>
           </article>
           <article className="owner-card owner-card-family">
             <h3>the family</h3>
-            <p>The MarketElla crew</p>
-            <span>The people behind the setup, props, playlists, problem solving, and every market-day detail.</span>
+            <p>the heart and soul</p>
+            <span>The family behind the early mornings, late nights, setups, breakdowns, and everything in between. From lending a helping hand to stepping in whenever things get chaotic, they’re the backbone of Marketella. What started as a family idea continues to be a family effort, and we wouldn’t have it any other way.</span>
           </article>
         </div>
       </section>
 
       <ContactFormSection id="about-contact" />
-      <SiteFooter actionHref="/apply" actionLabel="Sell with us" />
+      <SiteFooter />
     </main>
   );
 }

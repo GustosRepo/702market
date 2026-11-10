@@ -69,6 +69,17 @@ export default async function ApplicationDetailPage({
         </div>
       </section>
 
+      <section className="admin-detail-grid">
+        <div>
+          <p className="eyebrow">How will you fit the theme?</p>
+          <p>{application.themeFit || "Not recorded"}</p>
+        </div>
+        <div>
+          <p className="eyebrow">Following MarketElla on Instagram</p>
+          <p>{application.followingInstagram === null ? "Not recorded" : application.followingInstagram ? "Confirmed by applicant" : "Not confirmed"}</p>
+        </div>
+      </section>
+
       <section className="admin-application-reference">
         <div><span>Reference</span><strong>{application.referenceCode || application.id}</strong></div>
         <div><span>Rules</span><strong>{application.rulesAcknowledged ? "Acknowledged" : "Not recorded"}</strong></div>

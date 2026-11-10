@@ -1,3 +1,5 @@
+import { defaultVendorTerms } from "@/lib/vendor-terms";
+
 export type MarketEvent = {
   title: string;
   slug: string;
@@ -63,8 +65,7 @@ export const events: MarketEvent[] = [
       "Before continuing, have your business details, license, and clear booth or product photos ready to upload.",
     foodApplicationNotes:
       "Before continuing, have your business license, health permit, menu, logo, setup measurements, and truck or tent photos ready.",
-    applicationRules:
-      "Only approved products may be sold. Vendors must arrive on time, keep their space clean, remain for the full event, and treat staff, shoppers, and other vendors respectfully. Fees are non-refundable and non-transferable.",
+    applicationRules: defaultVendorTerms,
     foodApplicationRules:
       "Food vendors must carry all required business and health permits, provide safe working equipment and their own power unless stated otherwise, sell only the approved menu, keep the setup clean, and remain open for the full event. Fees are non-refundable and non-transferable.",
     vendorOptions: [

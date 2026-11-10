@@ -18,7 +18,7 @@ export default async function AdminMediaPage() {
   return (
     <AdminShell title="Media">
       <div className="admin-toolbar">
-        <p>Upload and swap the photos used across the public site.</p>
+        <p>Upload and swap the photos used across the public site. Homepage carousel photos appear below the countdown and open in a full-size viewer when clicked.</p>
       </div>
 
       <form className="admin-form admin-media-form" action={updateSiteMedia}>
@@ -28,8 +28,17 @@ export default async function AdminMediaPage() {
               <h2>{group}</h2>
               <span>{slots.length} slot{slots.length === 1 ? "" : "s"}</span>
             </div>
+            {group === "Homepage carousel" ? (
+              <div>
+                <label>
+                  Add carousel photos
+                  <input name="homeGalleryFiles" type="file" accept="image/jpeg,image/png,image/webp,image/gif" multiple aria-describedby="carousel-upload-help" />
+                </label>
+                <p id="carousel-upload-help">Select one or more photos, then save. Up to 10MB per photo and 40MB total per save. Edit their descriptions, captions, and display order below after saving. Uncheck Active to hide a photo.</p>
+              </div>
+            ) : null}
             <div className="admin-media-list">
-              {slots.map((slot) => (
+              {[...slots].sort((a, b) => a.sortOrder - b.sortOrder || a.slot.localeCompare(b.slot)).map((slot) => (
                 <article className="admin-media-card" key={slot.slot}>
                   <div
                     className="admin-media-preview"
@@ -74,6 +83,12 @@ export default async function AdminMediaPage() {
                       />
                       Active
                     </label>
+                    {slot.slot.startsWith("home.gallery.") ? (
+                      <label>
+                        Display order
+                        <input name={`${slot.slot}:sortOrder`} type="number" min={0} max={1000000} step={1} defaultValue={slot.sortOrder} />
+                      </label>
+                    ) : null}
                   </div>
                 </article>
               ))}

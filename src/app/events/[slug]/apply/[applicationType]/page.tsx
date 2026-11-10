@@ -26,9 +26,10 @@ export default async function VendorApplicationPage({ params }: VendorApplicatio
     <main className="page-shell application-page">
       <SiteHeader backHref={`/events/${event.slug}`} backLabel="Event details" />
       <section className="application-header">
-        <p className="eyebrow">{applicationType === "food" ? "Food vendor application" : "General vendor application"}</p>
         <h1>{event.title}<br /><em>starts here.</em></h1>
-        <p className="application-header-meta">{event.dateLabel} · {event.location}</p>
+        <p className="application-header-meta">
+          <span className="application-meta-pill">{event.dateLabel} · {event.location}</span>
+        </p>
       </section>
       {open ? (
         <ApplicationFlow

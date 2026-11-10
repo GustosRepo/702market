@@ -12,7 +12,6 @@ export type SiteMedia = {
   aboutStory: string;
   contactCommunity: string;
   socialCta: string;
-  newLocationStrip: string;
   homeGallery: SitePhoto[];
   aboutGallery: SitePhoto[];
 };
@@ -31,7 +30,6 @@ export const fallbackSiteMedia: SiteMedia = {
   aboutStory: siteAssets.aboutStory,
   contactCommunity: siteAssets.contactCommunity,
   socialCta: siteAssets.socialCta,
-  newLocationStrip: siteAssets.newLocationStrip,
   homeGallery: siteAssets.homeGallery,
   aboutGallery: siteAssets.aboutGallery,
 };
@@ -61,7 +59,8 @@ export async function getSiteMedia(): Promise<SiteMedia> {
     .from("site_media")
     .select("slot, storage_path, alt_text, caption, sort_order, active")
     .eq("active", true)
-    .order("sort_order", { ascending: true });
+    .order("sort_order", { ascending: true })
+    .order("slot", { ascending: true });
 
   if (error) {
     return fallbackSiteMedia;
@@ -85,10 +84,8 @@ export async function getSiteMedia(): Promise<SiteMedia> {
       fallbackSiteMedia.contactCommunity,
     socialCta:
       bySlot.get("socials.cta")?.storage_path || fallbackSiteMedia.socialCta,
-    newLocationStrip:
-      bySlot.get("home.new_location.strip")?.storage_path ||
-      fallbackSiteMedia.newLocationStrip,
-    homeGallery: homeGallery.length > 0 ? homeGallery : fallbackSiteMedia.homeGallery,
+    // A successful empty result means every carousel photo is hidden or removed.
+    homeGallery,
     aboutGallery:
       aboutGallery.length > 0 ? aboutGallery : fallbackSiteMedia.aboutGallery,
   };

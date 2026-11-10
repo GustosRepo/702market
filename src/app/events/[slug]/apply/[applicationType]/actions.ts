@@ -77,10 +77,10 @@ function validateFiles(files: File[]) {
 }
 
 function validateFields(formData: FormData, applicationType: ApplicationType) {
-  const common = ["firstName", "lastName", "email", "phone", "businessName", "vendorOptionId"];
+  const common = ["firstName", "lastName", "email", "phone", "businessName", "vendorOptionId", "themeFit"];
   const required = applicationType === "food"
-    ? [...common, "foodMenu", "setupMeasurements", "healthDepartmentNumber", "businessLicenseNumber"]
-    : [...common, "category", "productDescription", "businessLicenseNumber"];
+    ? [...common, "foodMenu", "setupMeasurements", "healthDepartmentNumber"]
+    : [...common, "category", "productDescription"];
 
   if (required.some((field) => !readString(formData, field))) {
     return "Please complete every required field before submitting.";
@@ -108,16 +108,6 @@ function validateFields(formData: FormData, applicationType: ApplicationType) {
 
   const businessLicense = readFiles(formData, "businessLicense");
   const setupPhotos = readFiles(formData, "setupPhotos");
-  if (!businessLicense.length || !setupPhotos.length) {
-    return "Upload your business license and at least one setup or product photo.";
-  }
-
-  if (applicationType === "food") {
-    if (!readFiles(formData, "healthPermit").length || !readFiles(formData, "logo").length) {
-      return "Food vendors must upload a health permit and logo.";
-    }
-  }
-
   const allFiles = [
     ...businessLicense,
     ...setupPhotos,
@@ -253,12 +243,14 @@ export async function submitVendorApplication(
       category: applicationType === "food" ? "Food" : readString(formData, "category"),
       product_description: applicationType === "food" ? foodMenu : readString(formData, "productDescription"),
       food_menu: applicationType === "food" ? foodMenu : null,
-      price_range: readString(formData, "priceRange"),
+      price_range: "",
       booth_type: vendorOption.name,
       vendor_option_id: vendorOption.id,
       vendor_option_name: vendorOption.name,
       electricity_required: false,
-      special_requests: readString(formData, "specialRequests") || null,
+      special_requests: null,
+      theme_fit: readString(formData, "themeFit"),
+      following_instagram: formData.get("followingInstagram") === "on",
       business_license_number: readString(formData, "businessLicenseNumber"),
       setup_measurements: applicationType === "food" ? readString(formData, "setupMeasurements") : null,
       health_department_number: applicationType === "food" ? readString(formData, "healthDepartmentNumber") : null,
