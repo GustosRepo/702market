@@ -13,7 +13,7 @@ export default async function AboutPage() {
     <main className="page-shell about-page">
       <section
         className="what-splash"
-        style={{ "--asset-image": "url(/assets/site/img-3076-web.webp)" } as React.CSSProperties}
+        style={{ "--asset-image": "url(/assets/site/about-hero-web.webp)" } as React.CSSProperties}
       >
         <SiteHeader ariaLabel="About page navigation" className="about-hero-nav" variant="hero" />
         <h1>what the f*** is marketella?</h1>
@@ -27,19 +27,76 @@ export default async function AboutPage() {
         <div className="story-layout">
           <div className="story-copy">
             <p>
-              MarketElla began in 2023 as 702 Market, built by two sisters and
-              a family with a lot of ideas. We started by bringing local
-              businesses and shoppers together in Las Vegas. Three years later,
-              we’re still doing that, just with bigger ideas, more places to
-              go, and a different personality for every event.
+              <strong>Pronounced: Market-Ella</strong>
+              <br />
+              <strong>Not Your Average Market.</strong>
             </p>
             <p>
-              One week it might be a night out with your friends. The next,
-              something the whole family can come to. We love giving small
-              businesses a place to show up and giving Vegas a reason to get
-              out of the house.
+              Marketella is more than just a market. It’s a community, a family,
+              a place for the girls, the small businesses, the dreamers, and
+              anyone who loves a good time! Our story started in 2023 as 702
+              Market, created by two sisters, a family with big dreams, and a
+              whole lot of determination. Before we became market organizers,
+              we were vendors ourselves, and guess what? We still are! We know
+              what it’s like to be on the other side of the booth, hoping for a
+              good day, making connections, and putting everything you’ve got
+              into something you love.
             </p>
-            <h2>The name is new, but the same experiences</h2>
+            <p>
+              What started as an idea turned into something we never imagined.
+              Three years, countless events, late nights, stressful moments,
+              happy tears, and so many amazing people later, here we are! But as
+              we grew, we realized something was missing. We wanted a name that
+              felt more like US. Something with personality, something feminine,
+              something fun, but most importantly, something that had meaning
+              behind it. And that’s how Marketella was born.
+            </p>
+            <p>
+              In Spanish, <em>ella</em> means “she” or “her.” But to us, it
+              represents so much more. She’s the dreamer, the hustler, the
+              creative one, the girl who turns her little ideas into something
+              big. She’s the woman building her own business, the mom chasing
+              her dreams, the girl finding herself, and the goddess who knows
+              she’s capable of anything.
+            </p>
+            <p>
+              But there’s an even more personal reason we chose the name. Our
+              mom’s middle name is Gabriella, and she is a huge part of why
+              we’re here today. When we first started, there were moments when
+              things got difficult, when we questioned ourselves, and when
+              giving up honestly felt easier. But our mom was always the one
+              reminding us to keep going. She believed in us even during the
+              moments we struggled to believe in ourselves. Having a piece of
+              her name in ours is our way of honoring the woman who never let
+              us forget what we were capable of.
+            </p>
+            <p>
+              So Marketella isn’t just a name. It’s a little piece of our mom,
+              our family, our journey, and every woman who’s ever had a dream
+              worth fighting for.
+            </p>
+            <p>
+              And let’s talk about the girls for a second! We wanted to create
+              something that feels like getting ready with your besties,
+              grabbing your favorite drink, shopping from amazing small
+              businesses, taking cute pictures, dancing to good music, and
+              making memories. A place where you can show up with your girls,
+              your family, your kids, or even by yourself and still feel like
+              you belong. We’re all about supporting small businesses, bringing
+              people together, celebrating different cultures, having fun with
+              our themes, and making every event feel like more than just
+              another shopping trip.
+            </p>
+            <p>
+              We’re still the same family behind 702 Market. We still have the
+              same love for our vendors and our community. We’re just growing,
+              dreaming bigger, and finally stepping into something that feels
+              completely like us.
+            </p>
+            <p>
+              Marketella isn’t just a new name. It’s our story, our personality,
+              and our next chapter. And trust us, we’re just getting started!
+            </p>
           </div>
         </div>
       </section>
@@ -82,8 +139,8 @@ export default async function AboutPage() {
         </div>
         <div
           className="values-photo"
-          style={{ "--asset-image": `url(${siteMedia.homeGallery[1].src})` } as React.CSSProperties}
-          aria-label="MarketElla vendor market"
+          style={{ "--asset-image": "url(/assets/site/about-community-web.webp)" } as React.CSSProperties}
+          aria-label="Four friends showing their 702 Market tote bags at an event."
           role="img"
         />
       </section>
@@ -94,9 +151,9 @@ export default async function AboutPage() {
         </div>
         <Image
           className="owners-feature-photo"
-          src="/IMG_3215.JPG"
-          alt="The MarketElla co-founders together at a market."
-          width={1200}
+          src="/assets/site/owners-family-web.webp"
+          alt="The family behind MarketElla posing together at a market."
+          width={2400}
           height={1800}
           sizes="(max-width: 680px) calc(100vw - 44px), 86vw"
         />

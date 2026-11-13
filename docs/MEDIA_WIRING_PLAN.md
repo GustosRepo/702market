@@ -23,11 +23,12 @@ the current ownership model and the small set of optional launch additions.
 - `merch_products.image_path` supports uploaded product imagery.
 - `application_images.storage_path` stores private vendor uploads and admin pages generate temporary signed links.
 - The remaining site-media gap is an optional dedicated SEO/Open Graph image slot.
-- Homepage press cards use article titles, destinations, and preview paths in
-  `src/lib/site-config.ts`. Influence.Vegas and Fox 5 previews are stored locally
-  in `public/assets/press/` from the linked articles' published preview images.
-  Channel 8 uses an existing MarketElla photo because its preview blocks access.
-  Cards show a thumbnail, outlet, headline, and pill CTA in the site palette.
+- Homepage press cards use titles, destinations, media types, and preview paths in
+  `src/lib/site-config.ts`. The eight supplied links include two Spotify episodes,
+  three YouTube videos, a Secret Las Vegas Instagram feature, and articles from
+  Influence.Vegas and Channel 8. Previews are stored in `public/assets/press/`;
+  the Channel 8 article uses an existing MarketElla photo because its preview blocks access.
+  Cards show a thumbnail, outlet, headline, media type, and matching Listen/Watch/View/Read CTA.
 
 ## Recommended Buckets
 

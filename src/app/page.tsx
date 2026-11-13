@@ -105,19 +105,19 @@ export default async function Home() {
         </h2>
         <div className="press-copy">
           <p className="press-kicker">maybe you&apos;ve heard of us???</p>
-          <p>idk we&apos;ve been in a few papers hehe.</p>
+          <p>idk we&apos;ve been making headlines, hitting your screens, and spilling the story on a few podcasts hehe.</p>
         </div>
         <div className="press-links" aria-label="Press links">
           {siteConfig.press.map((link) => (
-            <a className="press-card" href={link.href} key={link.name} target="_blank" rel="noreferrer">
+            <a className="press-card" href={link.href} key={link.href} target="_blank" rel="noreferrer">
               <div className="press-card-image">
-                <Image src={link.image} alt={link.imageAlt} fill sizes="(max-width: 680px) 90vw, (max-width: 1100px) 45vw, 33vw" />
-                <span className="press-card-type">Article</span>
+                <Image src={link.image} alt={link.imageAlt} fill sizes="(max-width: 680px) 90vw, (max-width: 900px) 45vw, 33vw" style={{ objectFit: link.type === "Podcast" || link.type === "Instagram" ? "contain" : "cover" }} />
+                <span className="press-card-type">{link.type}</span>
               </div>
               <div className="press-card-body">
                 <p className="press-card-outlet">{link.name}</p>
                 <h3 className="press-card-title">{link.title}</h3>
-                <span className="press-card-cta">Read on {link.name} <span aria-hidden="true">↗</span></span>
+                <span className="press-card-cta">{link.cta} <span aria-hidden="true">↗</span></span>
               </div>
             </a>
           ))}

@@ -5,7 +5,6 @@ import MarqueeBand from "@/components/marquee-band";
 import SiteFooter from "@/components/site-footer";
 import SiteHeader from "@/components/site-header";
 import { getEvents, isApplicationTypeOpen } from "@/lib/events";
-import { getSiteMedia } from "@/lib/site-media";
 import { findMarketLocation, marketLocations } from "@/lib/market-locations";
 
 export const metadata = {
@@ -20,7 +19,7 @@ const applyLocations = [
     tagline: "we take over the street.",
     description:
       "Our biggest themed markets with 70+ small businesses and full-on experiences.",
-    image: "/IMG_3076.JPG",
+    image: "/assets/site/fergusons-downtown-web.webp",
   },
   {
     id: "cowabunga-canyon",
@@ -28,7 +27,7 @@ const applyLocations = [
     tagline: "where the whole family comes to play",
     description:
       "Family friendly themed markets filled with shopping, food, activities, and fun for all ages.",
-    image: "/IMG_3223.JPG",
+    image: "/assets/site/cowabunga-canyon-web.webp",
   },
   {
     id: "container-park",
@@ -36,7 +35,7 @@ const applyLocations = [
     tagline: "cultura meets community",
     description:
       "Culturally inspired markets celebrating our Latino community.",
-    image: "/IMG_3224.JPG",
+    image: "/assets/site/container-park-web.webp",
   },
 ];
 
@@ -45,7 +44,7 @@ export default async function ApplyPage({ searchParams }: { searchParams: Promis
   const selectedLocation = typeof locationParam === "string"
     ? marketLocations.find((location) => location.id === locationParam)
     : undefined;
-  const [events, siteMedia] = await Promise.all([getEvents(), getSiteMedia()]);
+  const events = await getEvents();
   const openEvents = events.filter(
     (event) =>
       isApplicationTypeOpen(event, "vendor") ||
@@ -59,7 +58,7 @@ export default async function ApplyPage({ searchParams }: { searchParams: Promis
     <main className="page-shell apply-page">
       <section
         className="apply-hero"
-        style={{ "--hero-image": `url(${siteMedia.socialCta})` } as React.CSSProperties}
+        style={{ "--hero-image": "url(/assets/site/apply-hero-web.webp)" } as React.CSSProperties}
       >
         <SiteHeader ariaLabel="Apply page navigation" className="apply-hero-nav" variant="hero" />
 

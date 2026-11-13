@@ -69,7 +69,7 @@ test("gallery pauses on hover, focus, and while a photo is enlarged", async ({ p
   await expect(viewer).toBeVisible();
   const before = await track.evaluate((element) => element.scrollLeft);
   await page.clock.runFor(12000);
-  await expect(viewer).toContainText("Photo 1 of 3");
+  await expect(viewer).toContainText("Photo 1 of 16");
   expect(await track.evaluate((element) => element.scrollLeft)).toBe(before);
   await page.keyboard.press("Escape");
   await expect(viewer).not.toBeVisible();
@@ -79,7 +79,7 @@ test("homepage gallery opens photos, navigates, and closes with focus restored",
   await page.goto("/");
   const gallery = page.getByRole("region", { name: "MarketElla photo gallery" });
   await expect(gallery).toHaveCSS("background-color", "rgb(253, 208, 204)");
-  await expect(gallery.getByRole("button", { name: /^Open photo/ })).toHaveCount(3);
+  await expect(gallery.getByRole("button", { name: /^Open photo/ })).toHaveCount(16);
   await expect(page.locator(".next-market-panel")).toHaveCount(0);
   const track = gallery.getByRole("group", { name: "Gallery photos" });
   await gallery.getByRole("button", { name: "Next gallery photos", exact: true }).click();
@@ -93,11 +93,17 @@ test("homepage gallery opens photos, navigates, and closes with focus restored",
   await expect(viewer.getByRole("img")).toHaveAttribute("alt", "Vendor booth with clothing and accessories at MarketElla.");
   await expect(viewer.getByRole("button", { name: /Close/ })).toBeFocused();
   await page.keyboard.press("ArrowRight");
-  await expect(viewer).toContainText("Photo 3 of 3");
+  await expect(viewer).toContainText("Photo 3 of 16");
   await page.keyboard.press("ArrowRight");
-  await expect(viewer).toContainText("Photo 1 of 3");
+  await expect(viewer).toContainText("Photo 4 of 16");
+  await expect(viewer.getByRole("img")).toHaveAttribute("alt", "Pug riding in a pink stroller at MarketElla.");
+  for (let step = 0; step < 3; step++) await page.keyboard.press("ArrowLeft");
+  await expect(viewer).toContainText("Photo 1 of 16");
   await page.keyboard.press("ArrowLeft");
-  await expect(viewer).toContainText("Photo 3 of 3");
+  await expect(viewer).toContainText("Photo 16 of 16");
+  await expect(viewer.getByRole("img")).toHaveAttribute("alt", "Couple standing beside a mirror and flowering wall at MarketElla.");
+  await page.keyboard.press("ArrowRight");
+  await expect(viewer).toContainText("Photo 1 of 16");
   await page.keyboard.press("Tab");
   expect(await viewer.evaluate((element) => element.contains(document.activeElement))).toBe(true);
   await page.screenshot({ path: testInfo.outputPath("photo-viewer.png") });
@@ -116,7 +122,7 @@ test("homepage gallery opens photos, navigates, and closes with focus restored",
       const end = new Touch({ identifier: 1, target: element, clientX: 50, clientY: 100 });
       element.dispatchEvent(new TouchEvent("touchend", { bubbles: true, changedTouches: [end] }));
     });
-    await expect(viewer).toContainText("Photo 3 of 3");
+    await expect(viewer).toContainText("Photo 3 of 16");
     await viewer.getByRole("button", { name: /Close/ }).click();
     await expect(viewer).not.toBeVisible();
   }

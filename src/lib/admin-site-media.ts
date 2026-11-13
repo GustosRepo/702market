@@ -47,7 +47,7 @@ export const mediaSlotDefinitions: MediaSlotDefinition[] = [
     label: "About/story card",
     group: "Site pages",
     fallbackPath: fallbackSiteMedia.aboutStory,
-    fallbackAlt: "MarketElla photo wall with flowers and a pink cart.",
+    fallbackAlt: "Families browsing a vendor booth under pink tents at MarketElla.",
     sortOrder: 0,
   },
   {

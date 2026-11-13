@@ -141,7 +141,7 @@ test("admin uploads, orders, captions, and hides homepage carousel photos", asyn
     await saveMedia();
     await page.goto("/");
     const gallery = page.getByRole("region", { name: "MarketElla photo gallery" });
-    await expect(gallery.getByRole("button", { name: /^Open photo/ })).toHaveCount(5);
+    await expect(gallery.getByRole("button", { name: /^Open photo/ })).toHaveCount(18);
     const first = gallery.getByRole("button", { name: "Open photo 1: Our newest market photo", exact: true });
     await expect(first).toContainText("Made for market days");
     await first.click();
